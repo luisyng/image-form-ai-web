@@ -1,0 +1,104 @@
+<div class="form-container">
+  <h1>Malaria Symptoms Form</h1>
+  
+  <div *ngIf="submitSuccess" class="alert alert-success">
+    Form submitted successfully! Thank you for your information.
+  </div>
+  
+  <div *ngIf="submitError" class="alert alert-danger">
+    Error submitting form: {{ errorMessage }}
+  </div>
+  
+  <form [formGroup]="malariaForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="name">Full Name</label>
+      <input 
+        type="text" 
+        id="name" 
+        formControlName="name" 
+        class="form-control" 
+        [ngClass]="{'is-invalid': submitted && malariaForm.controls['name'].errors}"
+      >
+      <div *ngIf="submitted && malariaForm.controls['name'].errors" class="invalid-feedback">
+        <div *ngIf="malariaForm.controls['name'].errors['required']">Name is required</div>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label for="age">Age</label>
+      <input 
+        type="number" 
+        id="age" 
+        formControlName="age" 
+        class="form-control" 
+        [ngClass]="{'is-invalid': submitted && malariaForm.controls['age'].errors}"
+      >
+      <div *ngIf="submitted && malariaForm.controls['age'].errors" class="invalid-feedback">
+        <div *ngIf="malariaForm.controls['age'].errors['required']">Age is required</div>
+        <div *ngIf="malariaForm.controls['age'].errors['min']">Age must be greater than 0</div>
+        <div *ngIf="malariaForm.controls['age'].errors['max']">Age must be less than 120</div>
+      </div>
+    </div>
+    
+    <h3>Symptoms</h3>
+    <p class="symptoms-instruction">Please check all symptoms that apply:</p>
+    
+    <div class="symptoms-grid">
+      <div class="form-check">
+        <input type="checkbox" id="fever" formControlName="fever" class="form-check-input">
+        <label class="form-check-label" for="fever">Fever</label>
+      </div>
+      
+      <div class="form-check">
+        <input type="checkbox" id="chills" formControlName="chills" class="form-check-input">
+        <label class="form-check-label" for="chills">Chills</label>
+      </div>
+      
+      <div class="form-check">
+        <input type="checkbox" id="sweating" formControlName="sweating" class="form-check-input">
+        <label class="form-check-label" for="sweating">Sweating</label>
+      </div>
+      
+      <div class="form-check">
+        <input type="checkbox" id="headache" formControlName="headache" class="form-check-input">
+        <label class="form-check-label" for="headache">Headache</label>
+      </div>
+      
+      <div class="form-check">
+        <input type="checkbox" id="nausea" formControlName="nausea" class="form-check-input">
+        <label class="form-check-label" for="nausea">Nausea</label>
+      </div>
+      
+      <div class="form-check">
+        <input type="checkbox" id="vomiting" formControlName="vomiting" class="form-check-input">
+        <label class="form-check-label" for="vomiting">Vomiting</label>
+      </div>
+      
+      <div class="form-check">
+        <input type="checkbox" id="musclePain" formControlName="musclePain" class="form-check-input">
+        <label class="form-check-label" for="musclePain">Muscle Pain</label>
+      </div>
+      
+      <div class="form-check">
+        <input type="checkbox" id="fatigue" formControlName="fatigue" class="form-check-input">
+        <label class="form-check-label" for="fatigue">Fatigue</label>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label for="otherSymptoms">Other Symptoms (Optional)</label>
+      <textarea 
+        id="otherSymptoms" 
+        formControlName="otherSymptoms" 
+        class="form-control" 
+        rows="3"
+        placeholder="Please describe any other symptoms you are experiencing..."
+      ></textarea>
+    </div>
+    
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="button" class="btn btn-secondary" (click)="resetForm()">Reset</button>
+    </div>
+  </form>
+</div> 
