@@ -133,4 +133,41 @@ input[type="file"] {
   0% { box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); }
   50% { box-shadow: 0 0 15px rgba(0, 123, 255, 0.5); }
   100% { box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); }
+}
+
+.extracted-text-container {
+  margin-bottom: 1.5rem;
+  
+  h4 {
+    color: #495057;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    
+    &::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background-color: #dee2e6;
+      margin-left: 0.75rem;
+    }
+  }
+}
+
+.extracted-text-content {
+  background-color: #f1f3f5;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  padding: 1rem;
+  max-height: 200px;
+  overflow-y: auto;
+  
+  pre {
+    margin: 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: monospace;
+    font-size: 0.875rem;
+    color: #495057;
+  }
 } 

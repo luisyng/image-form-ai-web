@@ -28,6 +28,13 @@
     <p class="status-text">Analyzing image... {{ recognitionProgress }}%</p>
   </div>
   
+  <div *ngIf="extractedText" class="extracted-text-container">
+    <h4>Extracted Text</h4>
+    <div class="extracted-text-content">
+      <pre>{{ extractedText }}</pre>
+    </div>
+  </div>
+  
   <div *ngIf="errorMessage" class="error-message">
     {{ errorMessage }}
   </div>

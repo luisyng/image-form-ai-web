@@ -31,6 +31,7 @@ export class ImageAnalyzerComponent {
   recognitionProgress = 0;
   errorMessage = '';
   dataExtracted = false;
+  extractedText = '';
 
   async analyzeImage(event: Event): Promise<void> {
     const input = event.target as HTMLInputElement;
@@ -43,6 +44,7 @@ export class ImageAnalyzerComponent {
     this.isAnalyzing = true;
     this.recognitionProgress = 0;
     this.errorMessage = '';
+    this.extractedText = '';
 
     try {
       const worker = await createWorker({
@@ -57,7 +59,9 @@ export class ImageAnalyzerComponent {
       await worker.initialize('eng');
       
       const { data: { text } } = await worker.recognize(file);
-      console.log('Extracted text:', text); // Log the extracted text for debugging
+      console.log('Extracted text:', text);
+      
+      this.extractedText = text;
       
       await worker.terminate();
       
@@ -66,7 +70,6 @@ export class ImageAnalyzerComponent {
       this.dataExtracted = true;
       this.isAnalyzing = false;
       
-      // Reset the dataExtracted flag after a delay
       setTimeout(() => {
         this.dataExtracted = false;
       }, 3000);
