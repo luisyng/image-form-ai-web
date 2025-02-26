@@ -1,0 +1,43 @@
+<div class="image-analyzer">
+  <h3>Image Analysis</h3>
+  <p class="description">Upload an image of a patient record to automatically extract information and fill the form.</p>
+  
+  <div class="upload-container">
+    <label for="image-upload" class="upload-button">
+      <span class="upload-icon">📷</span>
+      <span>Select Image</span>
+    </label>
+    <input 
+      type="file" 
+      id="image-upload" 
+      accept="image/*" 
+      (change)="analyzeImage($event)" 
+      [disabled]="isAnalyzing"
+    >
+  </div>
+  
+  <div *ngIf="previewUrl" class="preview-container">
+    <h4>Image Preview</h4>
+    <img [src]="previewUrl" alt="Preview" class="image-preview">
+  </div>
+  
+  <div *ngIf="isAnalyzing" class="analysis-status">
+    <div class="progress-container">
+      <div class="progress-bar" [style.width.%]="recognitionProgress"></div>
+    </div>
+    <p class="status-text">Analyzing image... {{ recognitionProgress }}%</p>
+  </div>
+  
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+  
+  <div class="tips">
+    <h4>Tips for best results:</h4>
+    <ul>
+      <li>Ensure the image is well-lit and clear</li>
+      <li>Text should be readable and not blurry</li>
+      <li>The document should contain patient information and symptoms</li>
+    </ul>
+  </div>
+</div> 

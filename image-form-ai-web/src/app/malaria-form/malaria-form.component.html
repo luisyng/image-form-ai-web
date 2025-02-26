@@ -9,6 +9,18 @@
     Error submitting form: {{ errorMessage }}
   </div>
   
+  <div class="image-analyzer-toggle">
+    <button type="button" class="btn btn-info" (click)="toggleImageAnalyzer()">
+      {{ showImageAnalyzer ? 'Hide Image Analysis' : 'Use Image Analysis' }}
+    </button>
+    <span class="toggle-info">Upload an image to automatically fill the form</span>
+  </div>
+  
+  <app-image-analyzer 
+    *ngIf="showImageAnalyzer" 
+    (formDataExtracted)="handleExtractedData($event)"
+  ></app-image-analyzer>
+  
   <form [formGroup]="malariaForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="name">Full Name</label>
