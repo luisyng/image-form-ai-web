@@ -30,6 +30,7 @@ export class ImageAnalyzerComponent {
   previewUrl: string | null = null;
   recognitionProgress = 0;
   errorMessage = '';
+  dataExtracted = false;
 
   async analyzeImage(event: Event): Promise<void> {
     const input = event.target as HTMLInputElement;
@@ -62,7 +63,13 @@ export class ImageAnalyzerComponent {
       
       const extractedData = this.extractFormData(text);
       this.formDataExtracted.emit(extractedData);
+      this.dataExtracted = true;
       this.isAnalyzing = false;
+      
+      // Reset the dataExtracted flag after a delay
+      setTimeout(() => {
+        this.dataExtracted = false;
+      }, 3000);
     } catch (error) {
       console.error('Error analyzing image:', error);
       this.errorMessage = 'Failed to analyze the image. Please try again.';

@@ -17,6 +17,8 @@ export class MalariaFormComponent {
   submitError = false;
   errorMessage = '';
   showImageAnalyzer = false;
+  fieldsFilledFromImage: { [key: string]: boolean } = {};
+  highlightDuration = 3000; // 3 seconds
 
   constructor(private fb: FormBuilder) {
     this.malariaForm = this.fb.group({
@@ -71,6 +73,22 @@ export class MalariaFormComponent {
   }
   
   handleExtractedData(formData: MalariaFormData) {
+    // Reset the highlighting
+    this.fieldsFilledFromImage = {};
+    
+    // Track which fields are being filled from the image
+    if (formData.name) this.fieldsFilledFromImage['name'] = true;
+    if (formData.age) this.fieldsFilledFromImage['age'] = true;
+    if (formData.fever) this.fieldsFilledFromImage['fever'] = true;
+    if (formData.chills) this.fieldsFilledFromImage['chills'] = true;
+    if (formData.sweating) this.fieldsFilledFromImage['sweating'] = true;
+    if (formData.headache) this.fieldsFilledFromImage['headache'] = true;
+    if (formData.nausea) this.fieldsFilledFromImage['nausea'] = true;
+    if (formData.vomiting) this.fieldsFilledFromImage['vomiting'] = true;
+    if (formData.musclePain) this.fieldsFilledFromImage['musclePain'] = true;
+    if (formData.fatigue) this.fieldsFilledFromImage['fatigue'] = true;
+    if (formData.otherSymptoms) this.fieldsFilledFromImage['otherSymptoms'] = true;
+    
     // Update the form with the extracted data
     this.malariaForm.patchValue({
       name: formData.name || this.malariaForm.get('name')?.value,
@@ -85,6 +103,11 @@ export class MalariaFormComponent {
       fatigue: formData.fatigue,
       otherSymptoms: formData.otherSymptoms || this.malariaForm.get('otherSymptoms')?.value
     });
+    
+    // Clear the highlighting after a delay
+    setTimeout(() => {
+      this.fieldsFilledFromImage = {};
+    }, this.highlightDuration);
   }
   
   private resetCheckboxes() {

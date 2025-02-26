@@ -1,5 +1,5 @@
 .form-container {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
   background-color: #f8f9fa;
@@ -158,4 +158,57 @@ label {
 
 .btn-info:hover {
   background-color: #138496;
+}
+
+.two-column-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  
+  @media (min-width: 992px) {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+.column {
+  @media (min-width: 992px) {
+    flex: 1;
+  }
+}
+
+.image-column {
+  @media (min-width: 992px) {
+    position: sticky;
+    top: 1rem;
+  }
+}
+
+.form-column {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.filled-from-image {
+  animation: highlight-field 3s ease-in-out;
+}
+
+@keyframes highlight-field {
+  0% { background-color: #ffffff; }
+  30% { background-color: #e6f7ff; }
+  70% { background-color: #e6f7ff; }
+  100% { background-color: #ffffff; }
+}
+
+.form-check-input.filled-from-image {
+  animation: highlight-checkbox 3s ease-in-out;
+}
+
+@keyframes highlight-checkbox {
+  0% { box-shadow: none; }
+  30% { box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); }
+  70% { box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); }
+  100% { box-shadow: none; }
 } 
