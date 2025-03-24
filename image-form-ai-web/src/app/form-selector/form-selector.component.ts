@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 export interface FormType {
   id: string;
   name: string;
-  description: string;
 }
 
 @Component({
@@ -20,8 +19,7 @@ export class FormSelectorComponent {
   availableForms: FormType[] = [
     {
       id: 'malaria',
-      name: 'Malaria Symptoms',
-      description: 'Form for recording malaria symptoms and patient information'
+      name: 'Malaria Symptoms'
     }
     // More forms can be added here in the future
   ];

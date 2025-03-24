@@ -6,12 +6,11 @@
       [class.selected]="selectedForm?.id === form.id"
       (click)="selectForm(form)"
     >
-      <div class="form-card-content">
-        <div class="form-icon">
-          <span class="icon-placeholder">📋</span>
-        </div>
+      <div class="form-icon">
+        <span class="icon-placeholder">📋</span>
+      </div>
+      <div class="form-content">
         <h4 class="form-name">{{ form.name }}</h4>
-        <p class="form-description">{{ form.description }}</p>
       </div>
       <div class="selection-indicator" *ngIf="selectedForm?.id === form.id">
         <span class="check-icon">✓</span>
