@@ -1,0 +1,21 @@
+<div class="form-selector-container">  
+  <div class="forms-grid">
+    <div 
+      *ngFor="let form of availableForms" 
+      class="form-card" 
+      [class.selected]="selectedForm?.id === form.id"
+      (click)="selectForm(form)"
+    >
+      <div class="form-card-content">
+        <div class="form-icon">
+          <span class="icon-placeholder">📋</span>
+        </div>
+        <h4 class="form-name">{{ form.name }}</h4>
+        <p class="form-description">{{ form.description }}</p>
+      </div>
+      <div class="selection-indicator" *ngIf="selectedForm?.id === form.id">
+        <span class="check-icon">✓</span>
+      </div>
+    </div>
+  </div>
+</div> 

@@ -1,0 +1,94 @@
+@import '../styles/color-palette.scss';
+@import '../styles/typography.scss';
+
+.form-selector-container {
+  width: 100%;
+}
+
+.selector-title {
+  margin-bottom: 1.5rem;
+  color: $text-primary;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+}
+
+.forms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.form-card {
+  border-radius: 8px;
+  background-color: $neutral-white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  &.selected {
+    border: 2px solid $primary-blue;
+    background-color: $primary-light-blue;
+  }
+}
+
+.form-card-content {
+  padding: 1.5rem;
+}
+
+.form-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  background-color: $primary-light-blue;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  
+  .selected & {
+    background-color: $primary-blue;
+    color: $neutral-white;
+  }
+}
+
+.icon-placeholder {
+  font-size: 1.5rem;
+}
+
+.form-name {
+  margin-bottom: 0.5rem;
+  color: $text-primary;
+  font-weight: $font-weight-semibold;
+}
+
+.form-description {
+  color: $text-muted;
+  font-size: $font-size-sm;
+  margin-bottom: 0;
+}
+
+.selection-indicator {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 24px;
+  height: 24px;
+  background-color: $primary-blue;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $neutral-white;
+}
+
+.check-icon {
+  font-size: $font-size-sm;
+} 
