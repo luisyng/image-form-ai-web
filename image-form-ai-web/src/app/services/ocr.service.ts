@@ -8,7 +8,7 @@ export class OcrService {
   
   constructor() { }
   
-  async analyzeImage(file: File): Promise<void> {
+  async analyzeImage(file: File): Promise<string> {
     try {
       const worker = await createWorker({
         logger: progress => {
@@ -28,9 +28,9 @@ export class OcrService {
       await worker.terminate();
       
       return text;
-  }
-
-  private extractFormData(text: string): string {
-    return text; 
+    } catch (error) {
+      console.error('Error analyzing image:', error);
+      throw error;
+    }
   }
 } 

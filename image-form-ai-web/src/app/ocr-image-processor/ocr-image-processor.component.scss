@@ -39,14 +39,14 @@
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  background-color: rgba($error-red, 0.1);
+  background-color: rgba($danger, 0.1);
   border-radius: 8px;
   margin: 1rem 0;
 }
 
 .error-icon {
   font-size: 2rem;
-  color: $error-red;
+  color: $danger;
   margin-bottom: 1rem;
 }
 

@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { OcrService } from '../services/ocr.service';
 
 @Component({
   selector: 'app-ocr-image-processor',
@@ -18,6 +19,8 @@ export class OcrImageProcessorComponent implements OnChanges {
   isProcessing: boolean = false;
   processingComplete: boolean = false;
   processingError: string | null = null;
+
+  constructor(private ocrService: OcrService) {}
   
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['imageFile'] && this.imageFile) {
@@ -32,35 +35,48 @@ export class OcrImageProcessorComponent implements OnChanges {
     this.processingComplete = false;
     this.processingError = null;
     
-    // Simulate OCR processing with a timeout
+    if (this.processingMethod === 'ocr') {
+      // Use the OCR service for local processing
+      this.processWithOcr();
+    } else {
+      // For LLM processing, we'll use mock data for now
+      this.processWithLlm();
+    }
+  }
+  
+  private async processWithOcr(): Promise<void> {
+    try {
+      if (!this.imageFile) return;
+      
+      const text = await this.ocrService.analyzeImage(this.imageFile);
+      this.extractedText = text;
+      this.processingComplete = true;
+      this.isProcessing = false;
+      this.textExtracted.emit(text);
+    } catch (error) {
+      console.error('OCR processing error:', error);
+      this.processingError = 'An error occurred during OCR processing. Please try again.';
+      this.isProcessing = false;
+    }
+  }
+  
+  private processWithLlm(): void {
+    // Simulate LLM processing with a timeout
     setTimeout(() => {
       try {
-        // In a real application, this would call an OCR service
-        // For now, we'll simulate the extraction with mock data
-        this.extractedText = this.simulateOcrExtraction();
+        this.extractedText = this.simulateLlmExtraction();
         this.processingComplete = true;
         this.isProcessing = false;
         this.textExtracted.emit(this.extractedText);
       } catch (error) {
-        this.processingError = 'An error occurred during image processing. Please try again.';
+        this.processingError = 'An error occurred during LLM processing. Please try again.';
         this.isProcessing = false;
       }
-    }, 2000); // Simulate 2 second processing time
+    }, 2000);
   }
   
-  private simulateOcrExtraction(): string {
-    // This is a mock function that would be replaced with actual OCR in a real app
-    if (this.processingMethod === 'ocr') {
-      return `Patient Name: John Smith
-Date of Birth: 15/05/1985
-Gender: Male
-Temperature: 38.5°C
-Symptoms: Fever, Headache, Chills
-Malaria Test: Positive
-Treatment: Artemisinin-based combination therapy
-Notes: Patient to return for follow-up in 3 days`;
-    } else {
-      return `Patient Information:
+  private simulateLlmExtraction(): string {
+    return `Patient Information:
 - Name: John Smith
 - DOB: 15/05/1985
 - Gender: Male
@@ -80,7 +96,6 @@ Treatment Plan:
 - Paracetamol for fever
 
 Follow-up: Patient to return for review in 3 days`;
-    }
   }
   
   retryProcessing(): void {
