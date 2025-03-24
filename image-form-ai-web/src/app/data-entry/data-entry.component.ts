@@ -4,6 +4,7 @@ import { MalariaFormComponent } from '../malaria-form/malaria-form.component';
 import { DataEntryStageComponent } from '../data-entry-stage/data-entry-stage.component';
 import { FormSelectorComponent, FormType } from '../form-selector/form-selector.component';
 import { InputTypeSelectorComponent, InputType } from '../input-type-selector/input-type-selector.component';
+import { ImageLoaderComponent } from '../image-loader/image-loader.component';
 
 @Component({
   selector: 'app-data-entry',
@@ -13,7 +14,8 @@ import { InputTypeSelectorComponent, InputType } from '../input-type-selector/in
     MalariaFormComponent, 
     DataEntryStageComponent, 
     FormSelectorComponent,
-    InputTypeSelectorComponent
+    InputTypeSelectorComponent,
+    ImageLoaderComponent
   ],
   templateUrl: './data-entry.component.html',
   styleUrls: ['./data-entry.component.scss']
@@ -21,6 +23,7 @@ import { InputTypeSelectorComponent, InputType } from '../input-type-selector/in
 export class DataEntryComponent {
   selectedForm: FormType | null = null;
   selectedInputType: InputType | null = null;
+  uploadedImage: File | null = null;
   
   handleFormSelection(form: FormType): void {
     this.selectedForm = form;
@@ -30,5 +33,10 @@ export class DataEntryComponent {
   handleInputTypeSelection(inputType: InputType): void {
     this.selectedInputType = inputType;
     console.log('Selected input type:', inputType);
+  }
+  
+  handleImageLoaded(file: File): void {
+    this.uploadedImage = file;
+    console.log('Image loaded:', file);
   }
 } 

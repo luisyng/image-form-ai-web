@@ -24,12 +24,8 @@
     >
       <div class="data-entry-stage">
         <ng-container [ngSwitch]="selectedInputType?.id">
-          <div *ngSwitchCase="'image'" class="upload-stage-content">
-            <p>Upload your document to extract information automatically.</p>
-            <div class="upload-placeholder">
-              <span class="upload-icon">📄</span>
-              <span class="upload-text">Drag & drop files here or click to browse</span>
-            </div>
+          <div *ngSwitchCase="'image'" class="image-input-stage">
+            <app-image-loader (imageLoaded)="handleImageLoaded($event)"></app-image-loader>
           </div>
           
           <div *ngSwitchCase="'audio'" class="audio-stage-content">
@@ -49,6 +45,16 @@
             <p>Please select an input method to continue.</p>
           </div>
         </ng-container>
+      </div>
+    </app-data-entry-stage>
+    
+    <app-data-entry-stage 
+      title="Review Extracted Data" 
+      [active]="uploadedImage !== null && selectedInputType?.id === 'image'"
+    >
+      <div class="review-stage-content">
+        <p>Review and edit the extracted information before submission.</p>
+        <app-malaria-form></app-malaria-form>
       </div>
     </app-data-entry-stage>
   </div>
