@@ -1,0 +1,51 @@
+.data-entry-container {
+  width: 100%;
+}
+
+.stages-container {
+  width: 100%;
+}
+
+.upload-stage-content {
+  text-align: center;
+  
+  p {
+    margin-bottom: 1.5rem;
+    color: #6c757d;
+  }
+}
+
+.upload-placeholder {
+  border: 2px dashed #dee2e6;
+  border-radius: 8px;
+  padding: 3rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    border-color: #adb5bd;
+    background-color: #f8f9fa;
+  }
+}
+
+.upload-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #6c757d;
+}
+
+.upload-text {
+  color: #6c757d;
+  font-size: 1.1rem;
+}
+
+.review-stage-content {
+  p {
+    margin-bottom: 1.5rem;
+    color: #6c757d;
+  }
+}

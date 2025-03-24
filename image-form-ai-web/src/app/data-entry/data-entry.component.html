@@ -1,1 +1,26 @@
-Container
+<div class="data-entry-container">
+  <div class="stages-container">
+    <app-data-entry-stage 
+      title="Upload Document" 
+      [active]="true"
+    >
+      <div class="upload-stage-content">
+        <p>Upload your document to extract information automatically.</p>
+        <div class="upload-placeholder">
+          <span class="upload-icon">📄</span>
+          <span class="upload-text">Drag & drop files here or click to browse</span>
+        </div>
+      </div>
+    </app-data-entry-stage>
+
+    <app-data-entry-stage 
+      title="Review Information" 
+      [active]="false"
+    >
+      <div class="review-stage-content">
+        <p>Review and edit the extracted information before submission.</p>
+        <app-malaria-form></app-malaria-form>
+      </div>
+    </app-data-entry-stage>
+  </div>
+</div>

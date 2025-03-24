@@ -1,0 +1,41 @@
+.stage-container {
+  width: 100%;
+  margin-bottom: 2rem;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  
+  &.active {
+    border-color: #007bff;
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.15);
+  }
+}
+
+.stage-header {
+  background-color: #f8f9fa;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #dee2e6;
+  
+  .active & {
+    background-color: #e6f2ff;
+    border-bottom-color: #b8daff;
+  }
+}
+
+.stage-title {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #495057;
+  font-weight: 600;
+  
+  .active & {
+    color: #007bff;
+  }
+}
+
+.stage-content {
+  padding: 1.5rem;
+  background-color: #ffffff;
+} 
