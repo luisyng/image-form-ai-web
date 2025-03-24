@@ -10,25 +10,45 @@
     </app-data-entry-stage>
 
     <app-data-entry-stage 
-      title="Upload Document" 
+      title="Choose Input Method" 
       [active]="selectedForm !== null"
     >
-      <div class="upload-stage-content">
-        <p>Upload your document to extract information automatically.</p>
-        <div class="upload-placeholder">
-          <span class="upload-icon">📄</span>
-          <span class="upload-text">Drag & drop files here or click to browse</span>
-        </div>
+      <div class="input-method-stage">
+        <app-input-type-selector (inputTypeSelected)="handleInputTypeSelection($event)"></app-input-type-selector>
       </div>
     </app-data-entry-stage>
 
     <app-data-entry-stage 
-      title="Review Information" 
-      [active]="false"
+      title="Enter Data" 
+      [active]="selectedInputType !== null"
     >
-      <div class="review-stage-content">
-        <p>Review and edit the extracted information before submission.</p>
-        <app-malaria-form></app-malaria-form>
+      <div class="data-entry-stage">
+        <ng-container [ngSwitch]="selectedInputType?.id">
+          <div *ngSwitchCase="'image'" class="upload-stage-content">
+            <p>Upload your document to extract information automatically.</p>
+            <div class="upload-placeholder">
+              <span class="upload-icon">📄</span>
+              <span class="upload-text">Drag & drop files here or click to browse</span>
+            </div>
+          </div>
+          
+          <div *ngSwitchCase="'audio'" class="audio-stage-content">
+            <p>Record audio to extract information automatically.</p>
+            <div class="audio-placeholder">
+              <span class="audio-icon">🎤</span>
+              <span class="audio-text">Click to start recording</span>
+            </div>
+          </div>
+          
+          <div *ngSwitchCase="'manual'" class="manual-stage-content">
+            <p>Fill out the form manually.</p>
+            <app-malaria-form></app-malaria-form>
+          </div>
+          
+          <div *ngSwitchDefault class="placeholder-content">
+            <p>Please select an input method to continue.</p>
+          </div>
+        </ng-container>
       </div>
     </app-data-entry-stage>
   </div>

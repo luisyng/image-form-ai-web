@@ -3,19 +3,32 @@ import { CommonModule } from '@angular/common';
 import { MalariaFormComponent } from '../malaria-form/malaria-form.component';
 import { DataEntryStageComponent } from '../data-entry-stage/data-entry-stage.component';
 import { FormSelectorComponent, FormType } from '../form-selector/form-selector.component';
+import { InputTypeSelectorComponent, InputType } from '../input-type-selector/input-type-selector.component';
 
 @Component({
   selector: 'app-data-entry',
   standalone: true,
-  imports: [CommonModule, MalariaFormComponent, DataEntryStageComponent, FormSelectorComponent],
+  imports: [
+    CommonModule, 
+    MalariaFormComponent, 
+    DataEntryStageComponent, 
+    FormSelectorComponent,
+    InputTypeSelectorComponent
+  ],
   templateUrl: './data-entry.component.html',
   styleUrls: ['./data-entry.component.scss']
 })
 export class DataEntryComponent {
   selectedForm: FormType | null = null;
+  selectedInputType: InputType | null = null;
   
   handleFormSelection(form: FormType): void {
     this.selectedForm = form;
     console.log('Selected form:', form);
+  }
+  
+  handleInputTypeSelection(inputType: InputType): void {
+    this.selectedInputType = inputType;
+    console.log('Selected input type:', inputType);
   }
 } 

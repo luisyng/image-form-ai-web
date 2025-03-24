@@ -16,7 +16,14 @@
   }
 }
 
-.upload-stage-content {
+.input-method-stage {
+  p {
+    margin-bottom: 1.5rem;
+    color: $text-muted;
+  }
+}
+
+.upload-stage-content, .audio-stage-content {
   text-align: center;
   
   p {
@@ -25,7 +32,7 @@
   }
 }
 
-.upload-placeholder {
+.upload-placeholder, .audio-placeholder {
   border: 2px dashed $neutral-medium-gray;
   border-radius: 8px;
   padding: 3rem 2rem;
@@ -42,15 +49,25 @@
   }
 }
 
-.upload-icon {
+.upload-icon, .audio-icon {
   font-size: 3rem;
   margin-bottom: 1rem;
   color: $text-muted;
 }
 
-.upload-text {
+.upload-text, .audio-text {
   color: $text-muted;
   font-size: $font-size-md;
+}
+
+.placeholder-content {
+  text-align: center;
+  padding: 3rem 2rem;
+  
+  p {
+    color: $text-muted;
+    font-size: $font-size-md;
+  }
 }
 
 .review-stage-content {
