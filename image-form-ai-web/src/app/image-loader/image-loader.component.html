@@ -36,9 +36,6 @@
   </div>
   
   <div class="actions" *ngIf="selectedFile">
-    <button class="action-button primary" (click)="$event.stopPropagation()">
-      Process Image
-    </button>
     <button class="action-button secondary" (click)="$event.stopPropagation(); selectedFile = null; previewUrl = null">
       Remove
     </button>

@@ -6,6 +6,7 @@ import { FormSelectorComponent, FormType } from '../form-selector/form-selector.
 import { InputTypeSelectorComponent, InputType } from '../input-type-selector/input-type-selector.component';
 import { ImageLoaderComponent } from '../image-loader/image-loader.component';
 import { ImageProcessMethodComponent, ProcessMethod } from '../image-process-method/image-process-method.component';
+import { OcrImageProcessorComponent } from '../ocr-image-processor/ocr-image-processor.component';
 
 @Component({
   selector: 'app-data-entry',
@@ -17,7 +18,8 @@ import { ImageProcessMethodComponent, ProcessMethod } from '../image-process-met
     FormSelectorComponent,
     InputTypeSelectorComponent,
     ImageLoaderComponent,
-    ImageProcessMethodComponent
+    ImageProcessMethodComponent,
+    OcrImageProcessorComponent
   ],
   templateUrl: './data-entry.component.html',
   styleUrls: ['./data-entry.component.scss']
@@ -27,6 +29,7 @@ export class DataEntryComponent {
   selectedInputType: InputType | null = null;
   uploadedImage: File | null = null;
   selectedProcessMethod: ProcessMethod | null = null;
+  extractedText: string = '';
   
   handleFormSelection(form: FormType): void {
     this.selectedForm = form;
@@ -46,5 +49,10 @@ export class DataEntryComponent {
   handleProcessMethodSelected(method: ProcessMethod): void {
     this.selectedProcessMethod = method;
     console.log('Selected process method:', method);
+  }
+  
+  handleTextExtracted(text: string): void {
+    this.extractedText = text;
+    console.log('Extracted text:', text);
   }
 } 

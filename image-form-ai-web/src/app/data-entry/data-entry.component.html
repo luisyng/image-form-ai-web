@@ -1,8 +1,7 @@
 <div class="data-entry-container">
   <div class="stages-container">
     <app-data-entry-stage 
-      title="Select Form" 
-      [active]="true"
+      title="Select Form"
     >
       <div class="form-selection-stage">
         <app-form-selector (formSelected)="handleFormSelection($event)"></app-form-selector>
@@ -11,7 +10,7 @@
 
     <app-data-entry-stage 
       title="Choose Input Method" 
-      [active]="selectedForm !== null"
+      *ngIf="selectedForm !== null"
     >
       <div class="input-method-stage">
         <app-input-type-selector (inputTypeSelected)="handleInputTypeSelection($event)"></app-input-type-selector>
@@ -20,7 +19,7 @@
 
     <app-data-entry-stage 
       title="Enter Data" 
-      [active]="selectedInputType !== null"
+      *ngIf="selectedInputType !== null"
     >
       <div class="data-entry-stage">
         <ng-container [ngSwitch]="selectedInputType?.id">
@@ -50,7 +49,7 @@
     
     <app-data-entry-stage 
       title="Choose Processing Method" 
-      [active]="uploadedImage !== null && selectedInputType?.id === 'image'"
+      *ngIf="uploadedImage !== null && selectedInputType?.id === 'image'"
     >
       <div class="process-method-stage">
         <p>Select how you want to process the image:</p>
@@ -59,8 +58,21 @@
     </app-data-entry-stage>
     
     <app-data-entry-stage 
+      title="Process Image" 
+      *ngIf="selectedProcessMethod !== null && uploadedImage !== null && selectedInputType?.id === 'image'"
+    >
+      <div class="image-processing-stage">
+        <app-ocr-image-processor 
+          [imageFile]="uploadedImage" 
+          [processingMethod]="selectedProcessMethod?.id || ''"
+          (textExtracted)="handleTextExtracted($event)"
+        ></app-ocr-image-processor>
+      </div>
+    </app-data-entry-stage>
+    
+    <app-data-entry-stage 
       title="Review Extracted Data" 
-      [active]="selectedProcessMethod !== null && uploadedImage !== null && selectedInputType?.id === 'image'"
+      *ngIf="extractedText !== ''"
     >
       <div class="review-stage-content">
         <p>Review and edit the extracted information before submission.</p>

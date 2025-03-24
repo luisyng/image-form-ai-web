@@ -1,0 +1,34 @@
+<div class="ocr-processor-container">
+  <div class="processing-status" *ngIf="isProcessing">
+    <div class="spinner"></div>
+    <p class="processing-message">Processing image with {{ processingMethod === 'ocr' ? 'OCR' : 'LLM' }}...</p>
+  </div>
+  
+  <div class="processing-error" *ngIf="processingError">
+    <div class="error-icon">❌</div>
+    <p class="error-message">{{ processingError }}</p>
+    <button class="retry-button" (click)="retryProcessing()">Try Again</button>
+  </div>
+  
+  <div class="extraction-results" *ngIf="processingComplete">
+    <div class="results-header">
+      <h3>Extracted Text</h3>
+      <p class="results-subheader">Review and edit the extracted text if needed</p>
+    </div>
+    
+    <div class="extracted-text-container">
+      <textarea 
+        class="extracted-text" 
+        [value]="extractedText" 
+        (input)="updateExtractedText($event)"
+        rows="10"
+      ></textarea>
+    </div>
+    
+    <div class="extraction-actions">
+      <button class="action-button primary" (click)="textExtracted.emit(extractedText)">
+        Continue with Extracted Data
+      </button>
+    </div>
+  </div>
+</div> 
