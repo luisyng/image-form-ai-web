@@ -1,0 +1,44 @@
+// DHIS2-inspired Color Palette
+
+// Primary Colors
+$primary-blue: #0080FF;       // Main blue color from the DHIS2 logo
+$primary-dark-blue: #2E4057;  // Dark blue used in headers
+$primary-light-blue: #E8F2FF; // Light blue background for active items
+
+// Secondary Colors
+$secondary-teal: #43CBCB;     // Teal accent color
+
+// Neutral Colors
+$neutral-white: #FFFFFF;      // White background
+$neutral-light-gray: #F8F9FA; // Light gray for section backgrounds
+$neutral-gray: #F1F3F5;       // Medium light gray for content areas
+$neutral-medium-gray: #DEE2E6; // Medium gray for borders
+$neutral-dark-gray: #495057;  // Dark gray for text
+$neutral-darker-gray: #2C3E50; // Darker gray for headings
+
+// Text Colors
+$text-primary: #2C3E50;       // Primary text color
+$text-secondary: #495057;     // Secondary text color
+$text-muted: #6C757D;         // Muted text color
+
+// Functional Colors
+$success: #28A745;            // Success color
+$warning: #FFC107;            // Warning color
+$danger: #DC3545;             // Danger/error color
+$info: #17A2B8;               // Info color
+
+// Specific UI Element Colors
+$menu-active-bg: #E8F2FF;     // Active menu item background
+$menu-hover-bg: #F1F3F5;      // Hover state for menu items
+$card-shadow: rgba(0, 0, 0, 0.05); // Shadow color for cards
+
+// Usage examples:
+// .primary-button {
+//   background-color: $primary-blue;
+//   color: $neutral-white;
+// }
+// 
+// .section-header {
+//   color: $text-primary;
+//   border-bottom: 1px solid $neutral-medium-gray;
+// } 
