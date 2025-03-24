@@ -27,6 +27,13 @@
   width: 100%;
 }
 
+.process-method-stage {
+  p {
+    margin-bottom: 1.5rem;
+    color: $text-muted;
+  }
+}
+
 .upload-stage-content, .audio-stage-content {
   text-align: center;
   

@@ -1,0 +1,91 @@
+@import '../styles/color-palette.scss';
+@import '../styles/typography.scss';
+
+.process-method-container {
+  width: 100%;
+}
+
+.methods-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.method-card {
+  display: flex;
+  align-items: flex-start;
+  padding: 1.5rem;
+  border-radius: 8px;
+  background-color: $neutral-white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  position: relative;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  &.selected {
+    border: 2px solid $primary-blue;
+    background-color: $primary-light-blue;
+  }
+}
+
+.method-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  background-color: $primary-light-blue;
+  border-radius: 8px;
+  margin-right: 1.5rem;
+  flex-shrink: 0;
+  
+  .selected & {
+    background-color: $primary-blue;
+    color: $neutral-white;
+  }
+}
+
+.icon {
+  font-size: 1.5rem;
+}
+
+.method-content {
+  flex: 1;
+}
+
+.method-name {
+  margin: 0 0 0.5rem 0;
+  color: $text-primary;
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-md;
+}
+
+.method-description {
+  color: $text-muted;
+  font-size: $font-size-sm;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.selection-indicator {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 24px;
+  height: 24px;
+  background-color: $primary-blue;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $neutral-white;
+}
+
+.check-icon {
+  font-size: $font-size-sm;
+} 

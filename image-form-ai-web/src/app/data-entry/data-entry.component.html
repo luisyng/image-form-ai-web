@@ -49,8 +49,18 @@
     </app-data-entry-stage>
     
     <app-data-entry-stage 
-      title="Review Extracted Data" 
+      title="Choose Processing Method" 
       [active]="uploadedImage !== null && selectedInputType?.id === 'image'"
+    >
+      <div class="process-method-stage">
+        <p>Select how you want to process the image:</p>
+        <app-image-process-method (methodSelected)="handleProcessMethodSelected($event)"></app-image-process-method>
+      </div>
+    </app-data-entry-stage>
+    
+    <app-data-entry-stage 
+      title="Review Extracted Data" 
+      [active]="selectedProcessMethod !== null && uploadedImage !== null && selectedInputType?.id === 'image'"
     >
       <div class="review-stage-content">
         <p>Review and edit the extracted information before submission.</p>

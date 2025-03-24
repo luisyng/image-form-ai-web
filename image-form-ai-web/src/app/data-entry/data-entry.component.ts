@@ -5,6 +5,7 @@ import { DataEntryStageComponent } from '../data-entry-stage/data-entry-stage.co
 import { FormSelectorComponent, FormType } from '../form-selector/form-selector.component';
 import { InputTypeSelectorComponent, InputType } from '../input-type-selector/input-type-selector.component';
 import { ImageLoaderComponent } from '../image-loader/image-loader.component';
+import { ImageProcessMethodComponent, ProcessMethod } from '../image-process-method/image-process-method.component';
 
 @Component({
   selector: 'app-data-entry',
@@ -15,7 +16,8 @@ import { ImageLoaderComponent } from '../image-loader/image-loader.component';
     DataEntryStageComponent, 
     FormSelectorComponent,
     InputTypeSelectorComponent,
-    ImageLoaderComponent
+    ImageLoaderComponent,
+    ImageProcessMethodComponent
   ],
   templateUrl: './data-entry.component.html',
   styleUrls: ['./data-entry.component.scss']
@@ -24,6 +26,7 @@ export class DataEntryComponent {
   selectedForm: FormType | null = null;
   selectedInputType: InputType | null = null;
   uploadedImage: File | null = null;
+  selectedProcessMethod: ProcessMethod | null = null;
   
   handleFormSelection(form: FormType): void {
     this.selectedForm = form;
@@ -38,5 +41,10 @@ export class DataEntryComponent {
   handleImageLoaded(file: File): void {
     this.uploadedImage = file;
     console.log('Image loaded:', file);
+  }
+  
+  handleProcessMethodSelected(method: ProcessMethod): void {
+    this.selectedProcessMethod = method;
+    console.log('Selected process method:', method);
   }
 } 
