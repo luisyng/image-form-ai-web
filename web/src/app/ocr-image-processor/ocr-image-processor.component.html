@@ -12,22 +12,11 @@
   
   <div class="extraction-results" *ngIf="processingComplete">
     <div class="results-header">
-      <p class="results-subheader">Review and edit the extracted text if needed</p>
+      <p class="results-subheader">Extracted text:</p>
     </div>
     
     <div class="extracted-text-container">
-      <textarea 
-        class="extracted-text" 
-        [value]="extractedText" 
-        (input)="updateExtractedText($event)"
-        rows="10"
-      ></textarea>
-    </div>
-    
-    <div class="extraction-actions">
-      <button class="action-button primary" (click)="textExtracted.emit(extractedText)">
-        Continue with Extracted Data
-      </button>
+      <div class="extracted-text-display">{{ extractedText }}</div>
     </div>
   </div>
 </div> 

@@ -137,4 +137,18 @@
       background-color: color.adjust(colors.$primary-blue, $lightness: -10%);
     }
   }
+}
+
+.extracted-text-display {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+  min-height: 100px;
+  max-height: 200px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  font-family: monospace;
+  font-size: 14px;
+  line-height: 1.5;
 } 

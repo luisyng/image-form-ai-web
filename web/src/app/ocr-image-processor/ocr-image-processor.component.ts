@@ -50,9 +50,7 @@ export class OcrImageProcessorComponent implements OnChanges {
       
       const text = await this.ocrService.analyzeImage(this.imageFile);
       this.extractedText = text;
-      this.processingComplete = true;
-      this.isProcessing = false;
-      this.textExtracted.emit(text);
+      this.setProcessingComplete();
     } catch (error) {
       console.error('OCR processing error:', error);
       this.processingError = 'An error occurred during OCR processing. Please try again.';
@@ -65,9 +63,7 @@ export class OcrImageProcessorComponent implements OnChanges {
     setTimeout(() => {
       try {
         this.extractedText = this.simulateLlmExtraction();
-        this.processingComplete = true;
-        this.isProcessing = false;
-        this.textExtracted.emit(this.extractedText);
+        this.setProcessingComplete();
       } catch (error) {
         this.processingError = 'An error occurred during LLM processing. Please try again.';
         this.isProcessing = false;
@@ -106,5 +102,15 @@ Follow-up: Patient to return for review in 3 days`;
     const textarea = event.target as HTMLTextAreaElement;
     this.extractedText = textarea.value;
     this.textExtracted.emit(this.extractedText);
+  }
+  
+  setProcessingComplete() {
+    this.processingComplete = true;
+    this.isProcessing = false;
+    
+    // Automatically emit the extracted text
+    if (this.extractedText) {
+      this.textExtracted.emit(this.extractedText);
+    }
   }
 } 
