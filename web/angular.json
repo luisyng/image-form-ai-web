@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "image-form-ai-web": {
+    "ai-data-capture-web": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/image-form-ai-web",
+            "outputPath": "dist/ai-data-capture-web",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -64,10 +64,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "image-form-ai-web:build:production"
+              "buildTarget": "ai-data-capture-web:build:production"
             },
             "development": {
-              "buildTarget": "image-form-ai-web:build:development"
+              "buildTarget": "ai-data-capture-web:build:development"
             }
           },
           "defaultConfiguration": "development"

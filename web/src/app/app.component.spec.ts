@@ -14,16 +14,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'image-form-ai-web' title`, () => {
+  it(`should have the 'ai-data-capture-web' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('image-form-ai-web');
+    expect(app.title).toEqual('ai-data-capture-web');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, image-form-ai-web');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, ai-data-capture-web');
   });
 });
