@@ -77,11 +77,4 @@ export class BackendDataSenderComponent {
       */
     }, 1500);
   }
-  
-  reset() {
-    this.sendComplete = false;
-    this.isError = false;
-    this.errorMessage = '';
-    this.responseData = null;
-  }
 } 

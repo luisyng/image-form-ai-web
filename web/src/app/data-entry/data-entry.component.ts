@@ -64,6 +64,7 @@ export class DataEntryComponent {
 
   handleParsedData(data: MalariaData): void {
     this.parsedMalariaData = data;
+    this.formData = data;
     console.log('Parsed malaria data:', data);
   }
 

@@ -56,13 +56,6 @@ export class MalariaFormComponent implements OnInit {
     }
   }
 
-  onSubmit() {
-    if (this.malariaForm.valid) {
-      const formData = this.malariaForm.value as MalariaData;
-      this.dataUpdated.emit(formData);
-    }
-  }
-
   resetForm() {
     this.malariaForm.reset();
     

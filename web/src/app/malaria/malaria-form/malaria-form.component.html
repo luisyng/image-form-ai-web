@@ -1,5 +1,5 @@
 <div class="malaria-form-container">
-  <form [formGroup]="malariaForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="malariaForm">
     <div class="form-row">
       <div class="form-group">
         <label for="name">Patient Name</label>
@@ -88,7 +88,6 @@
     </div>
     
     <div class="form-actions">
-      <button type="submit" class="btn btn-primary" [disabled]="malariaForm.invalid">Update</button>
       <button type="button" class="btn btn-secondary" (click)="resetForm()">Reset</button>
     </div>
   </form>
