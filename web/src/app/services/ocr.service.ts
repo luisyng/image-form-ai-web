@@ -13,7 +13,7 @@ export class OcrService {
       const worker = await createWorker({
         logger: progress => {
           if (progress.status === 'recognizing text') {
-            console.log(Math.round(progress.progress * 100));
+            // console.log(Math.round(progress.progress * 100));
           }
         }
       });

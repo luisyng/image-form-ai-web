@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { OcrService } from '../services/ocr.service';
@@ -19,18 +19,26 @@ export class OcrImageProcessorComponent implements OnChanges {
   isProcessing: boolean = false;
   processingComplete: boolean = false;
   processingError: string | null = null;
+  textConfirmed: boolean = false;
 
   constructor(private ocrService: OcrService) {}
   
   ngOnChanges(changes: SimpleChanges): void {
+    console.log('changes', changes);
     if (changes['imageFile'] && this.imageFile) {
+      this.resetState();
+      // Automatically start processing when image is loaded
       this.processImage();
     }
   }
   
   processImage(): void {
-    if (!this.imageFile) return;
+    if (!this.imageFile) {
+      console.error('No image file to process');
+      return;
+    }
     
+    console.log('Processing image:', this.imageFile.name);
     this.isProcessing = true;
     this.processingComplete = false;
     this.processingError = null;
@@ -60,11 +68,14 @@ export class OcrImageProcessorComponent implements OnChanges {
   
   private processWithLlm(): void {
     // Simulate LLM processing with a timeout
+    console.log('Processing with LLM...');
     setTimeout(() => {
       try {
         this.extractedText = this.simulateLlmExtraction();
+        console.log('LLM extraction complete:', this.extractedText.substring(0, 50) + '...');
         this.setProcessingComplete();
       } catch (error) {
+        console.error('LLM processing error:', error);
         this.processingError = 'An error occurred during LLM processing. Please try again.';
         this.isProcessing = false;
       }
@@ -94,23 +105,29 @@ Treatment Plan:
 Follow-up: Patient to return for review in 3 days`;
   }
   
+  private setProcessingComplete(): void {
+    console.log('Setting processing complete');
+    this.isProcessing = false;
+    this.processingComplete = true;
+  }
+  
   retryProcessing(): void {
+    this.processingError = null;
     this.processImage();
   }
   
-  updateExtractedText(event: Event): void {
-    const textarea = event.target as HTMLTextAreaElement;
-    this.extractedText = textarea.value;
+  confirmText(): void {
+    console.log('Confirming text:', this.extractedText.substring(0, 50) + '...');
+    this.textConfirmed = true;
     this.textExtracted.emit(this.extractedText);
   }
   
-  setProcessingComplete() {
-    this.processingComplete = true;
+  private resetState(): void {
+    console.log('Resetting state');
+    this.extractedText = '';
     this.isProcessing = false;
-    
-    // Automatically emit the extracted text
-    if (this.extractedText) {
-      this.textExtracted.emit(this.extractedText);
-    }
+    this.processingComplete = false;
+    this.processingError = null;
+    this.textConfirmed = false;
   }
 } 
