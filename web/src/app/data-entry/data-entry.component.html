@@ -83,12 +83,27 @@
     </app-data-entry-stage>
     
     <app-data-entry-stage 
-      title="Review Extracted Data" 
+      title="Edit Parsed Data" 
       *ngIf="parsedMalariaData !== null"
     >
       <div class="review-stage-content">
         <p>Review and edit the extracted information before submission.</p>
-        <app-malaria-form [initialData]="parsedMalariaData"></app-malaria-form>
+        <app-malaria-form 
+          [malariaData]="parsedMalariaData"
+          (dataUpdated)="handleFormSubmission($event)"
+        ></app-malaria-form>
+      </div>
+    </app-data-entry-stage>
+
+    <app-data-entry-stage 
+      title="Submit Data" 
+      *ngIf="formData !== null"
+    >
+      <div class="submit-stage-content">
+        <p>Review your data and submit to the backend system.</p>
+        <app-backend-data-sender 
+          [payload]="formData"
+        ></app-backend-data-sender>
       </div>
     </app-data-entry-stage>
   </div>

@@ -1,0 +1,36 @@
+<div class="backend-sender-container">
+  <div class="data-preview">
+    <h3>Data to be sent</h3>
+    <div class="json-display">
+      <pre>{{ formattedJson }}</pre>
+    </div>
+  </div>
+  
+  <div class="sender-actions" *ngIf="!sendComplete && !isSending">
+    <button class="btn btn-primary send-button" (click)="sendData()">
+      Send to Backend
+    </button>
+  </div>
+  
+  <div class="sending-status" *ngIf="isSending">
+    <div class="spinner"></div>
+    <p>Sending data to server...</p>
+  </div>
+  
+  <div class="send-result success" *ngIf="sendComplete">
+    <div class="success-icon">✓</div>
+    <h4>Data sent successfully!</h4>
+    <div class="response-data" *ngIf="responseData">
+      <h5>Server Response:</h5>
+      <pre>{{ responseData | json }}</pre>
+    </div>
+    <button class="btn btn-secondary" (click)="reset()">Send Another</button>
+  </div>
+  
+  <div class="send-result error" *ngIf="isError">
+    <div class="error-icon">✗</div>
+    <h4>Error sending data</h4>
+    <p class="error-message">{{ errorMessage }}</p>
+    <button class="btn btn-primary" (click)="sendData()">Try Again</button>
+  </div>
+</div> 

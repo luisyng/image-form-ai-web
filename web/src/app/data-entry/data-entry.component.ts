@@ -9,7 +9,7 @@ import { ImageProcessMethodComponent, ProcessMethod } from '../image-process-met
 import { OcrImageProcessorComponent } from '../ocr-image-processor/ocr-image-processor.component';
 import { MalariaParserComponent } from '../malaria/malaria-parser/malaria-parser.component';
 import { MalariaData } from '../malaria/malaria-data';
-
+import { BackendDataSenderComponent } from '../backend-data-sender/backend-data-sender.component';
 @Component({
   selector: 'app-data-entry',
   standalone: true,
@@ -22,7 +22,8 @@ import { MalariaData } from '../malaria/malaria-data';
     ImageLoaderComponent,
     ImageProcessMethodComponent,
     OcrImageProcessorComponent,
-    MalariaParserComponent
+    MalariaParserComponent,
+    BackendDataSenderComponent
   ],
   templateUrl: './data-entry.component.html',
   styleUrls: ['./data-entry.component.scss']
@@ -34,6 +35,8 @@ export class DataEntryComponent {
   selectedProcessMethod: ProcessMethod | null = null;
   extractedText: string = '';
   parsedMalariaData: MalariaData | null = null;
+  formData: any = null;
+
   handleFormSelection(form: FormType): void {
     this.selectedForm = form;
     console.log('Selected form:', form);
@@ -62,5 +65,10 @@ export class DataEntryComponent {
   handleParsedData(data: MalariaData): void {
     this.parsedMalariaData = data;
     console.log('Parsed malaria data:', data);
+  }
+
+  handleFormSubmission(data: any) {
+    this.formData = data;
+    console.log('Form submitted:', data);
   }
 } 
