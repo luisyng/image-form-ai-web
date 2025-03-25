@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ImageAnalyzerComponent } from '../../image-analyzer/image-analyzer.component';
@@ -11,7 +11,9 @@ import { MalariaData } from '../malaria-data';
   templateUrl: './malaria-form.component.html',
   styleUrls: ['./malaria-form.component.scss']
 })
-export class MalariaFormComponent {
+export class MalariaFormComponent implements OnInit {
+  @Input() initialData: MalariaData | null = null;
+  
   malariaForm: FormGroup;
   submitted = false;
   submitSuccess = false;
@@ -35,6 +37,25 @@ export class MalariaFormComponent {
       fatigue: [false],
       otherSymptoms: ['']
     });
+  }
+  
+  ngOnInit() {
+    // Initialize form with data if provided
+    if (this.initialData) {
+      this.malariaForm.patchValue({
+        name: this.initialData.name || '',
+        age: this.initialData.age || '',
+        fever: this.initialData.fever,
+        chills: this.initialData.chills,
+        sweating: this.initialData.sweating,
+        headache: this.initialData.headache,
+        nausea: this.initialData.nausea,
+        vomiting: this.initialData.vomiting,
+        musclePain: this.initialData.musclePain,
+        fatigue: this.initialData.fatigue,
+        otherSymptoms: this.initialData.otherSymptoms || ''
+      });
+    }
   }
 
   onSubmit() {
