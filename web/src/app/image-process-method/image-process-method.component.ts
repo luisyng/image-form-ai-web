@@ -21,14 +21,14 @@ export class ImageProcessMethodComponent {
   processMethods: ProcessMethod[] = [
     {
       id: 'ocr',
-      name: 'Locally with OCR',
-      description: 'Process the image using Optical Character Recognition on your device. Faster but may be less accurate for complex forms.',
+      name: 'Local image processing',
+      description: 'Process the image locally on your device. Faster but may be less accurate for complex forms.',
       icon: '💻'
     },
     {
       id: 'llm',
       name: 'Send to LLM',
-      description: 'Send the image to a Large Language Model for processing. More accurate but requires internet connection and may take longer.',
+      description: 'Send the image to a Large Language Model for processing. More accurate but requires internet connection and may take longer and cost money.',
       icon: '🤖'
     }
   ];
