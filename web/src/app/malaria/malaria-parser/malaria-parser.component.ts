@@ -31,7 +31,7 @@ export class MalariaParserComponent implements OnChanges {
     // Small timeout to allow UI to update with loading state
     setTimeout(() => {
       try {
-        this.parsedData = this.malariaParserService.extractMalariaData(this.extractedText);
+        this.parsedData = this.malariaParserService.parseText(this.extractedText);
         this.dataParsed.emit(this.parsedData);
       } catch (error) {
         console.error('Error parsing malaria data:', error);
