@@ -1,13 +1,13 @@
 export class MalariaData {
-    name!: string;
-    age!: number;
-    fever!: boolean;
-    chills!: boolean;
-    sweating!: boolean;
-    headache!: boolean;
-    nausea!: boolean;
-    vomiting!: boolean;
-    musclePain!: boolean;
-    fatigue!: boolean;
-    otherSymptoms!: string|null;
+    name: string = '';
+    age: number = 0;
+    fever: boolean = false;
+    chills: boolean = false;
+    sweating: boolean = false;
+    headache: boolean = false;
+    nausea: boolean = false;
+    vomiting: boolean = false;
+    musclePain: boolean = false;
+    fatigue: boolean = false;
+    otherSymptoms: string|null = null;
 }
