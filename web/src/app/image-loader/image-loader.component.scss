@@ -1,12 +1,12 @@
-@import '../styles/color-palette.scss';
-@import '../styles/typography.scss';
+@use '../styles/color-palette.scss' as colors;
+@use '../styles/typography.scss' as typography;
 
 .image-loader-container {
   width: 100%;
 }
 
 .upload-area {
-  border: 2px dashed $neutral-medium-gray;
+  border: 2px dashed colors.$neutral-medium-gray;
   border-radius: 8px;
   padding: 2rem;
   display: flex;
@@ -19,13 +19,13 @@
   position: relative;
   
   &:hover {
-    border-color: $neutral-dark-gray;
-    background-color: $neutral-light-gray;
+    border-color: colors.$neutral-dark-gray;
+    background-color: colors.$neutral-light-gray;
   }
   
   &.dragging {
-    border-color: $primary-blue;
-    background-color: $primary-light-blue;
+    border-color: colors.$primary-blue;
+    background-color: colors.$primary-light-blue;
   }
   
   &.has-preview {
@@ -47,18 +47,18 @@
 .upload-icon {
   font-size: 3rem;
   margin-bottom: 1rem;
-  color: $text-muted;
+  color: colors.$text-muted;
 }
 
 .upload-text {
-  color: $text-muted;
-  font-size: $font-size-md;
+  color: colors.$text-muted;
+  font-size: typography.$font-size-md;
   margin-bottom: 0.5rem;
 }
 
 .upload-hint {
-  color: $text-muted;
-  font-size: $font-size-sm;
+  color: colors.$text-muted;
+  font-size: typography.$font-size-sm;
 }
 
 .image-preview {
@@ -82,14 +82,14 @@
   align-items: center;
   
   .file-name {
-    font-weight: $font-weight-medium;
-    color: $text-primary;
+    font-weight: typography.$font-weight-medium;
+    color: colors.$text-primary;
     margin-bottom: 0.25rem;
   }
   
   .file-size {
-    font-size: $font-size-sm;
-    color: $text-muted;
+    font-size: typography.$font-size-sm;
+    color: colors.$text-muted;
   }
 }
 
@@ -103,26 +103,26 @@
 .action-button {
   padding: 0.75rem 1.5rem;
   border-radius: 4px;
-  font-weight: $font-weight-medium;
+  font-weight: typography.$font-weight-medium;
   cursor: pointer;
   transition: all 0.2s ease;
   border: none;
   
   &.primary {
-    background-color: $primary-blue;
-    color: $neutral-white;
+    background-color: colors.$primary-blue;
+    color: colors.$neutral-white;
     
     &:hover {
-      background-color: darken($primary-blue, 10%);
+      background-color: darken(colors.$primary-blue, 10%);
     }
   }
   
   &.secondary {
-    background-color: $neutral-light-gray;
-    color: $text-primary;
+    background-color: colors.$neutral-light-gray;
+    color: colors.$text-primary;
     
     &:hover {
-      background-color: $neutral-medium-gray;
+      background-color: colors.$neutral-medium-gray;
     }
   }
 } 

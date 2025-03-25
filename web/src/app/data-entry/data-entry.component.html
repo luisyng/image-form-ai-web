@@ -22,7 +22,7 @@
       *ngIf="selectedInputType !== null"
     >
       <div class="data-entry-stage">
-        <ng-container [ngSwitch]="selectedInputType?.id">
+        <ng-container [ngSwitch]="selectedInputType.id">
           <div *ngSwitchCase="'image'" class="image-input-stage">
             <app-image-loader (imageLoaded)="handleImageLoaded($event)"></app-image-loader>
           </div>
@@ -64,7 +64,7 @@
       <div class="image-processing-stage">
         <app-ocr-image-processor 
           [imageFile]="uploadedImage" 
-          [processingMethod]="selectedProcessMethod?.id || ''"
+          [processingMethod]="selectedProcessMethod.id || ''"
           (textExtracted)="handleTextExtracted($event)"
         ></app-ocr-image-processor>
       </div>
