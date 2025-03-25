@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MalariaFormComponent } from '../malaria-form/malaria-form.component';
+import { MalariaFormComponent } from '../malaria/malaria-form/malaria-form.component';
 import { DataEntryStageComponent } from '../data-entry-stage/data-entry-stage.component';
 import { FormSelectorComponent, FormType } from '../form-selector/form-selector.component';
 import { InputTypeSelectorComponent, InputType } from '../input-type-selector/input-type-selector.component';
