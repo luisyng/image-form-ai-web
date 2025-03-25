@@ -7,6 +7,8 @@ import { InputTypeSelectorComponent, InputType } from '../input-type-selector/in
 import { ImageLoaderComponent } from '../image-loader/image-loader.component';
 import { ImageProcessMethodComponent, ProcessMethod } from '../image-process-method/image-process-method.component';
 import { OcrImageProcessorComponent } from '../ocr-image-processor/ocr-image-processor.component';
+import { MalariaParserComponent } from '../malaria/malaria-parser/malaria-parser.component';
+import { MalariaData } from '../malaria/malaria-data';
 
 @Component({
   selector: 'app-data-entry',
@@ -19,7 +21,8 @@ import { OcrImageProcessorComponent } from '../ocr-image-processor/ocr-image-pro
     InputTypeSelectorComponent,
     ImageLoaderComponent,
     ImageProcessMethodComponent,
-    OcrImageProcessorComponent
+    OcrImageProcessorComponent,
+    MalariaParserComponent
   ],
   templateUrl: './data-entry.component.html',
   styleUrls: ['./data-entry.component.scss']
@@ -30,7 +33,7 @@ export class DataEntryComponent {
   uploadedImage: File | null = null;
   selectedProcessMethod: ProcessMethod | null = null;
   extractedText: string = '';
-  
+  parsedMalariaData: MalariaData | null = null;
   handleFormSelection(form: FormType): void {
     this.selectedForm = form;
     console.log('Selected form:', form);
@@ -54,5 +57,10 @@ export class DataEntryComponent {
   handleTextExtracted(text: string): void {
     this.extractedText = text;
     console.log('Extracted text:', text);
+  }
+
+  handleParsedData(data: MalariaData): void {
+    this.parsedMalariaData = data;
+    console.log('Parsed malaria data:', data);
   }
 } 

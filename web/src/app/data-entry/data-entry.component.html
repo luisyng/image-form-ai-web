@@ -71,12 +71,24 @@
     </app-data-entry-stage>
     
     <app-data-entry-stage 
-      title="Review Extracted Data" 
+      title="Parse Malaria Data" 
       *ngIf="extractedText !== ''"
+    >
+      <div class="malaria-parser-stage">
+        <app-malaria-parser 
+          [extractedText]="extractedText"
+          (dataParsed)="handleParsedData($event)"
+        ></app-malaria-parser>
+      </div>
+    </app-data-entry-stage>
+    
+    <app-data-entry-stage 
+      title="Review Extracted Data" 
+      *ngIf="parsedMalariaData !== null"
     >
       <div class="review-stage-content">
         <p>Review and edit the extracted information before submission.</p>
-        <app-malaria-form></app-malaria-form>
+        <!-- <app-malaria-form [initialData]="parsedMalariaData"></app-malaria-form> -->
       </div>
     </app-data-entry-stage>
   </div>

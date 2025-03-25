@@ -1,0 +1,154 @@
+@use '../../styles/color-palette.scss' as colors;
+@use '../../styles/typography.scss' as typography;
+@use "sass:color";
+
+.malaria-parser-container {
+  width: 100%;
+  padding: 1rem;
+}
+
+.processing-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid colors.$neutral-light-gray;
+    border-top: 4px solid colors.$primary-blue;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+  }
+  
+  p {
+    color: colors.$text-secondary;
+    font-size: typography.$font-size-md;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.parsed-data {
+  .data-section {
+    margin-bottom: 2rem;
+
+  }
+  
+  .data-row {
+    display: flex;
+    margin-bottom: 0.75rem;
+    
+    .data-label {
+      width: 120px;
+      font-weight: typography.$font-weight-medium;
+      color: colors.$text-secondary;
+    }
+    
+    .data-value {
+      flex: 1;
+      color: colors.$text-primary;
+    }
+  }
+  
+  .symptoms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    
+    .symptom-item {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem;
+      border-radius: 4px;
+      background-color: colors.$neutral-light-gray;
+      
+      &.detected {
+        background-color: colors.$success;
+        
+        .symptom-icon {
+          color: colors.$success;
+        }
+        
+        .symptom-name {
+          color: colors.$text-primary;
+          font-weight: typography.$font-weight-medium;
+        }
+      }
+      
+      .symptom-icon {
+        margin-right: 0.5rem;
+        color: colors.$text-muted;
+      }
+      
+      .symptom-name {
+        color: colors.$text-secondary;
+      }
+    }
+  }
+  
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+    
+    .btn {
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      font-weight: typography.$font-weight-medium;
+      cursor: pointer;
+      
+      &.btn-primary {
+        background-color: colors.$primary-blue;
+        color: colors.$neutral-white;
+        border: none;
+        
+        &:hover {
+          background-color: color.adjust(colors.$primary-blue, $lightness: -10%);
+        }
+      }
+      
+      &.btn-secondary {
+        background-color: colors.$neutral-light-gray;
+        color: colors.$text-primary;
+        border: none;
+        
+        &:hover {
+          background-color: colors.$neutral-medium-gray;
+        }
+      }
+    }
+  }
+}
+
+.no-data {
+  text-align: center;
+  padding: 2rem;
+  
+  p {
+    color: colors.$text-secondary;
+    margin-bottom: 1.5rem;
+  }
+  
+  .btn {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: typography.$font-weight-medium;
+    cursor: pointer;
+    background-color: colors.$primary-blue;
+    color: colors.$neutral-white;
+    border: none;
+    
+    &:hover {
+      background-color: color.adjust(colors.$primary-blue, $lightness: -10%);
+    }
+  }
+} 
