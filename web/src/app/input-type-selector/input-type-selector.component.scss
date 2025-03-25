@@ -1,5 +1,5 @@
-@import '../styles/color-palette.scss';
-@import '../styles/typography.scss';
+@use '../styles/color-palette.scss' as colors;
+@use '../styles/typography.scss' as typography;
 
 .input-type-selector-container {
   width: 100%;
@@ -16,7 +16,7 @@
   align-items: center;
   padding: 1.25rem;
   border-radius: 8px;
-  background-color: $neutral-white;
+  background-color: colors.$neutral-white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   transition: all 0.2s ease;
   cursor: pointer;
@@ -28,8 +28,8 @@
   }
   
   &.selected {
-    border: 2px solid $primary-blue;
-    background-color: $primary-light-blue;
+    border: 2px solid colors.$primary-blue;
+    background-color: colors.$primary-light-blue;
   }
 }
 
@@ -39,14 +39,14 @@
   align-items: center;
   width: 48px;
   height: 48px;
-  background-color: $primary-light-blue;
+  background-color: colors.$primary-light-blue;
   border-radius: 8px;
   margin-right: 1rem;
   flex-shrink: 0;
   
   .selected & {
-    background-color: $primary-blue;
-    color: $neutral-white;
+    background-color: colors.$primary-blue;
+    color: colors.$neutral-white;
   }
 }
 
@@ -60,9 +60,9 @@
 
 .input-type-name {
   margin: 0;
-  color: $text-primary;
-  font-weight: $font-weight-semibold;
-  font-size: $font-size-md;
+  color: colors.$text-primary;
+  font-weight: typography.$font-weight-semibold;
+  font-size: typography.$font-size-md;
 }
 
 .selection-indicator {
@@ -71,14 +71,14 @@
   right: 0.5rem;
   width: 24px;
   height: 24px;
-  background-color: $primary-blue;
+  background-color: colors.$primary-blue;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: $neutral-white;
+  color: colors.$neutral-white;
 }
 
 .check-icon {
-  font-size: $font-size-sm;
+  font-size: typography.$font-size-sm;
 } 

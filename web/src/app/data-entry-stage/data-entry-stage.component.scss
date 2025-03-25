@@ -1,5 +1,5 @@
-@import '../styles/color-palette.scss';
-@import '../styles/typography.scss';
+@use '../styles/color-palette.scss' as colors;
+@use '../styles/typography.scss' as typography;
 
 .stage-container {
   width: 100%;
@@ -13,14 +13,14 @@
 
 .stage-title {
   margin: 0;
-  font-size: $font-size-lg;
-  color: $text-secondary;
-  font-weight: $font-weight-semibold;
+  font-size: typography.$font-size-lg;
+  color: colors.$text-secondary;
+  font-weight: typography.$font-weight-semibold;
 }
 
 .stage-content {
   padding: 1.5rem;
-  background-color: $neutral-gray;
+  background-color: colors.$neutral-gray;
   border-radius: 8px;
   margin: 0 0.5rem 0.5rem 0.5rem;
 } 
