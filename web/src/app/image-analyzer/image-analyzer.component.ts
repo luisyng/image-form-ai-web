@@ -1,20 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { createWorker } from 'tesseract.js';
-
-export interface MalariaFormData {
-  name: string;
-  age: number;
-  fever: boolean;
-  chills: boolean;
-  sweating: boolean;
-  headache: boolean;
-  nausea: boolean;
-  vomiting: boolean;
-  musclePain: boolean;
-  fatigue: boolean;
-  otherSymptoms?: string;
-}
+import { MalariaData } from '../malaria/malaria-data';
 
 @Component({
   selector: 'app-image-analyzer',
@@ -24,7 +11,7 @@ export interface MalariaFormData {
   styleUrls: ['./image-analyzer.component.scss']
 })
 export class ImageAnalyzerComponent {
-  @Output() formDataExtracted = new EventEmitter<MalariaFormData>();
+  @Output() formDataExtracted = new EventEmitter<MalariaData>();
   
   isAnalyzing = false;
   previewUrl: string | null = null;
@@ -80,24 +67,23 @@ export class ImageAnalyzerComponent {
     }
   }
 
-  private extractFormData(text: string): MalariaFormData {
+  private extractFormData(text: string): MalariaData {
     // This is a simplified extraction logic
     // In a real application, you would use more sophisticated NLP or pattern matching
     const lines = text.split('\n').map(line => line.trim().toLowerCase());
     
-    const formData: MalariaFormData = {
-      name: '',
-      age: 0,
-      fever: false,
-      chills: false,
-      sweating: false,
-      headache: false,
-      nausea: false,
-      vomiting: false,
-      musclePain: false,
-      fatigue: false,
-      otherSymptoms: ''
-    };
+    const formData = new MalariaData();
+    formData.name = '';
+    formData.age = 0;
+    formData.fever = false;
+    formData.chills = false;
+    formData.sweating = false;
+    formData.headache = false;
+    formData.nausea = false;
+    formData.vomiting = false;
+    formData.musclePain = false;
+    formData.fatigue = false;
+    formData.otherSymptoms = null;
 
     // Enhanced name extraction with multiple patterns
     // Try various formats like "Name: John Doe", "Patient: John Doe", "Patient Name: John Doe"

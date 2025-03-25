@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ImageAnalyzerComponent, MalariaFormData } from '../../image-analyzer/image-analyzer.component';
+import { ImageAnalyzerComponent } from '../../image-analyzer/image-analyzer.component';
+import { MalariaData } from '../malaria-data';
 
 @Component({
   selector: 'app-malaria-form',
@@ -72,7 +73,7 @@ export class MalariaFormComponent {
     this.showImageAnalyzer = !this.showImageAnalyzer;
   }
   
-  handleExtractedData(formData: MalariaFormData) {
+  handleExtractedData(formData: MalariaData) {
     // Reset the highlighting
     this.fieldsFilledFromImage = {};
     
