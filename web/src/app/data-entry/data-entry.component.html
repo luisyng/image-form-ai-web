@@ -18,7 +18,7 @@
     </app-data-entry-stage>
 
     <app-data-entry-stage 
-      title="Enter Data" 
+      [title]="selectedInputType.name || ''" 
       *ngIf="selectedInputType !== null"
     >
       <div class="data-entry-stage">
