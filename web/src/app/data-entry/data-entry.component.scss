@@ -1,5 +1,5 @@
-@import '../styles/color-palette.scss';
-@import '../styles/typography.scss';
+@use '../styles/color-palette.scss' as colors;
+@use '../styles/typography.scss' as typography;
 
 .data-entry-container {
   width: 100%;
@@ -12,14 +12,14 @@
 .form-selection-stage {
   p {
     margin-bottom: 1.5rem;
-    color: $text-muted;
+    color: colors.$text-muted;
   }
 }
 
 .input-method-stage {
   p {
     margin-bottom: 1.5rem;
-    color: $text-muted;
+    color: colors.$text-muted;
   }
 }
 
@@ -30,7 +30,7 @@
 .process-method-stage {
   p {
     margin-bottom: 1.5rem;
-    color: $text-muted;
+    color: colors.$text-muted;
   }
 }
 
@@ -43,12 +43,12 @@
   
   p {
     margin-bottom: 1.5rem;
-    color: $text-muted;
+    color: colors.$text-muted;
   }
 }
 
 .upload-placeholder, .audio-placeholder {
-  border: 2px dashed $neutral-medium-gray;
+  border: 2px dashed colors.$neutral-medium-gray;
   border-radius: 8px;
   padding: 3rem 2rem;
   display: flex;
@@ -59,20 +59,20 @@
   transition: all 0.2s ease;
   
   &:hover {
-    border-color: $neutral-dark-gray;
-    background-color: $neutral-light-gray;
+    border-color: colors.$neutral-dark-gray;
+    background-color: colors.$neutral-light-gray;
   }
 }
 
 .upload-icon, .audio-icon {
   font-size: 3rem;
   margin-bottom: 1rem;
-  color: $text-muted;
+  color: colors.$text-muted;
 }
 
 .upload-text, .audio-text {
-  color: $text-muted;
-  font-size: $font-size-md;
+  color: colors.$text-muted;
+  font-size: typography.$font-size-md;
 }
 
 .placeholder-content {
@@ -80,14 +80,14 @@
   padding: 3rem 2rem;
   
   p {
-    color: $text-muted;
-    font-size: $font-size-md;
+    color: colors.$text-muted;
+    font-size: typography.$font-size-md;
   }
 }
 
 .review-stage-content {
   p {
     margin-bottom: 1.5rem;
-    color: $text-muted;
+    color: colors.$text-muted;
   }
 }

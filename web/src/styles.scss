@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
-@import './app/styles/color-palette.scss';
-@import './app/styles/typography.scss';
+@use './app/styles/color-palette.scss' as colors;
+@use './app/styles/typography.scss' as typography;
 
 * {
   box-sizing: border-box;
@@ -14,37 +14,37 @@ html, body {
 }
 
 body {
-  font-family: $font-family-base;
-  font-size: $font-size-base;
-  line-height: $line-height-base;
-  color: $text-secondary;
-  background-color: $neutral-white;
+  font-family: typography.$font-family-base;
+  font-size: typography.$font-size-base;
+  line-height: typography.$line-height-base;
+  color: colors.$text-secondary;
+  background-color: colors.$neutral-white;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: $font-family-base;
-  font-weight: $font-weight-semibold;
-  line-height: $line-height-tight;
-  color: $text-primary;
+  font-family: typography.$font-family-base;
+  font-weight: typography.$font-weight-semibold;
+  line-height: typography.$line-height-tight;
+  color: colors.$text-primary;
   margin-bottom: 0.5rem;
 }
 
 h1 {
-  font-size: $font-size-3xl;
+  font-size: typography.$font-size-3xl;
 }
 
 h2 {
-  font-size: $font-size-2xl;
+  font-size: typography.$font-size-2xl;
 }
 
 h3 {
-  font-size: $font-size-xl;
+  font-size: typography.$font-size-xl;
 }
 
 h4 {
-  font-size: $font-size-lg;
+  font-size: typography.$font-size-lg;
 }
 
 p {
@@ -52,7 +52,7 @@ p {
 }
 
 a {
-  color: $primary-blue;
+  color: colors.$primary-blue;
   text-decoration: none;
   
   &:hover {
@@ -61,5 +61,5 @@ a {
 }
 
 button {
-  font-family: $font-family-base;
+  font-family: typography.$font-family-base;
 }
