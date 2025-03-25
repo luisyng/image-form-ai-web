@@ -34,8 +34,7 @@ export class DataEntryComponent {
   uploadedImage: File | null = null;
   selectedProcessMethod: ProcessMethod | null = null;
   extractedText: string = '';
-  parsedMalariaData: MalariaData | null = null;
-  formData: any = null;
+  formData: MalariaData | null = null;
 
   handleFormSelection(form: FormType): void {
     this.selectedForm = form;
@@ -44,6 +43,9 @@ export class DataEntryComponent {
   
   handleInputTypeSelection(inputType: InputType): void {
     this.selectedInputType = inputType;
+    if (inputType.id === 'manual') {
+      this.formData = new MalariaData();
+    }
     console.log('Selected input type:', inputType);
   }
   
@@ -63,7 +65,6 @@ export class DataEntryComponent {
   }
 
   handleParsedData(data: MalariaData): void {
-    this.parsedMalariaData = data;
     this.formData = data;
     console.log('Parsed malaria data:', data);
   }

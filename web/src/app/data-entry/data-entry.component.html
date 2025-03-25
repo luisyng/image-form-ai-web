@@ -19,7 +19,7 @@
 
     <app-data-entry-stage 
       [title]="selectedInputType.name || ''" 
-      *ngIf="selectedInputType !== null"
+      *ngIf="selectedInputType !== null && selectedInputType.id !== 'manual'"
     >
       <div class="data-entry-stage">
         <ng-container [ngSwitch]="selectedInputType.id">
@@ -33,11 +33,6 @@
               <span class="audio-icon">🎤</span>
               <span class="audio-text">Click to start recording</span>
             </div>
-          </div>
-          
-          <div *ngSwitchCase="'manual'" class="manual-stage-content">
-            <p>Fill out the form manually.</p>
-            <app-malaria-form></app-malaria-form>
           </div>
           
           <div *ngSwitchDefault class="placeholder-content">
@@ -83,13 +78,14 @@
     </app-data-entry-stage>
     
     <app-data-entry-stage 
-      title="Edit Parsed Data" 
-      *ngIf="parsedMalariaData !== null"
+      [title]="selectedInputType?.id === 'manual' ? 'Fill Form' : 'Edit Parsed Data'"
+      *ngIf="formData !== null"
     >
       <div class="review-stage-content">
-        <p>Review and edit the extracted information before submission.</p>
+        <p *ngIf="selectedInputType?.id === 'manual'">Fill out the form with patient information.</p>
+        <p *ngIf="selectedInputType?.id !== 'manual'">Review and edit the extracted information before submission.</p>
         <app-malaria-form 
-          [malariaData]="parsedMalariaData"
+          [malariaData]="formData"
           (dataUpdated)="handleFormSubmission($event)"
         ></app-malaria-form>
       </div>
