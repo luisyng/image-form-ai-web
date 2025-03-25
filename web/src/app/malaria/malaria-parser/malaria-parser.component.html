@@ -5,7 +5,6 @@
   </div>
   
   <div *ngIf="!isProcessing && parsedData" class="parsed-data">
-    
     <div *ngIf="parsedData.name || parsedData.age" class="data-section">
       <div *ngIf="parsedData.name" class="data-row">
         <span class="data-label">Name:</span>
@@ -62,15 +61,9 @@
     <div *ngIf="!hasDetectedSymptoms() && (parsedData.name || parsedData.age)" class="no-symptoms">
       <p>No symptoms were detected in the text.</p>
     </div>
-    
-    <div class="actions">
-      <button class="btn btn-primary" (click)="parseText()">Re-analyze</button>
-      <button class="btn btn-secondary" (click)="dataParsed.emit(parsedData)">Use This Data</button>
-    </div>
   </div>
   
   <div *ngIf="!isProcessing && (!parsedData || (!parsedData.name && !parsedData.age && !hasDetectedSymptoms())) && extractedText" class="no-data">
-    <p>No relevant data could be extracted from the text. Please try again or enter the information manually.</p>
-    <button class="btn btn-primary" (click)="parseText()">Try Again</button>
+    <p>No relevant data could be extracted from the text.</p>
   </div>
 </div> 
