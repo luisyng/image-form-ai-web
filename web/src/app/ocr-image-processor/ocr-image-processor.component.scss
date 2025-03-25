@@ -155,27 +155,6 @@
   resize: vertical;
 }
 
-.text-actions {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 15px;
-}
-
-.confirm-button {
-  background-color: #28a745;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 8px 16px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.confirm-button:hover {
-  background-color: #218838;
-}
-
 .results-subheader {
   margin-bottom: 10px;
   font-style: italic;

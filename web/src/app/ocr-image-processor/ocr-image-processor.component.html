@@ -36,12 +36,9 @@
       <textarea 
         class="extracted-text-display" 
         [(ngModel)]="extractedText" 
+        (ngModelChange)="onTextChanged($event)"
         rows="10"
       ></textarea>
-    </div>
-    
-    <div class="text-actions">
-      <button class="confirm-button" (click)="confirmText()">Confirm Text</button>
     </div>
   </div>
 </div> 

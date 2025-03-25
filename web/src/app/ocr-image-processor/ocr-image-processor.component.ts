@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { OcrService } from '../services/ocr.service';
+import { debounceTime, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-ocr-image-processor',
@@ -19,9 +20,17 @@ export class OcrImageProcessorComponent implements OnChanges {
   isProcessing: boolean = false;
   processingComplete: boolean = false;
   processingError: string | null = null;
-  textConfirmed: boolean = false;
+  
+  private textChanges = new Subject<string>();
 
-  constructor(private ocrService: OcrService) {}
+  constructor(private ocrService: OcrService) {
+    // Set up debounced text changes to avoid too many emissions
+    this.textChanges.pipe(
+      debounceTime(500) // Wait for 500ms of inactivity before emitting
+    ).subscribe(text => {
+      this.textExtracted.emit(text);
+    });
+  }
   
   ngOnChanges(changes: SimpleChanges): void {
     console.log('changes', changes);
@@ -30,6 +39,11 @@ export class OcrImageProcessorComponent implements OnChanges {
       // Automatically start processing when image is loaded
       this.processImage();
     }
+  }
+  
+  onTextChanged(text: string): void {
+    console.log('Text changed, emitting after debounce');
+    this.textChanges.next(text);
   }
   
   processImage(): void {
@@ -59,6 +73,8 @@ export class OcrImageProcessorComponent implements OnChanges {
       const text = await this.ocrService.analyzeImage(this.imageFile);
       this.extractedText = text;
       this.setProcessingComplete();
+      // Emit the initial text
+      this.textExtracted.emit(text);
     } catch (error) {
       console.error('OCR processing error:', error);
       this.processingError = 'An error occurred during OCR processing. Please try again.';
@@ -74,6 +90,8 @@ export class OcrImageProcessorComponent implements OnChanges {
         this.extractedText = this.simulateLlmExtraction();
         console.log('LLM extraction complete:', this.extractedText.substring(0, 50) + '...');
         this.setProcessingComplete();
+        // Emit the initial text
+        this.textExtracted.emit(this.extractedText);
       } catch (error) {
         console.error('LLM processing error:', error);
         this.processingError = 'An error occurred during LLM processing. Please try again.';
@@ -116,18 +134,11 @@ Follow-up: Patient to return for review in 3 days`;
     this.processImage();
   }
   
-  confirmText(): void {
-    console.log('Confirming text:', this.extractedText.substring(0, 50) + '...');
-    this.textConfirmed = true;
-    this.textExtracted.emit(this.extractedText);
-  }
-  
   private resetState(): void {
     console.log('Resetting state');
     this.extractedText = '';
     this.isProcessing = false;
     this.processingComplete = false;
     this.processingError = null;
-    this.textConfirmed = false;
   }
 } 
