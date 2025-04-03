@@ -7,7 +7,7 @@ export interface InputType {
 export const inputTypes: InputType[] = [
     {
       id: 'manual',
-      name: 'Manual Entry',
+      name: 'Manual',
       icon: '✏️',
     },
     {
@@ -19,5 +19,5 @@ export const inputTypes: InputType[] = [
       id: 'audio',
       name: 'Audio',
       icon: '🎤',
-    }
+    },
 ];
