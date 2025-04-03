@@ -8,12 +8,20 @@ import { firstValueFrom } from "rxjs";
   })
 export class LlmService {
   private readonly OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
-  private readonly API_KEY = 'sk-your-openai-api-key'; // Replace with your actual API key
   private readonly MODEL = 'gpt-4o-mini';
+  private apiKey: string = '';
 
   constructor(private http: HttpClient) { }
+  
+  setApiKey(key: string): void {
+    this.apiKey = key;
+  }
 
   async transformImageToMalariaData(imageFile: File): Promise<MalariaData> {
+    if (!this.apiKey) {
+      throw new Error('API key is required');
+    }
+    
     try {
       // Convert the image to base64
       const base64Image = await this.fileToBase64(imageFile);
@@ -28,8 +36,7 @@ export class LlmService {
       return this.parseMalariaDataResponse(response);
     } catch (error) {
       console.error('Error calling OpenAI API:', error);
-      // Fall back to mock data in case of error
-      return this.getMockMalariaData();
+      throw error; // Propagate the error to handle it in the component
     }
   }
 
@@ -78,7 +85,7 @@ If any field is not available in the image, use null for strings, 0 for numbers,
   private async callOpenAIAPI(base64Image: string, prompt: string): Promise<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${this.API_KEY}`
+      'Authorization': `Bearer ${this.apiKey}`
     });
 
     const payload = {
@@ -131,24 +138,7 @@ If any field is not available in the image, use null for strings, 0 for numbers,
       };
     } catch (error) {
       console.error('Error parsing OpenAI response:', error);
-      return this.getMockMalariaData();
+      throw new Error('Failed to parse response from OpenAI');
     }
-  }
-
-  // Fallback method for testing when API is not available
-  private getMockMalariaData(): MalariaData {
-    return {
-      name: 'John Altman',
-      age: 30,
-      fever: true,
-      chills: true,
-      sweating: false,
-      headache: true,
-      nausea: false,
-      vomiting: true,
-      musclePain: true,
-      fatigue: false,
-      otherSymptoms: 'No other symptoms'
-    };
   }
 }

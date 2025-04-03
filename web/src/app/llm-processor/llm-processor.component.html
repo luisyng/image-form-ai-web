@@ -1,8 +1,50 @@
 <div class="llm-processor-container">
+  <!-- API Token Input State -->
+  <div *ngIf="!apiToken && !isProcessing && !processingError && !extractedData" class="api-token-container">
+    <div class="api-info">
+      <h3>OpenAI API Integration</h3>
+      <p>This feature uses OpenAI's GPT-4o mini model to analyze your image and extract malaria data.</p>
+      <p class="model-info">Model: <span class="model-name">GPT-4o mini</span></p>
+      <div class="api-notice">
+        <div class="notice-icon">ℹ️</div>
+        <p>You'll need an OpenAI API key with access to GPT-4o mini to use this feature.</p>
+      </div>
+    </div>
+    
+    <div class="token-input-section">
+      <label for="api-token">Enter your OpenAI API Key:</label>
+      <div class="token-input-wrapper">
+        <input 
+          type="password" 
+          id="api-token" 
+          [(ngModel)]="apiToken" 
+          placeholder="sk-..." 
+          class="api-token-input"
+        />
+        <button 
+          class="toggle-visibility-btn" 
+          (click)="toggleTokenVisibility()" 
+          [attr.aria-label]="showToken ? 'Hide API key' : 'Show API key'"
+        >
+          {{ showToken ? '👁️' : '👁️‍🗨️' }}
+        </button>
+      </div>
+      <p class="token-security-note">Your API key is used only for this request and is not stored.</p>
+      
+      <button 
+        class="process-button" 
+        [disabled]="!isValidApiKey()" 
+        (click)="processWithToken()"
+      >
+        Process Image
+      </button>
+    </div>
+  </div>
+  
   <!-- Processing state -->
   <div *ngIf="isProcessing" class="processing-indicator">
     <div class="spinner"></div>
-    <p>AI is analyzing your image...</p>
+    <p>AI is analyzing your image with GPT-4o mini...</p>
     <p class="processing-note">This may take a moment as we extract and structure the data.</p>
   </div>
   
@@ -10,15 +52,19 @@
   <div *ngIf="processingError" class="processing-error">
     <div class="error-icon">❌</div>
     <p class="error-message">{{ processingError }}</p>
-    <button class="retry-button" (click)="retryProcessing()">Try Again</button>
+    <button class="retry-button" (click)="resetAndRetry()">Try Again</button>
   </div>
   
   <!-- Results state -->
   <div *ngIf="extractedData" class="extraction-results">
     <div class="results-header">
-      <p class="results-subheader">Returned data from the LLM:</p>
+      <p class="results-subheader">Data extracted by GPT-4o mini:</p>
     </div>
     
     <app-malaria-summary [data]="extractedData"></app-malaria-summary>
+    
+    <div class="action-buttons">
+      <button class="reset-button" (click)="resetState()">Process Another Image</button>
+    </div>
   </div>
 </div> 
