@@ -9,10 +9,10 @@ import { debounceTime, Subject } from 'rxjs';
   selector: 'app-ocr-image-processor',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './ocr-image-processor.component.html',
-  styleUrls: ['./ocr-image-processor.component.scss']
+  templateUrl: './image-to-text-processor.component.html',
+  styleUrls: ['./image-to-text-processor.component.scss']
 })
-export class OcrImageProcessorComponent implements OnChanges {
+export class ImageToTextComponent implements OnChanges {
   @Input() imageFile: File | null = null;
   @Input() processingMethod: string = '';
   @Output() textExtracted = new EventEmitter<string>();
