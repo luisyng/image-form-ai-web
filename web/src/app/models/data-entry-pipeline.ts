@@ -9,8 +9,7 @@ export class DataEntryPipeline {
   selectedInputType: InputType | null = null;
   selectedInputMethod: InputMethod | null = null;
   photo: File | null = null;
-  uploadedAudio: File | null = null;
-  recordedAudio: File | null = null;
+  audio: File | null = null;
   selectedProcessMethod: ProcessMethod | null = null;
   extractedText: string = '';
   formData: MalariaData | null = null;
@@ -26,8 +25,7 @@ export class DataEntryPipeline {
     
     // Reset all input data
     this.photo = null;
-    this.uploadedAudio = null;
-    this.recordedAudio = null;
+    this.audio = null;
     this.selectedProcessMethod = null;
     this.extractedText = '';
     
@@ -57,14 +55,12 @@ export class DataEntryPipeline {
   }
   
   handleAudioLoaded(file: File): void {
-    this.uploadedAudio = file;
-    this.recordedAudio = null;
+    this.audio = file;
     console.log('Audio loaded:', file);
   }
   
   handleAudioRecorded(file: File): void {
-    this.recordedAudio = file;
-    this.uploadedAudio = null;
+    this.audio = file;
     console.log('Audio recorded:', file);
   }
   
@@ -88,16 +84,12 @@ export class DataEntryPipeline {
     console.log('Form submitted:', data);
   }
   
-  getActiveAudio(): File | null {
-    return this.uploadedAudio || this.recordedAudio;
-  }
-  
   hasImage(): boolean {
     return this.photo !== null;
   }
   
   hasAudio(): boolean {
-    return this.uploadedAudio !== null || this.recordedAudio !== null;
+    return this.audio !== null;
   }
   
   isManualEntry(): boolean {
