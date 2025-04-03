@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { availableForms, FormType } from '../models/form-type';
+import { formTypes, FormType } from '../models/form-type';
 
 @Component({
   selector: 'app-form-selector',
@@ -12,7 +12,7 @@ import { availableForms, FormType } from '../models/form-type';
 export class FormSelectorComponent {
   @Output() formSelected = new EventEmitter<FormType>();
   
-  availableForms: FormType[] = availableForms;
+  availableForms: FormType[] = formTypes;
   
   selectedForm: FormType | null = null;
   

@@ -1,8 +1,9 @@
 
-import { InputType } from '../input-type-selector/input-type-selector.component';
 import { ProcessMethod } from '../image-process-method/image-process-method.component';
 import { MalariaData } from '../malaria/malaria-data';
 import { FormType } from './form-type';
+import { InputType } from './input-type';
+
 export class DataEntryPipeline {
   selectedForm: FormType | null = null;
   selectedInputType: InputType | null = null;

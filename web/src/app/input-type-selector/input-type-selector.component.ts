@@ -1,11 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { inputTypes, InputType } from '../models/input-type';
 
-export interface InputType {
-  id: string;
-  name: string;
-  icon: string;
-}
 
 @Component({
   selector: 'app-input-type-selector',
@@ -17,28 +13,7 @@ export interface InputType {
 export class InputTypeSelectorComponent {
   @Output() inputTypeSelected = new EventEmitter<InputType>();
   
-  inputTypes: InputType[] = [
-    {
-      id: 'manual',
-      name: 'Manual Entry',
-      icon: '✏️'
-    },
-    {
-      id: 'image',
-      name: 'Upload Photo',
-      icon: '🖼️',
-    },
-    {
-      id: 'camera',
-      name: 'Take Photo',
-      icon: '📷',
-    },
-    {
-      id: 'audio',
-      name: 'Record Audio',
-      icon: '🎤',
-    }
-  ];
+  inputTypes: InputType[] = inputTypes;
   
   selectedInputType: InputType | null = null;
   

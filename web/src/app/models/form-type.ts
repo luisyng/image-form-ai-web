@@ -3,7 +3,7 @@ export interface FormType {
     name: string;
 }
 
-export const availableForms: FormType[] = [
+export const formTypes: FormType[] = [
     {
         id: 'malaria',
         name: 'Malaria Symptoms'
