@@ -1,0 +1,29 @@
+<div class="llm-processor-container">
+  <!-- Processing state -->
+  <div *ngIf="isProcessing" class="processing-indicator">
+    <div class="spinner"></div>
+    <p>AI is analyzing your image...</p>
+    <p class="processing-note">This may take a moment as we extract and structure the data.</p>
+  </div>
+  
+  <!-- Error state -->
+  <div *ngIf="processingError" class="processing-error">
+    <div class="error-icon">❌</div>
+    <p class="error-message">{{ processingError }}</p>
+    <button class="retry-button" (click)="retryProcessing()">Try Again</button>
+  </div>
+  
+  <!-- Results state -->
+  <div *ngIf="extractedData" class="extraction-results">
+    <div class="results-header">
+      <h3>AI Extracted Data</h3>
+      <p class="results-subheader">The AI has analyzed your image and extracted the following information:</p>
+    </div>
+    
+    <app-malaria-summary [data]="extractedData"></app-malaria-summary>
+    
+    <div class="action-buttons">
+      <button class="edit-button">Edit Data</button>
+    </div>
+  </div>
+</div> 

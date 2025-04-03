@@ -8,28 +8,28 @@ export class LlmService {
   
     constructor() { }
     
-    async transformImageToText(file: File): Promise<string> {
-        return this.simulateLlmExtraction();
+    async transformImageToText(imageFile: File): Promise<string> {
+        // Simulate LLM processing with a delay
+        await this.delay(2000);
+        
+        // Return mock extracted text
+        return this.getMockExtractedText();
     }
 
-    async transformImageToMalariaData(file: File): Promise<MalariaData> {
-        return {
-            name: 'John Altman',
-            age: 30,
-            fever: true,
-            chills: true,
-            sweating: true,
-            headache: true,
-            nausea: true,
-            vomiting: true,
-            musclePain: true,
-            fatigue: true,
-            otherSymptoms: 'No other symptoms',
-        }
+    async transformImageToMalariaData(imageFile: File): Promise<MalariaData> {
+        // Simulate LLM processing with a delay
+        await this.delay(3000);
+        
+        // Return mock structured data
+        return this.getMockMalariaData();
     }
 
-    private simulateLlmExtraction(): string {
-            return `Patient Information:
+    private delay(ms: number): Promise<void> {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    private getMockExtractedText(): string {
+        return `Patient Information:
         - Name: John Smith
         - DOB: 15/05/1985
         - Gender: Male
@@ -49,5 +49,21 @@ export class LlmService {
         - Paracetamol for fever
         
         Follow-up: Patient to return for review in 3 days`;
+    }
+
+    private getMockMalariaData(): MalariaData {
+        return {
+            name: 'John Altman',
+            age: 30,
+            fever: true,
+            chills: true,
+            sweating: false,
+            headache: true,
+            nausea: false,
+            vomiting: true,
+            musclePain: true,
+            fatigue: false,
+            otherSymptoms: 'No other symptoms',
+        }
     }
 }

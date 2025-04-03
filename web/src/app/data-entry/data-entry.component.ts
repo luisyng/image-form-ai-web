@@ -9,6 +9,7 @@ import { ImageLoaderComponent } from '../image-loader/image-loader.component';
 import { CameraCaptureComponent } from '../camera-capture/camera-capture.component';
 import { ImageProcessMethodComponent } from '../image-process-method/image-process-method.component';
 import { ImageToTextComponent } from '../image-to-text-processor/image-to-text-processor.component';
+import { LlmProcessorComponent } from '../llm-processor/llm-processor.component';
 import { MalariaParserComponent } from '../malaria/malaria-parser/malaria-parser.component';
 import { BackendDataSenderComponent } from '../backend-data-sender/backend-data-sender.component';
 import { DataEntryPipeline } from '../models/data-entry-pipeline';
@@ -27,6 +28,7 @@ import { DataEntryPipeline } from '../models/data-entry-pipeline';
     CameraCaptureComponent,
     ImageProcessMethodComponent,
     ImageToTextComponent,
+    LlmProcessorComponent,
     MalariaParserComponent,
     BackendDataSenderComponent
   ],

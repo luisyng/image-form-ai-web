@@ -77,13 +77,25 @@
     </app-data-entry-stage>
     
     <app-data-entry-stage 
+      title="AI Analysis" 
+      *ngIf="p.selectedProcessMethod?.id === 'llm' && p.isPhotoEntry() && p.hasImage()"
+    >
+      <div class="llm-processing-stage">
+        <app-llm-processor 
+          [imageFile]="p.photo" 
+          (dataParsed)="p.handleParsedData($event)"
+        ></app-llm-processor>
+      </div>
+    </app-data-entry-stage>
+    
+    <app-data-entry-stage 
       title="Transform Image to Text" 
-      *ngIf="p.selectedProcessMethod !== null && p.isPhotoEntry() && p.hasImage()"
+      *ngIf="p.selectedProcessMethod?.id === 'ocr' && p.isPhotoEntry() && p.hasImage()"
     >
       <div class="image-processing-stage">
         <app-ocr-image-processor 
           [imageFile]="p.photo" 
-          [processingMethod]="p.selectedProcessMethod.id || ''"
+          [processingMethod]="p.selectedProcessMethod?.id || ''"
           (textExtracted)="p.handleTextExtracted($event)"
         ></app-ocr-image-processor>
       </div>
