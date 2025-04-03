@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { MalariaFormComponent } from '../malaria/malaria-form/malaria-form.component';
 import { DataEntryStageComponent } from '../data-entry-stage/data-entry-stage.component';
 import { SelectorComponent } from '../selector/selector.component';
-import { InputTypeSelectorComponent } from '../input-type-selector/input-type-selector.component';
-import { InputMethodSelectorComponent } from '../input-method-selector/input-method-selector.component';
 import { ImageLoaderComponent } from '../image-loader/image-loader.component';
 import { CameraCaptureComponent } from '../camera-capture/camera-capture.component';
 import { ImageProcessMethodComponent } from '../image-process-method/image-process-method.component';
@@ -25,8 +23,6 @@ import { InputMethod, inputMethods } from '../models/input-method';
     MalariaFormComponent, 
     DataEntryStageComponent, 
     SelectorComponent,
-    InputTypeSelectorComponent,
-    InputMethodSelectorComponent,
     ImageLoaderComponent,
     CameraCaptureComponent,
     ImageProcessMethodComponent,
@@ -43,4 +39,9 @@ export class DataEntryComponent {
   availableForms: FormType[] = formTypes;
   availableInputTypes: InputType[] = inputTypes;
   availableInputMethods: InputMethod[] = inputMethods;
+
+  handleInputTypeSelection(inputType: InputType) {
+    this.p.selectedInputType = inputType;
+    this.availableInputMethods = this.availableInputMethods.filter(method => method.forInputType === inputType.id);
+  }
 } 

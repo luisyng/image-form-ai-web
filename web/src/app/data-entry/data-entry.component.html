@@ -16,7 +16,10 @@
       *ngIf="p.selectedForm !== null"
     >
       <div class="input-type-stage">
-        <app-input-type-selector (inputTypeSelected)="p.handleInputTypeSelection($event)"></app-input-type-selector>
+        <app-selector 
+        [options]="availableInputTypes"
+        [selectedOption]="p.selectedInputType"
+        (optionSelected)="handleInputTypeSelection($event)"></app-selector>
       </div>
     </app-data-entry-stage>
 
@@ -25,10 +28,10 @@
       *ngIf="p.selectedInputType !== null && p.selectedInputType.id !== 'manual'"
     >
       <div class="input-method-stage">
-        <app-input-method-selector 
-          [inputType]="p.selectedInputType" 
-          (inputMethodSelected)="p.handleInputMethodSelection($event)"
-        ></app-input-method-selector>
+        <app-selector 
+        [options]="availableInputMethods"
+        [selectedOption]="p.selectedInputMethod"
+        (optionSelected)="p.handleInputMethodSelection($event)"></app-selector>
       </div>
     </app-data-entry-stage>
 
