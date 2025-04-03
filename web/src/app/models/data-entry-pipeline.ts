@@ -8,8 +8,7 @@ export class DataEntryPipeline {
   selectedForm: FormType | null = null;
   selectedInputType: InputType | null = null;
   selectedInputMethod: InputMethod | null = null;
-  uploadedImage: File | null = null;
-  capturedPhoto: File | null = null;
+  photo: File | null = null;
   uploadedAudio: File | null = null;
   recordedAudio: File | null = null;
   selectedProcessMethod: ProcessMethod | null = null;
@@ -26,8 +25,7 @@ export class DataEntryPipeline {
     this.selectedInputMethod = null;
     
     // Reset all input data
-    this.uploadedImage = null;
-    this.capturedPhoto = null;
+    this.photo = null;
     this.uploadedAudio = null;
     this.recordedAudio = null;
     this.selectedProcessMethod = null;
@@ -49,14 +47,12 @@ export class DataEntryPipeline {
   }
   
   handleImageLoaded(file: File): void {
-    this.uploadedImage = file;
-    this.capturedPhoto = null;
+    this.photo = file;
     console.log('Image loaded:', file);
   }
   
   handlePhotoTaken(file: File): void {
-    this.capturedPhoto = file;
-    this.uploadedImage = null;
+    this.photo = file;
     console.log('Photo taken:', file);
   }
   
@@ -92,17 +88,12 @@ export class DataEntryPipeline {
     console.log('Form submitted:', data);
   }
   
-  // Helper methods
-  getActiveImage(): File | null {
-    return this.uploadedImage || this.capturedPhoto;
-  }
-  
   getActiveAudio(): File | null {
     return this.uploadedAudio || this.recordedAudio;
   }
   
   hasImage(): boolean {
-    return this.uploadedImage !== null || this.capturedPhoto !== null;
+    return this.photo !== null;
   }
   
   hasAudio(): boolean {

@@ -82,7 +82,7 @@
     >
       <div class="image-processing-stage">
         <app-ocr-image-processor 
-          [imageFile]="p.getActiveImage()" 
+          [imageFile]="p.photo" 
           [processingMethod]="p.selectedProcessMethod.id || ''"
           (textExtracted)="p.handleTextExtracted($event)"
         ></app-ocr-image-processor>
