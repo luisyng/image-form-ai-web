@@ -22,12 +22,16 @@ export class LlmProcessorComponent implements OnChanges {
   processingError: string | null = null;
   extractedData: MalariaData | null = null;
   
+  // Add a new state variable to track the input stage
+  showApiInput: boolean = true;
+  
   constructor(private llmService: LlmService) {}
   
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['imageFile'] && this.imageFile) {
       this.resetState();
       // We don't automatically process now - we wait for the token
+      this.showApiInput = true;
     }
   }
   
@@ -50,6 +54,8 @@ export class LlmProcessorComponent implements OnChanges {
       return;
     }
     
+    // Hide the API input when processing starts
+    this.showApiInput = false;
     this.processImage();
   }
   
@@ -71,11 +77,14 @@ export class LlmProcessorComponent implements OnChanges {
         console.error('Error processing image with LLM:', error);
         this.processingError = 'Failed to extract data from the image. Please check your API key and try again.';
         this.isProcessing = false;
+        // Show the API input again on error
+        this.showApiInput = true;
       });
   }
   
   resetAndRetry(): void {
     this.resetState();
+    this.showApiInput = true;
   }
   
   resetState(): void {

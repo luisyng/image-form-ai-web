@@ -1,6 +1,6 @@
 <div class="llm-processor-container">
   <!-- API Token Input State -->
-  <div *ngIf="!apiToken && !isProcessing && !processingError && !extractedData" class="api-token-container">
+  <div *ngIf="showApiInput && !isProcessing && !extractedData" class="api-token-container">
     <div class="api-info">
       <h3>OpenAI API Integration</h3>
       <p>This feature uses OpenAI's GPT-4o mini model to analyze your image and extract malaria data.</p>
@@ -15,7 +15,7 @@
       <label for="api-token">Enter your OpenAI API Key:</label>
       <div class="token-input-wrapper">
         <input 
-          type="password" 
+          [type]="showToken ? 'text' : 'password'" 
           id="api-token" 
           [(ngModel)]="apiToken" 
           placeholder="sk-..." 
