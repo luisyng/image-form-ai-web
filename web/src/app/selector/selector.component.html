@@ -1,0 +1,20 @@
+<div class="selector-container">  
+  <div class="grid">
+    <div 
+      *ngFor="let option of options" 
+      class="card" 
+      [class.selected]="selectedOption?.id === option.id"
+      (click)="selectOption(option)"
+    >
+      <div class="icon">
+        <span class="icon">{{ option.icon }}</span>
+      </div>
+      <div class="content">
+        <h4 class="name">{{ option.name }}</h4>
+      </div>
+      <div class="selection-indicator" *ngIf="selectedOption?.id === option.id">
+        <span class="check-icon">✓</span>
+      </div>
+    </div>
+  </div>
+</div> 

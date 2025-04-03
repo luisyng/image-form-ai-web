@@ -4,7 +4,10 @@
       title="Select Form"
     >
       <div class="form-selection-stage">
-        <app-form-selector (formSelected)="p.handleFormSelection($event)"></app-form-selector>
+        <app-selector 
+        [options]="availableForms"
+        [selectedOption]="p.selectedForm"
+        (optionSelected)="p.handleFormSelection($event)"></app-selector>
       </div>
     </app-data-entry-stage>
 

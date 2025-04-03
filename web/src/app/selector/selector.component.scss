@@ -1,17 +1,17 @@
 @use '../styles/color-palette.scss' as colors;
 @use '../styles/typography.scss' as typography;
 
-.form-selector-container {
+.selector-container {
   width: 100%;
 }
 
-.forms-grid {
+.grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 1.5rem;
 }
 
-.form-card {
+.card {
   display: flex;
   align-items: center;
   padding: 1.25rem;
@@ -33,7 +33,7 @@
   }
 }
 
-.form-icon {
+.icon {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -54,11 +54,11 @@
   font-size: 1.5rem;
 }
 
-.form-content {
+.content {
   flex: 1;
 }
 
-.form-name {
+.name {
   margin: 0;
   color: colors.$text-primary;
   font-weight: typography.$font-weight-semibold;
