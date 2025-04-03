@@ -2,11 +2,12 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from
 import { CommonModule } from '@angular/common';
 import { MalariaParserService } from '../malaria-parser.service';
 import { MalariaData } from '../malaria-data';
+import { MalariaSummaryComponent } from '../malaria-summary/malaria-summary.component';
 
 @Component({
   selector: 'app-malaria-parser',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MalariaSummaryComponent],
   templateUrl: './malaria-parser.component.html',
   styleUrls: ['./malaria-parser.component.scss']
 })
@@ -39,19 +40,5 @@ export class MalariaParserComponent implements OnChanges {
         this.isProcessing = false;
       }
     }, 500);
-  }
-
-  hasDetectedSymptoms(): boolean {
-    if (!this.parsedData) return false;
-    
-    return this.parsedData.fever || 
-           this.parsedData.chills || 
-           this.parsedData.sweating || 
-           this.parsedData.headache || 
-           this.parsedData.nausea || 
-           this.parsedData.vomiting || 
-           this.parsedData.musclePain || 
-           this.parsedData.fatigue || 
-           !!this.parsedData.otherSymptoms;
   }
 } 

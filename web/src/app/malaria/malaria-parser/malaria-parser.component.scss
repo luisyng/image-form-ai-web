@@ -35,60 +35,7 @@
   100% { transform: rotate(360deg); }
 }
 
-.parsed-data {
-  .data-section {
-    margin-bottom: 1rem;
-  }
-  
-  .data-row {
-    display: flex;
-    margin-bottom: 0.5rem;
-    
-    .data-label {
-      width: 100px;
-      font-weight: typography.$font-weight-medium;
-      color: colors.$text-secondary;
-    }
-    
-    .data-value {
-      flex: 1;
-      color: colors.$text-primary;
-    }
-  }
-  
-  .symptoms-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-    
-    .symptom-item {
-      display: flex;
-      align-items: center;
-      padding: 0.5rem;
-      border-radius: 4px;
-      
-      &.detected {
-        background-color: colors.$success;
-        
-        .symptom-icon {
-          color: colors.$neutral-white;
-        }
-        
-        .symptom-name {
-          color: colors.$neutral-white;
-          font-weight: typography.$font-weight-medium;
-        }
-      }
-      
-      .symptom-icon {
-        margin-right: 0.5rem;
-      }
-    }
-  }
-}
-
-.no-symptoms, .no-data {
+.no-data {
   padding: 0.5rem;
   
   p {

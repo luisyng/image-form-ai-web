@@ -1,0 +1,58 @@
+<div class="parsed-data">
+  <div *ngIf="data.name || data.age" class="data-section">
+    <div *ngIf="data.name" class="data-row">
+      <span class="data-label">Name:</span>
+      <span class="data-value">{{ data.name }}</span>
+    </div>
+    <div *ngIf="data.age" class="data-row">
+      <span class="data-label">Age:</span>
+      <span class="data-value">{{ data.age }}</span>
+    </div>
+  </div>
+  
+  <div *ngIf="hasDetectedSymptoms()" class="data-section">
+    <div class="symptoms-grid">
+      <div *ngIf="data.fever" class="symptom-item detected">
+        <span class="symptom-icon">✓</span>
+        <span class="symptom-name">Fever</span>
+      </div>
+      <div *ngIf="data.chills" class="symptom-item detected">
+        <span class="symptom-icon">✓</span>
+        <span class="symptom-name">Chills</span>
+      </div>
+      <div *ngIf="data.sweating" class="symptom-item detected">
+        <span class="symptom-icon">✓</span>
+        <span class="symptom-name">Sweating</span>
+      </div>
+      <div *ngIf="data.headache" class="symptom-item detected">
+        <span class="symptom-icon">✓</span>
+        <span class="symptom-name">Headache</span>
+      </div>
+      <div *ngIf="data.nausea" class="symptom-item detected">
+        <span class="symptom-icon">✓</span>
+        <span class="symptom-name">Nausea</span>
+      </div>
+      <div *ngIf="data.vomiting" class="symptom-item detected">
+        <span class="symptom-icon">✓</span>
+        <span class="symptom-name">Vomiting</span>
+      </div>
+      <div *ngIf="data.musclePain" class="symptom-item detected">
+        <span class="symptom-icon">✓</span>
+        <span class="symptom-name">Muscle Pain</span>
+      </div>
+      <div *ngIf="data.fatigue" class="symptom-item detected">
+        <span class="symptom-icon">✓</span>
+        <span class="symptom-name">Fatigue</span>
+      </div>
+    </div>
+    
+    <div *ngIf="data.otherSymptoms" class="data-row">
+      <span class="data-label">Other Symptoms:</span>
+      <span class="data-value">{{ data.otherSymptoms }}</span>
+    </div>
+  </div>
+  
+  <div *ngIf="!hasDetectedSymptoms() && (data.name || data.age)" class="no-symptoms">
+    <p>No symptoms were detected in the text.</p>
+  </div>
+</div>
