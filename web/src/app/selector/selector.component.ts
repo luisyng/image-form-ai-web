@@ -9,12 +9,12 @@ import { Selectable } from '../models/selectable';
   templateUrl: './selector.component.html',
   styleUrls: ['./selector.component.scss']
 })
-export class SelectorComponent {
-  @Input() options: Selectable[] = [];
-  @Input() selectedOption: Selectable | null = null;
-  @Output() optionSelected = new EventEmitter<Selectable>();
+export class SelectorComponent <S extends Selectable> {
+  @Input() options: S[] = [];
+  @Input() selectedOption: S | null = null;
+  @Output() optionSelected = new EventEmitter<S>();
       
-  selectOption(option: Selectable): void {
+  selectOption(option: S): void {
     this.selectedOption = option;
     this.optionSelected.emit(option);
   }
