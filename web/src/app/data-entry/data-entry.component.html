@@ -18,11 +18,11 @@
     </app-data-entry-stage>
 
     <app-data-entry-stage 
-      [title]="p.selectedInputType?.name || ''" 
+      [title]="p.selectedInputType.name || ''" 
       *ngIf="p.selectedInputType !== null && p.selectedInputType.id !== 'manual'"
     >
       <div class="data-entry-stage">
-        <ng-container [ngSwitch]="p.selectedInputType?.id">
+        <ng-container [ngSwitch]="p.selectedInputType.id">
           <div *ngSwitchCase="'image'" class="image-input-stage">
             <app-image-loader (imageLoaded)="p.handleImageLoaded($event)"></app-image-loader>
           </div>

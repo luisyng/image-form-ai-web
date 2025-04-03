@@ -10,7 +10,7 @@ import { ImageProcessMethodComponent } from '../image-process-method/image-proce
 import { OcrImageProcessorComponent } from '../ocr-image-processor/ocr-image-processor.component';
 import { MalariaParserComponent } from '../malaria/malaria-parser/malaria-parser.component';
 import { BackendDataSenderComponent } from '../backend-data-sender/backend-data-sender.component';
-import { DataEntryPipeline } from './data-entry-pipeline';
+import { DataEntryPipeline } from '../models/data-entry-pipeline';
 
 @Component({
   selector: 'app-data-entry',
