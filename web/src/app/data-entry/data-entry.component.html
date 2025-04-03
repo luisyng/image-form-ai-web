@@ -109,7 +109,7 @@
     
     <app-data-entry-stage 
       title="Parse Malaria Data" 
-      *ngIf="p.extractedText !== ''"
+      *ngIf="c.selectedProcessMethod?.id === 'ocr' && c.isPhotoEntry() && p.hasImage() && p.extractedText !== ''"
     >
       <div class="malaria-parser-stage">
         <app-malaria-parser 
@@ -120,7 +120,7 @@
     </app-data-entry-stage>
     
     <app-data-entry-stage 
-      [title]="c.isManualEntry() ? 'Fill Form' : 'Edit Parsed Data'"
+      [title]="c.isManualEntry() ? 'Fill Form' : 'Review Data'"
       *ngIf="p.formData !== null"
     >
       <div class="review-stage-content">
