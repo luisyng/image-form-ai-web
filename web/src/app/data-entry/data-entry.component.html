@@ -5,42 +5,42 @@
     >
       <div class="form-selection-stage">
         <app-selector 
-        [options]="availableForms"
-        [selectedOption]="p.selectedForm"
-        (optionSelected)="p.handleFormSelection($event)"></app-selector>
+        [options]="c.availableForms"
+        [selectedOption]="c.selectedForm"
+        (optionSelected)="c.handleFormSelection($event)"></app-selector>
       </div>
     </app-data-entry-stage>
 
     <app-data-entry-stage 
       title="Choose Input Type" 
-      *ngIf="p.selectedForm !== null"
+      *ngIf="c.selectedForm !== null"
     >
       <div class="input-type-stage">
         <app-selector 
-        [options]="availableInputTypes"
-        [selectedOption]="p.selectedInputType"
-        (optionSelected)="handleInputTypeSelection($event)"></app-selector>
+        [options]="c.availableInputTypes"
+        [selectedOption]="c.selectedInputType"
+        (optionSelected)="c.handleInputTypeSelection($event); p.handleInputTypeSelection($event)"></app-selector>
       </div>
     </app-data-entry-stage>
 
     <app-data-entry-stage 
       title="Choose Input Method" 
-      *ngIf="p.selectedInputType !== null && p.selectedInputType.id !== 'manual'"
+      *ngIf="c.selectedInputType !== null && !c.isManualEntry()"
     >
       <div class="input-method-stage">
         <app-selector 
-        [options]="availableInputMethods"
-        [selectedOption]="p.selectedInputMethod"
-        (optionSelected)="p.handleInputMethodSelection($event)"></app-selector>
+        [options]="c.availableInputMethods"
+        [selectedOption]="c.selectedInputMethod"
+        (optionSelected)="c.handleInputMethodSelection($event)"></app-selector>
       </div>
     </app-data-entry-stage>
 
     <app-data-entry-stage 
-      [title]="p.selectedInputMethod.name || ''" 
-      *ngIf="p.selectedInputMethod !== null"
+      [title]="c.selectedInputMethod.name || ''" 
+      *ngIf="c.selectedInputMethod !== null"
     >
       <div class="data-entry-stage">
-        <ng-container [ngSwitch]="p.selectedInputMethod.id">
+        <ng-container [ngSwitch]="c.selectedInputMethod.id">
           <div *ngSwitchCase="'upload-photo'" class="image-input-stage">
             <app-image-loader (imageLoaded)="p.handleImageLoaded($event)"></app-image-loader>
           </div>
@@ -74,17 +74,17 @@
     
     <app-data-entry-stage 
       title="Choose Processing Method" 
-      *ngIf="p.isPhotoEntry() && p.hasImage()"
+      *ngIf="c.isPhotoEntry() && p.hasImage()"
     >
       <div class="process-method-stage">
         <p>Select how you want to process the image:</p>
-        <app-image-process-method (methodSelected)="p.handleProcessMethodSelected($event)"></app-image-process-method>
+        <app-image-process-method (methodSelected)="c.handleProcessMethodSelected($event)"></app-image-process-method>
       </div>
     </app-data-entry-stage>
     
     <app-data-entry-stage 
       title="AI Analysis" 
-      *ngIf="p.selectedProcessMethod?.id === 'llm' && p.isPhotoEntry() && p.hasImage()"
+      *ngIf="c.selectedProcessMethod?.id === 'llm' && c.isPhotoEntry() && p.hasImage()"
     >
       <div class="llm-processing-stage">
         <app-llm-processor 
@@ -96,12 +96,12 @@
     
     <app-data-entry-stage 
       title="Transform Image to Text" 
-      *ngIf="p.selectedProcessMethod?.id === 'ocr' && p.isPhotoEntry() && p.hasImage()"
+      *ngIf="c.selectedProcessMethod?.id === 'ocr' && c.isPhotoEntry() && p.hasImage()"
     >
       <div class="image-processing-stage">
         <app-ocr-image-processor 
           [imageFile]="p.photo" 
-          [processingMethod]="p.selectedProcessMethod?.id || ''"
+          [processingMethod]="c.selectedProcessMethod?.id || ''"
           (textExtracted)="p.handleTextExtracted($event)"
         ></app-ocr-image-processor>
       </div>
@@ -120,12 +120,12 @@
     </app-data-entry-stage>
     
     <app-data-entry-stage 
-      [title]="p.isManualEntry() ? 'Fill Form' : 'Edit Parsed Data'"
+      [title]="c.isManualEntry() ? 'Fill Form' : 'Edit Parsed Data'"
       *ngIf="p.formData !== null"
     >
       <div class="review-stage-content">
-        <p *ngIf="p.isManualEntry()">Fill out the form with patient information.</p>
-        <p *ngIf="!p.isManualEntry()">Review and edit the extracted information before submission.</p>
+        <p *ngIf="c.isManualEntry()">Fill out the form with patient information.</p>
+        <p *ngIf="!c.isManualEntry()">Review and edit the extracted information before submission.</p>
         <app-malaria-form 
           [malariaData]="p.formData"
           (dataUpdated)="p.handleFormSubmission($event)"

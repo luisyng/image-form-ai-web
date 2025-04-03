@@ -11,9 +11,7 @@ import { LlmProcessorComponent } from '../llm-processor/llm-processor.component'
 import { MalariaParserComponent } from '../malaria/malaria-parser/malaria-parser.component';
 import { BackendDataSenderComponent } from '../backend-data-sender/backend-data-sender.component';
 import { DataEntryPipeline } from '../models/data-entry-pipeline';
-import { FormType, formTypes } from '../models/form-type';
-import { InputType, inputTypes } from '../models/input-type';
-import { InputMethod, inputMethods } from '../models/input-method';
+import { DataEntryConfig } from '../models/data-entry-config';
 
 @Component({
   selector: 'app-data-entry',
@@ -36,12 +34,5 @@ import { InputMethod, inputMethods } from '../models/input-method';
 })
 export class DataEntryComponent {
   p = new DataEntryPipeline();
-  availableForms: FormType[] = formTypes;
-  availableInputTypes: InputType[] = inputTypes;
-  availableInputMethods: InputMethod[] = inputMethods;
-
-  handleInputTypeSelection(inputType: InputType) {
-    this.p.selectedInputType = inputType;
-    this.availableInputMethods = this.availableInputMethods.filter(method => method.forInputType === inputType.id);
-  }
+  c = new DataEntryConfig();
 } 

@@ -1,32 +1,17 @@
 import { MalariaData } from '../malaria/malaria-data';
-import { FormType } from './form-type';
 import { InputType } from './input-type';
-import { InputMethod } from './input-method';
-import { ProcessMethod } from './process-method';
 
 export class DataEntryPipeline {
-  selectedForm: FormType | null = null;
-  selectedInputType: InputType | null = null;
-  selectedInputMethod: InputMethod | null = null;
+  
   photo: File | null = null;
   audio: File | null = null;
-  selectedProcessMethod: ProcessMethod | null = null;
   extractedText: string = '';
   formData: MalariaData | null = null;
-
-  handleFormSelection(form: FormType): void {
-    this.selectedForm = form;
-    console.log('Selected form:', form);
-  }
   
   handleInputTypeSelection(inputType: InputType): void {
-    this.selectedInputType = inputType;
-    this.selectedInputMethod = null;
-    
     // Reset all input data
     this.photo = null;
     this.audio = null;
-    this.selectedProcessMethod = null;
     this.extractedText = '';
     
     // If manual input is selected, initialize an empty form
@@ -37,11 +22,6 @@ export class DataEntryPipeline {
     }
     
     console.log('Selected input type:', inputType);
-  }
-  
-  handleInputMethodSelection(method: InputMethod): void {
-    this.selectedInputMethod = method;
-    console.log('Selected input method:', method);
   }
   
   handleImageLoaded(file: File): void {
@@ -62,11 +42,6 @@ export class DataEntryPipeline {
   handleAudioRecorded(file: File): void {
     this.audio = file;
     console.log('Audio recorded:', file);
-  }
-  
-  handleProcessMethodSelected(method: ProcessMethod): void {
-    this.selectedProcessMethod = method;
-    console.log('Selected process method:', method);
   }
   
   handleTextExtracted(text: string): void {
@@ -90,33 +65,5 @@ export class DataEntryPipeline {
   
   hasAudio(): boolean {
     return this.audio !== null;
-  }
-  
-  isManualEntry(): boolean {
-    return this.selectedInputType?.id === 'manual';
-  }
-  
-  isPhotoEntry(): boolean {
-    return this.selectedInputType?.id === 'photo';
-  }
-  
-  isAudioEntry(): boolean {
-    return this.selectedInputType?.id === 'audio';
-  }
-  
-  isCameraMethod(): boolean {
-    return this.selectedInputMethod?.id === 'camera';
-  }
-  
-  isUploadPhotoMethod(): boolean {
-    return this.selectedInputMethod?.id === 'upload-photo';
-  }
-  
-  isMicrophoneMethod(): boolean {
-    return this.selectedInputMethod?.id === 'microphone';
-  }
-  
-  isUploadAudioMethod(): boolean {
-    return this.selectedInputMethod?.id === 'upload-audio';
   }
 } 
