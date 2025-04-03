@@ -68,7 +68,7 @@
     
     <app-data-entry-stage 
       title="Choose Processing Method" 
-      *ngIf="p.hasImage() && p.isPhotoEntry()"
+      *ngIf="p.isPhotoEntry() && p.hasImage()"
     >
       <div class="process-method-stage">
         <p>Select how you want to process the image:</p>
@@ -78,7 +78,7 @@
     
     <app-data-entry-stage 
       title="Transform Image to Text" 
-      *ngIf="p.selectedProcessMethod !== null && p.hasImage() && p.isPhotoEntry()"
+      *ngIf="p.selectedProcessMethod !== null && p.isPhotoEntry() && p.hasImage()"
     >
       <div class="image-processing-stage">
         <app-ocr-image-processor 
