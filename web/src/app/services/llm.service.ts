@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { MalariaData } from "../malaria/malaria-data";
 
 @Injectable({
     providedIn: 'root'
@@ -9,6 +10,22 @@ export class LlmService {
     
     async transformImageToText(file: File): Promise<string> {
         return this.simulateLlmExtraction();
+    }
+
+    async transformImageToMalariaData(file: File): Promise<MalariaData> {
+        return {
+            name: 'John Altman',
+            age: 30,
+            fever: true,
+            chills: true,
+            sweating: true,
+            headache: true,
+            nausea: true,
+            vomiting: true,
+            musclePain: true,
+            fatigue: true,
+            otherSymptoms: 'No other symptoms',
+        }
     }
 
     private simulateLlmExtraction(): string {
