@@ -61,9 +61,6 @@ export class ImageToTextComponent implements OnChanges {
     if (this.processingMethod === 'ocr') {
       // Use the OCR service for local processing
       this.processWithOcr();
-    } else {
-      // For LLM processing, we'll use mock data for now
-      this.processWithLlm();
     }
   }
   
@@ -82,25 +79,6 @@ export class ImageToTextComponent implements OnChanges {
       this.isProcessing = false;
     }
   }
-  
-  private async processWithLlm(): Promise<void> {
-    // Process with LLM
-    console.log('Processing with LLM...');
-    try {
-      if (!this.imageFile) return;
-      
-      this.extractedText = await this.llmService.transformImageToText(this.imageFile);
-      console.log('LLM extraction complete:', this.extractedText.substring(0, 50) + '...');
-      this.setProcessingComplete();
-      // Emit the initial text
-      this.textExtracted.emit(this.extractedText);
-    } catch (error) {
-      console.error('LLM processing error:', error);
-      this.processingError = 'An error occurred during LLM processing. Please try again.';
-      this.isProcessing = false;
-    }
-  }
-
   
   private setProcessingComplete(): void {
     console.log('Setting processing complete');
