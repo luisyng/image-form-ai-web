@@ -223,25 +223,4 @@
     font-size: typography.$font-size-sm;
     margin: 0;
   }
-  
-  .action-buttons {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 1.5rem;
-    
-    .reset-button {
-      padding: 0.75rem 1.5rem;
-      border-radius: 4px;
-      background-color: colors.$neutral-medium-gray;
-      color: colors.$text-primary;
-      font-weight: typography.$font-weight-medium;
-      border: none;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      
-      &:hover {
-        background-color: color.adjust(colors.$neutral-medium-gray, $lightness: -10%);
-      }
-    }
-  }
 } 
