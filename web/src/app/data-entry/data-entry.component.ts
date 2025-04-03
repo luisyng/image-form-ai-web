@@ -14,6 +14,9 @@ import { MalariaParserComponent } from '../malaria/malaria-parser/malaria-parser
 import { BackendDataSenderComponent } from '../backend-data-sender/backend-data-sender.component';
 import { DataEntryPipeline } from '../models/data-entry-pipeline';
 import { FormType, formTypes } from '../models/form-type';
+import { InputType, inputTypes } from '../models/input-type';
+import { InputMethod, inputMethods } from '../models/input-method';
+
 @Component({
   selector: 'app-data-entry',
   standalone: true,
@@ -38,4 +41,6 @@ import { FormType, formTypes } from '../models/form-type';
 export class DataEntryComponent {
   p = new DataEntryPipeline();
   availableForms: FormType[] = formTypes;
+  availableInputTypes: InputType[] = inputTypes;
+  availableInputMethods: InputMethod[] = inputMethods;
 } 
