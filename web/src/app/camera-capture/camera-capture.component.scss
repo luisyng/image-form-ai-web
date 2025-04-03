@@ -1,0 +1,160 @@
+@use '../styles/color-palette.scss' as colors;
+@use '../styles/typography.scss' as typography;
+@use "sass:color";
+
+.camera-capture-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.camera-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+}
+
+.start-camera-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+  background-color: colors.$primary-blue;
+  color: colors.$neutral-white;
+  border: none;
+  border-radius: 8px;
+  font-size: typography.$font-size-md;
+  font-weight: typography.$font-weight-medium;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  
+  &:hover {
+    background-color: color.adjust(colors.$primary-blue, $lightness: -10%);
+  }
+  
+  .camera-icon {
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+  }
+}
+
+.camera-instructions {
+  margin-top: 1rem;
+  color: colors.$text-secondary;
+  text-align: center;
+  max-width: 400px;
+}
+
+.camera-view {
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  
+  video {
+    width: 100%;
+    border-radius: 8px;
+    background-color: #000000;
+  }
+  
+  .capture-controls {
+    position: absolute;
+    bottom: 1rem;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .capture-button {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: colors.$neutral-white;
+    border: 3px solid colors.$neutral-light-gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    
+    &:hover {
+      transform: scale(1.1);
+    }
+    
+    .capture-icon {
+      font-size: 1.5rem;
+    }
+  }
+}
+
+.captured-image-container {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  
+  .captured-image {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    
+    img {
+      width: 100%;
+      display: block;
+    }
+  }
+  
+  .image-controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    
+    .retake-button {
+      padding: 0.75rem 1.5rem;
+      background-color: colors.$neutral-medium-gray;
+      color: colors.$text-primary;
+      border: none;
+      border-radius: 4px;
+      font-weight: typography.$font-weight-medium;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      
+      &:hover {
+        background-color: color.adjust(colors.$neutral-medium-gray, $lightness: -10%);
+      }
+    }
+  }
+}
+
+.camera-error, .camera-status {
+  padding: 1.5rem;
+  text-align: center;
+  
+  .error-icon {
+    font-size: 2rem;
+    color: colors.$danger;
+    margin-bottom: 1rem;
+  }
+  
+  .error-message {
+    color: colors.$text-primary;
+    margin-bottom: 1rem;
+  }
+  
+  .retry-button {
+    padding: 0.75rem 1.5rem;
+    background-color: colors.$primary-blue;
+    color: colors.$neutral-white;
+    border: none;
+    border-radius: 4px;
+    font-weight: typography.$font-weight-medium;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    
+    &:hover {
+      background-color: color.adjust(colors.$primary-blue, $lightness: -10%);
+    }
+  }
+} 

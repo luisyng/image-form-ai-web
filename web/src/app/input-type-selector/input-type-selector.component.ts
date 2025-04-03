@@ -20,19 +20,24 @@ export class InputTypeSelectorComponent {
   inputTypes: InputType[] = [
     {
       id: 'manual',
-      name: 'Fill Form',
+      name: 'Manual Entry',
       icon: '✏️'
     },
     {
       id: 'image',
-      name: 'Upload Image',
-      icon: '📷'
+      name: 'Upload Photo',
+      icon: '🖼️',
+    },
+    {
+      id: 'camera',
+      name: 'Take Photo',
+      icon: '📷',
     },
     {
       id: 'audio',
       name: 'Record Audio',
-      icon: '🎤'
-    },
+      icon: '🎤',
+    }
   ];
   
   selectedInputType: InputType | null = null;

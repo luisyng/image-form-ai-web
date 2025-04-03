@@ -27,6 +27,10 @@
             <app-image-loader (imageLoaded)="handleImageLoaded($event)"></app-image-loader>
           </div>
           
+          <div *ngSwitchCase="'camera'" class="camera-input-stage">
+            <app-camera-capture (photoTaken)="handlePhotoTaken($event)"></app-camera-capture>
+          </div>
+          
           <div *ngSwitchCase="'audio'" class="audio-stage-content">
             <p>Record audio to extract information automatically.</p>
             <div class="audio-placeholder">
@@ -44,7 +48,7 @@
     
     <app-data-entry-stage 
       title="Choose Processing Method" 
-      *ngIf="uploadedImage !== null && selectedInputType?.id === 'image'"
+      *ngIf="(uploadedImage !== null || capturedPhoto !== null) && (selectedInputType?.id === 'image' || selectedInputType?.id === 'camera')"
     >
       <div class="process-method-stage">
         <p>Select how you want to process the image:</p>
@@ -54,11 +58,11 @@
     
     <app-data-entry-stage 
       title="Transform Image to Text" 
-      *ngIf="selectedProcessMethod !== null && uploadedImage !== null && selectedInputType?.id === 'image'"
+      *ngIf="selectedProcessMethod !== null && (uploadedImage !== null || capturedPhoto !== null) && (selectedInputType?.id === 'image' || selectedInputType?.id === 'camera')"
     >
       <div class="image-processing-stage">
         <app-ocr-image-processor 
-          [imageFile]="uploadedImage" 
+          [imageFile]="uploadedImage || capturedPhoto" 
           [processingMethod]="selectedProcessMethod.id || ''"
           (textExtracted)="handleTextExtracted($event)"
         ></app-ocr-image-processor>

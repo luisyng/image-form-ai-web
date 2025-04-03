@@ -5,11 +5,13 @@ import { DataEntryStageComponent } from '../data-entry-stage/data-entry-stage.co
 import { FormSelectorComponent, FormType } from '../form-selector/form-selector.component';
 import { InputTypeSelectorComponent, InputType } from '../input-type-selector/input-type-selector.component';
 import { ImageLoaderComponent } from '../image-loader/image-loader.component';
+import { CameraCaptureComponent } from '../camera-capture/camera-capture.component';
 import { ImageProcessMethodComponent, ProcessMethod } from '../image-process-method/image-process-method.component';
 import { OcrImageProcessorComponent } from '../ocr-image-processor/ocr-image-processor.component';
 import { MalariaParserComponent } from '../malaria/malaria-parser/malaria-parser.component';
 import { MalariaData } from '../malaria/malaria-data';
 import { BackendDataSenderComponent } from '../backend-data-sender/backend-data-sender.component';
+
 @Component({
   selector: 'app-data-entry',
   standalone: true,
@@ -20,6 +22,7 @@ import { BackendDataSenderComponent } from '../backend-data-sender/backend-data-
     FormSelectorComponent,
     InputTypeSelectorComponent,
     ImageLoaderComponent,
+    CameraCaptureComponent,
     ImageProcessMethodComponent,
     OcrImageProcessorComponent,
     MalariaParserComponent,
@@ -32,6 +35,7 @@ export class DataEntryComponent {
   selectedForm: FormType | null = null;
   selectedInputType: InputType | null = null;
   uploadedImage: File | null = null;
+  capturedPhoto: File | null = null;
   selectedProcessMethod: ProcessMethod | null = null;
   extractedText: string = '';
   formData: MalariaData | null = null;
@@ -51,7 +55,14 @@ export class DataEntryComponent {
   
   handleImageLoaded(file: File): void {
     this.uploadedImage = file;
+    this.capturedPhoto = null; // Clear any previously captured photo
     console.log('Image loaded:', file);
+  }
+  
+  handlePhotoTaken(file: File): void {
+    this.capturedPhoto = file;
+    this.uploadedImage = null; // Clear any previously uploaded image
+    console.log('Photo taken:', file);
   }
   
   handleProcessMethodSelected(method: ProcessMethod): void {

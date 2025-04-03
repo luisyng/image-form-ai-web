@@ -1,0 +1,37 @@
+<div class="camera-capture-container">
+  <div class="camera-status" *ngIf="!isCameraSupported">
+    <div class="error-icon">❌</div>
+    <p class="error-message">{{ errorMessage }}</p>
+  </div>
+  
+  <div class="camera-controls" *ngIf="isCameraSupported && !isCameraActive && !capturedImage">
+    <button class="start-camera-button" (click)="startCamera()">
+      <span class="camera-icon">📷</span>
+      <span>Start Camera</span>
+    </button>
+    <p class="camera-instructions">Click the button above to access your camera and take a photo.</p>
+  </div>
+  
+  <div class="camera-view" *ngIf="isCameraActive">
+    <video id="camera-feed" autoplay playsinline></video>
+    <div class="capture-controls">
+      <button class="capture-button" (click)="capturePhoto()">
+        <span class="capture-icon">📸</span>
+      </button>
+    </div>
+  </div>
+  
+  <div class="captured-image-container" *ngIf="capturedImage">
+    <div class="captured-image">
+      <img [src]="capturedImage" alt="Captured photo">
+    </div>
+    <div class="image-controls">
+      <button class="retake-button" (click)="retakePhoto()">Retake Photo</button>
+    </div>
+  </div>
+  
+  <div class="camera-error" *ngIf="errorMessage && isCameraSupported">
+    <p class="error-message">{{ errorMessage }}</p>
+    <button class="retry-button" (click)="startCamera()">Try Again</button>
+  </div>
+</div> 
