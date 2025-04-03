@@ -1,6 +1,4 @@
 <div class="input-method-selector">
-  <h3 class="selector-title">Select Input Method</h3>
-  
   <div class="methods-grid">
     <div 
       *ngFor="let method of availableMethods" 
@@ -11,12 +9,7 @@
       <div class="method-icon">{{ method.icon }}</div>
       <div class="method-details">
         <h4 class="method-name">{{ method.name }}</h4>
-        <p class="method-description" *ngIf="method.description">{{ method.description }}</p>
       </div>
     </div>
-  </div>
-  
-  <div class="no-methods" *ngIf="availableMethods.length === 0">
-    <p>Please select an input type first.</p>
   </div>
 </div> 

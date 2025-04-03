@@ -13,7 +13,6 @@ export const inputMethods: InputMethod[] = [
     name: 'Form',
     icon: '📝',
     forInputType: 'manual',
-    description: 'Fill out a form manually'
   },
   
   // Methods for photo input
@@ -22,14 +21,12 @@ export const inputMethods: InputMethod[] = [
     name: 'Take Photo',
     icon: '📸',
     forInputType: 'photo',
-    description: 'Use your camera to take a photo'
   },
   {
     id: 'upload-photo',
     name: 'Upload Photo',
-    icon: '🖼️',
+    icon: '📂',
     forInputType: 'photo',
-    description: 'Upload an existing photo'
   },
   
   // Methods for audio input
@@ -38,14 +35,12 @@ export const inputMethods: InputMethod[] = [
     name: 'Record Audio',
     icon: '🎙️',
     forInputType: 'audio',
-    description: 'Use your microphone to record audio'
   },
   {
     id: 'upload-audio',
     name: 'Upload Audio',
-    icon: '🔊',
+    icon: '📂',
     forInputType: 'audio',
-    description: 'Upload an existing audio file'
   }
 ];
 

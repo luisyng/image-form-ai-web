@@ -4,14 +4,6 @@
 
 .input-method-selector {
   width: 100%;
-  padding: 1rem;
-}
-
-.selector-title {
-  font-size: typography.$font-size-lg;
-  color: colors.$text-primary;
-  margin-bottom: 1.5rem;
-  font-weight: typography.$font-weight-medium;
 }
 
 .methods-grid {
@@ -59,7 +51,7 @@
 .method-name {
   font-size: typography.$font-size-md;
   color: colors.$text-primary;
-  margin: 0 0 0.25rem 0;
+  margin: 0;
   font-weight: typography.$font-weight-medium;
 }
 
@@ -67,10 +59,4 @@
   font-size: typography.$font-size-sm;
   color: colors.$text-secondary;
   margin: 0;
-}
-
-.no-methods {
-  padding: 2rem;
-  text-align: center;
-  color: colors.$text-secondary;
 } 
