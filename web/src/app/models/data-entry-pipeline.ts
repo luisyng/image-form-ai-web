@@ -1,8 +1,8 @@
 
-import { ProcessMethod } from '../image-process-method/image-process-method.component';
 import { MalariaData } from '../malaria/malaria-data';
 import { FormType } from './form-type';
 import { InputType } from './input-type';
+import { ProcessMethod } from './process-method';
 
 export class DataEntryPipeline {
   selectedForm: FormType | null = null;
