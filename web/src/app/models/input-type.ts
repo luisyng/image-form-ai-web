@@ -1,7 +1,6 @@
-export interface InputType {
-    id: string;
-    name: string;
-    icon: string;
+import { Selectable } from "./selectable";
+
+export interface InputType extends Selectable {
 }
 
 export const inputTypes: InputType[] = [

@@ -1,11 +1,12 @@
-export interface FormType {
-    id: string;
-    name: string;
+import { Selectable } from "./selectable";
+
+export interface FormType extends Selectable {
 }
 
 export const formTypes: FormType[] = [
     {
         id: 'malaria',
-        name: 'Malaria Symptoms'
+        name: 'Malaria Symptoms',
+        icon: '🦠'
     }
 ];

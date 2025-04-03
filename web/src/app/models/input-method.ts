@@ -1,7 +1,6 @@
-export interface InputMethod {
-  id: string;
-  name: string;
-  icon: string;
+import { Selectable } from "./selectable";
+
+export interface InputMethod extends Selectable {
   forInputType: string;
   description?: string;
 }
