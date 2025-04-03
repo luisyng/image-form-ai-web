@@ -5,6 +5,14 @@
   width: 100%;
   margin-bottom: 2rem;
   overflow: hidden;
+  
+  &.error .stage-content {
+    background-color: rgba(220, 53, 69, 0.1); // Light red background
+  }
+  
+  &.success .stage-content {
+    background-color: rgba(13, 110, 253, 0.1); // Light blue background
+  }
 }
 
 .stage-header {
@@ -20,7 +28,7 @@
 
 .stage-content {
   padding: 1.5rem;
-  background-color: colors.$neutral-gray;
+  background-color: colors.$neutral-light-gray;
   border-radius: 8px;
   margin: 0 0.5rem 0.5rem 0.5rem;
 } 

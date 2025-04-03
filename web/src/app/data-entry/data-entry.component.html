@@ -2,6 +2,7 @@
   <div class="stages-container">
     <app-data-entry-stage 
       title="Select Form"
+      [status]="c.selectedForm ? 'success' : 'normal'"
     >
       <div class="form-selection-stage">
         <app-selector 
@@ -14,6 +15,7 @@
     <app-data-entry-stage 
       title="Choose Input Type" 
       *ngIf="c.selectedForm !== null"
+      [status]="c.selectedInputType ? 'success' : 'normal'"
     >
       <div class="input-type-stage">
         <app-selector 
@@ -26,6 +28,7 @@
     <app-data-entry-stage 
       title="Choose Input Method" 
       *ngIf="c.selectedInputType !== null && !c.isManualEntry()"
+      [status]="c.selectedInputMethod ? 'success' : 'normal'"
     >
       <div class="input-method-stage">
         <app-selector 
@@ -38,6 +41,7 @@
     <app-data-entry-stage 
       [title]="c.selectedInputMethod.name || ''" 
       *ngIf="c.selectedInputMethod !== null"
+      [status]="p.photo ? 'success' : 'normal'"
     >
       <div class="data-entry-stage">
         <ng-container [ngSwitch]="c.selectedInputMethod.id">
@@ -75,6 +79,7 @@
     <app-data-entry-stage 
       title="Choose Processing Method" 
       *ngIf="c.isPhotoEntry() && p.hasImage()"
+      [status]="c.selectedProcessMethod ? 'success' : 'normal'"
     >
       <div class="process-method-stage">
         <p>Select how you want to process the image:</p>
@@ -85,6 +90,7 @@
     <app-data-entry-stage 
       title="AI Analysis" 
       *ngIf="c.selectedProcessMethod?.id === 'llm' && c.isPhotoEntry() && p.hasImage()"
+      [status]="p.formData !== null ? 'success' : 'normal'"
     >
       <div class="llm-processing-stage">
         <app-llm-processor 
@@ -97,6 +103,7 @@
     <app-data-entry-stage 
       title="Transform Image to Text" 
       *ngIf="c.selectedProcessMethod?.id === 'ocr' && c.isPhotoEntry() && p.hasImage()"
+      [status]="p.extractedText !== '' ? 'success' : 'normal'"
     >
       <div class="image-processing-stage">
         <app-ocr-image-processor 
@@ -110,6 +117,7 @@
     <app-data-entry-stage 
       title="Parse Malaria Data" 
       *ngIf="c.selectedProcessMethod?.id === 'ocr' && c.isPhotoEntry() && p.hasImage() && p.extractedText !== ''"
+      [status]="p.formData !== null ? 'success' : 'normal'"
     >
       <div class="malaria-parser-stage">
         <app-malaria-parser 
@@ -122,6 +130,7 @@
     <app-data-entry-stage 
       [title]="c.isManualEntry() ? 'Fill Form' : 'Review Data'"
       *ngIf="p.formData !== null"
+      [status]="'success'"
     >
       <div class="review-stage-content">
         <p *ngIf="c.isManualEntry()">Fill out the form with patient information.</p>
@@ -136,11 +145,14 @@
     <app-data-entry-stage 
       title="Submit Data" 
       *ngIf="p.formData !== null"
+      [status]="p.backendSubmitStatus"
     >
       <div class="submit-stage-content">
         <p>Review your data and submit to the backend system.</p>
         <app-backend-data-sender 
           [payload]="p.formData"
+          (sendSuccess)="p.handleBackendSubmitSuccess($event)"
+          (sendError)="p.handleBackendSubmitError($event)"
         ></app-backend-data-sender>
       </div>
     </app-data-entry-stage>

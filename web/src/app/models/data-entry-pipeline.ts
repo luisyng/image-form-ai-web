@@ -7,6 +7,7 @@ export class DataEntryPipeline {
   audio: File | null = null;
   extractedText: string = '';
   formData: MalariaData | null = null;
+  backendSubmitStatus: 'normal' | 'success' | 'error' = 'normal';
   
   handleInputTypeSelection(inputType: InputType): void {
     // Reset all input data
@@ -57,6 +58,14 @@ export class DataEntryPipeline {
   handleFormSubmission(data: any) {
     this.formData = data;
     console.log('Form submitted:', data);
+  }
+
+  handleBackendSubmitSuccess($event: any) {
+    this.backendSubmitStatus = 'success';
+  }
+  
+  handleBackendSubmitError($event: string) {
+    this.backendSubmitStatus = 'error';
   }
   
   hasImage(): boolean {

@@ -105,9 +105,7 @@
   border-radius: 8px;
   margin-top: 1rem;
   
-  &.success {
-    background-color: rgba(colors.$success, 0.1);
-    
+  &.success {    
     .success-icon {
       font-size: 2.5rem;
       color: colors.$success;
@@ -115,9 +113,7 @@
     }
   }
   
-  &.error {
-    background-color: rgba(colors.$danger, 0.1);
-    
+  &.error {    
     .error-icon {
       font-size: 2.5rem;
       color: colors.$danger;
