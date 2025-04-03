@@ -8,7 +8,7 @@ export class OcrService {
   
   constructor() { }
   
-  async analyzeImage(file: File): Promise<string> {
+  async transformImageToText(file: File): Promise<string> {
     try {
       const worker = await createWorker({
         logger: progress => {

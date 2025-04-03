@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { OcrService } from '../services/ocr.service';
+import { LlmService } from '../services/llm.service';
 import { debounceTime, Subject } from 'rxjs';
 
 @Component({
@@ -23,7 +24,7 @@ export class OcrImageProcessorComponent implements OnChanges {
   
   private textChanges = new Subject<string>();
 
-  constructor(private ocrService: OcrService) {
+  constructor(private ocrService: OcrService, private llmService: LlmService) {
     // Set up debounced text changes to avoid too many emissions
     this.textChanges.pipe(
       debounceTime(500) // Wait for 500ms of inactivity before emitting
@@ -70,7 +71,7 @@ export class OcrImageProcessorComponent implements OnChanges {
     try {
       if (!this.imageFile) return;
       
-      const text = await this.ocrService.analyzeImage(this.imageFile);
+      const text = await this.ocrService.transformImageToText(this.imageFile);
       this.extractedText = text;
       this.setProcessingComplete();
       // Emit the initial text
@@ -82,46 +83,24 @@ export class OcrImageProcessorComponent implements OnChanges {
     }
   }
   
-  private processWithLlm(): void {
-    // Simulate LLM processing with a timeout
+  private async processWithLlm(): Promise<void> {
+    // Process with LLM
     console.log('Processing with LLM...');
-    setTimeout(() => {
-      try {
-        this.extractedText = this.simulateLlmExtraction();
-        console.log('LLM extraction complete:', this.extractedText.substring(0, 50) + '...');
-        this.setProcessingComplete();
-        // Emit the initial text
-        this.textExtracted.emit(this.extractedText);
-      } catch (error) {
-        console.error('LLM processing error:', error);
-        this.processingError = 'An error occurred during LLM processing. Please try again.';
-        this.isProcessing = false;
-      }
-    }, 2000);
+    try {
+      if (!this.imageFile) return;
+      
+      this.extractedText = await this.llmService.transformImageToText(this.imageFile);
+      console.log('LLM extraction complete:', this.extractedText.substring(0, 50) + '...');
+      this.setProcessingComplete();
+      // Emit the initial text
+      this.textExtracted.emit(this.extractedText);
+    } catch (error) {
+      console.error('LLM processing error:', error);
+      this.processingError = 'An error occurred during LLM processing. Please try again.';
+      this.isProcessing = false;
+    }
   }
-  
-  private simulateLlmExtraction(): string {
-    return `Patient Information:
-- Name: John Smith
-- DOB: 15/05/1985
-- Gender: Male
 
-Clinical Assessment:
-- Temperature: 38.5°C
-- Symptoms: Fever, Headache, Chills, Joint pain
-- Duration of symptoms: 3 days
-
-Diagnostic Results:
-- Malaria Rapid Test: Positive (P. falciparum)
-- Parasite density: ++
-
-Treatment Plan:
-- Artemisinin-based combination therapy (ACT)
-- Dosage: 4 tablets daily for 3 days
-- Paracetamol for fever
-
-Follow-up: Patient to return for review in 3 days`;
-  }
   
   private setProcessingComplete(): void {
     console.log('Setting processing complete');
