@@ -1,14 +1,17 @@
-
 import { MalariaData } from '../malaria/malaria-data';
 import { FormType } from './form-type';
 import { InputType } from './input-type';
+import { InputMethod } from './input-method';
 import { ProcessMethod } from './process-method';
 
 export class DataEntryPipeline {
   selectedForm: FormType | null = null;
   selectedInputType: InputType | null = null;
+  selectedInputMethod: InputMethod | null = null;
   uploadedImage: File | null = null;
   capturedPhoto: File | null = null;
+  uploadedAudio: File | null = null;
+  recordedAudio: File | null = null;
   selectedProcessMethod: ProcessMethod | null = null;
   extractedText: string = '';
   formData: MalariaData | null = null;
@@ -20,22 +23,53 @@ export class DataEntryPipeline {
   
   handleInputTypeSelection(inputType: InputType): void {
     this.selectedInputType = inputType;
+    this.selectedInputMethod = null;
+    
+    // Reset all input data
+    this.uploadedImage = null;
+    this.capturedPhoto = null;
+    this.uploadedAudio = null;
+    this.recordedAudio = null;
+    this.selectedProcessMethod = null;
+    this.extractedText = '';
+    
+    // If manual input is selected, initialize an empty form
     if (inputType.id === 'manual') {
       this.formData = new MalariaData();
+    } else {
+      this.formData = null;
     }
+    
     console.log('Selected input type:', inputType);
+  }
+  
+  handleInputMethodSelection(method: InputMethod): void {
+    this.selectedInputMethod = method;
+    console.log('Selected input method:', method);
   }
   
   handleImageLoaded(file: File): void {
     this.uploadedImage = file;
-    this.capturedPhoto = null; // Clear any previously captured photo
+    this.capturedPhoto = null;
     console.log('Image loaded:', file);
   }
   
   handlePhotoTaken(file: File): void {
     this.capturedPhoto = file;
-    this.uploadedImage = null; // Clear any previously uploaded image
+    this.uploadedImage = null;
     console.log('Photo taken:', file);
+  }
+  
+  handleAudioLoaded(file: File): void {
+    this.uploadedAudio = file;
+    this.recordedAudio = null;
+    console.log('Audio loaded:', file);
+  }
+  
+  handleAudioRecorded(file: File): void {
+    this.recordedAudio = file;
+    this.uploadedAudio = null;
+    console.log('Audio recorded:', file);
   }
   
   handleProcessMethodSelected(method: ProcessMethod): void {
@@ -56,5 +90,50 @@ export class DataEntryPipeline {
   handleFormSubmission(data: any) {
     this.formData = data;
     console.log('Form submitted:', data);
+  }
+  
+  // Helper methods
+  getActiveImage(): File | null {
+    return this.uploadedImage || this.capturedPhoto;
+  }
+  
+  getActiveAudio(): File | null {
+    return this.uploadedAudio || this.recordedAudio;
+  }
+  
+  hasImage(): boolean {
+    return this.uploadedImage !== null || this.capturedPhoto !== null;
+  }
+  
+  hasAudio(): boolean {
+    return this.uploadedAudio !== null || this.recordedAudio !== null;
+  }
+  
+  isManualEntry(): boolean {
+    return this.selectedInputType?.id === 'manual';
+  }
+  
+  isPhotoEntry(): boolean {
+    return this.selectedInputType?.id === 'photo';
+  }
+  
+  isAudioEntry(): boolean {
+    return this.selectedInputType?.id === 'audio';
+  }
+  
+  isCameraMethod(): boolean {
+    return this.selectedInputMethod?.id === 'camera';
+  }
+  
+  isUploadPhotoMethod(): boolean {
+    return this.selectedInputMethod?.id === 'upload-photo';
+  }
+  
+  isMicrophoneMethod(): boolean {
+    return this.selectedInputMethod?.id === 'microphone';
+  }
+  
+  isUploadAudioMethod(): boolean {
+    return this.selectedInputMethod?.id === 'upload-audio';
   }
 } 

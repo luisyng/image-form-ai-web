@@ -8,21 +8,16 @@ export const inputTypes: InputType[] = [
     {
       id: 'manual',
       name: 'Manual Entry',
-      icon: '✏️'
+      icon: '✏️',
     },
     {
-      id: 'image',
-      name: 'Upload Photo',
-      icon: '🖼️',
-    },
-    {
-      id: 'camera',
-      name: 'Take Photo',
+      id: 'photo',
+      name: 'Photo',
       icon: '📷',
     },
     {
       id: 'audio',
-      name: 'Record Audio',
+      name: 'Audio',
       icon: '🎤',
     }
 ];

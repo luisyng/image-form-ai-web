@@ -4,6 +4,7 @@ import { MalariaFormComponent } from '../malaria/malaria-form/malaria-form.compo
 import { DataEntryStageComponent } from '../data-entry-stage/data-entry-stage.component';
 import { FormSelectorComponent } from '../form-selector/form-selector.component';
 import { InputTypeSelectorComponent } from '../input-type-selector/input-type-selector.component';
+import { InputMethodSelectorComponent } from '../input-method-selector/input-method-selector.component';
 import { ImageLoaderComponent } from '../image-loader/image-loader.component';
 import { CameraCaptureComponent } from '../camera-capture/camera-capture.component';
 import { ImageProcessMethodComponent } from '../image-process-method/image-process-method.component';
@@ -21,6 +22,7 @@ import { DataEntryPipeline } from '../models/data-entry-pipeline';
     DataEntryStageComponent, 
     FormSelectorComponent,
     InputTypeSelectorComponent,
+    InputMethodSelectorComponent,
     ImageLoaderComponent,
     CameraCaptureComponent,
     ImageProcessMethodComponent,
