@@ -16,14 +16,9 @@
   <!-- Results state -->
   <div *ngIf="extractedData" class="extraction-results">
     <div class="results-header">
-      <h3>AI Extracted Data</h3>
-      <p class="results-subheader">The AI has analyzed your image and extracted the following information:</p>
+      <p class="results-subheader">Returned data from the LLM:</p>
     </div>
     
     <app-malaria-summary [data]="extractedData"></app-malaria-summary>
-    
-    <div class="action-buttons">
-      <button class="edit-button">Edit Data</button>
-    </div>
   </div>
 </div> 
