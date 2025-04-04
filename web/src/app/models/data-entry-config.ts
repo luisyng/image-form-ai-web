@@ -10,6 +10,7 @@ export class DataEntryConfig {
   availableInputTypes: InputType[] = inputTypes;
   availableInputMethods!: InputMethod[];
   availableProcessMethods!: ProcessMethod[];
+  
   selectedForm: FormType | null = null;
   selectedInputType: InputType | null = null;
   selectedInputMethod: InputMethod | null = null;

@@ -10,14 +10,14 @@ export const processMethods: ProcessMethod[] = [
         name: 'Local image processing',
         description: 'Process the image locally on your device. Faster but may be less accurate for complex forms.',
         icon: '💻',
-        forInputType: 'image'
+        forInputType: 'photo'
     },
     {
         id: 'llm',
         name: 'Send to LLM',
         description: 'Send the image to a Large Language Model for processing. More accurate but requires internet connection and may take longer and cost money.',
         icon: '🤖',
-        forInputType: 'image'
+        forInputType: 'photo'
     },
     {
         id: 'llm',
