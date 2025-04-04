@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { MalariaData } from "../malaria/malaria-data";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { firstValueFrom } from "rxjs";
+import { LlmPromptService } from "./llm-prompt.service";
 
 @Injectable({
     providedIn: 'root'
@@ -11,7 +12,9 @@ export class LlmService {
   private readonly MODEL = 'gpt-4o-mini';
   private apiKey: string = '';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+    private llmPromptService: LlmPromptService
+  ) { }
   
   setApiKey(key: string): void {
     this.apiKey = key;
@@ -27,10 +30,11 @@ export class LlmService {
       const base64Image = await this.fileToBase64(imageFile);
       
       // Create the prompt for the OpenAI API
-      const prompt = this.createMalariaDataPrompt();
+      const prompt = this.llmPromptService.createMalariaDataPrompt('image');
       
       // Make the API call
-      const response = await this.callOpenAIAPI(base64Image, prompt);
+      const response = await this.callOpenAIAPIForImage(base64Image, prompt);
+      console.log(response);
       
       // Parse the response to extract the malaria data
       return this.parseMalariaDataResponse(response);
@@ -54,41 +58,15 @@ export class LlmService {
     });
   }
 
-  private createMalariaDataPrompt(): string {
-    return `
-You are an AI assistant specialized in analyzing medical images and extracting structured data about malaria cases.
-
-Please analyze the provided image and extract the following information in a structured JSON format:
-- Patient name
-- Patient age
-- Symptoms (fever, chills, sweating, headache, nausea, vomiting, muscle pain, fatigue, other symptoms)
-
-Return ONLY a valid JSON object with the following structure:
-{
-  "name": string,
-  "age": number,
-  "fever": boolean,
-  "chills": boolean,
-  "sweating": boolean,
-  "headache": boolean,
-  "nausea": boolean,
-  "vomiting": boolean,
-  "musclePain": boolean,
-  "fatigue": boolean,
-  "otherSymptoms": string
-}
-
-If any field is not available in the image, use null for strings, 0 for numbers, and false for booleans.
-`;
-  }
-
-  private async callOpenAIAPI(base64Image: string, prompt: string): Promise<any> {
-    const headers = new HttpHeaders({
+  private createHeaders(): HttpHeaders {
+    return new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.apiKey}`
-    });
+    })
+  }
 
-    const payload = {
+  private createPayloadForImage(base64Image: string, prompt: string): any {
+    return {
       model: this.MODEL,
       messages: [
         {
@@ -105,14 +83,41 @@ If any field is not available in the image, use null for strings, 0 for numbers,
         }
       ],
       max_tokens: 1000
-    };
+    }
+  }
 
-    return firstValueFrom(this.http.post(this.OPENAI_API_URL, payload, { headers }));
+  private createPayloadForText(text: string, prompt: string): any {
+    return {
+      model: this.MODEL,
+      messages: [
+        {
+          role: 'system',
+          content: prompt
+        },
+        {
+          role: 'user',
+          content: `Extract malaria test data from this transcription: ${text}`
+        }
+      ],
+      max_tokens: 1000
+    }
+  }
+
+  private async callOpenAIAPIForImage(base64Image: string, prompt: string): Promise<any> {
+    return firstValueFrom(this.http.post(this.OPENAI_API_URL, 
+      this.createPayloadForImage(base64Image, prompt), { headers: this.createHeaders() }));
+  }
+
+  private async callOpenAIAPIForText(text: string, prompt: string): Promise<any> {
+    return firstValueFrom(this.http.post(this.OPENAI_API_URL, 
+      this.createPayloadForText(text, prompt), { headers: this.createHeaders() }));
   }
 
   private parseMalariaDataResponse(response: any): MalariaData {
     try {
       // Extract the content from the OpenAI response
+      console.log(response.choices);
+      console.log(response.choices[0]);
       const content = response.choices[0].message.content;
       
       // Parse the JSON from the content
@@ -187,51 +192,8 @@ If any field is not available in the image, use null for strings, 0 for numbers,
   }
   
   private async extractMalariaDataFromText(text: string): Promise<MalariaData> {
-    try {
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.apiKey}`
-        },
-        body: JSON.stringify({
-          model: 'gpt-4o-mini',
-          messages: [
-            {
-              role: 'system',
-              content: `You are a medical data extraction assistant. Extract structured malaria test data from the provided text. Return ONLY a valid JSON object with the following structure:
-{
-  "name": string,
-  "age": number,
-  "fever": boolean,
-  "chills": boolean,
-  "sweating": boolean,
-  "headache": boolean,
-  "nausea": boolean,
-  "vomiting": boolean,
-  "musclePain": boolean,
-  "fatigue": boolean,
-  "otherSymptoms": string
-}`
-            },
-            {
-              role: 'user',
-              content: `Extract malaria test data from this transcription: ${text}`
-            }
-          ],
-          response_format: { type: 'json_object' }
-        })
-      });
-      
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(`Data extraction failed: ${errorData.error?.message || response.statusText}`);
-      }
-      
-      return this.parseMalariaDataResponse(response);
-    } catch (error) {
-      console.error('Error extracting malaria data from text:', error);
-      throw error;
-    }
+    const prompt = this.llmPromptService.createMalariaDataPrompt('text');
+    const response = await this.callOpenAIAPIForText(text, prompt);
+    return this.parseMalariaDataResponse(response);
   }
 }
