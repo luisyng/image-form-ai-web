@@ -3,7 +3,7 @@
   <div *ngIf="showApiInput && !isProcessing && !extractedData" class="api-token-container">
     <div class="api-info">
       <h3>OpenAI API Integration</h3>
-      <p>This feature uses OpenAI's GPT-4o mini model to analyze your image and extract malaria data.</p>
+      <p>This feature uses OpenAI's GPT-4o mini model to analyze your {{ imageFile ? 'image' : 'audio recording' }} and extract malaria data.</p>
       <p class="model-info">Model: <span class="model-name">GPT-4o mini</span></p>
       <div class="api-notice">
         <div class="notice-icon">ℹ️</div>
@@ -36,7 +36,7 @@
         [disabled]="!isValidApiKey()" 
         (click)="processWithToken()"
       >
-        Process Image
+        Process {{ imageFile ? 'Image' : 'Audio' }}
       </button>
     </div>
   </div>
@@ -44,7 +44,7 @@
   <!-- Processing state -->
   <div *ngIf="isProcessing" class="processing-indicator">
     <div class="spinner"></div>
-    <p>AI is analyzing your image with GPT-4o mini...</p>
+    <p>AI is analyzing your {{ imageFile ? 'image' : 'audio recording' }} with GPT-4o mini...</p>
     <p class="processing-note">This may take a moment as we extract and structure the data.</p>
   </div>
   

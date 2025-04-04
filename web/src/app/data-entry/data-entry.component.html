@@ -38,6 +38,7 @@
       <div class="llm-processing-stage">
         <app-llm-processor 
           [imageFile]="p.photo" 
+          [audioFile]="p.audio"
           (dataParsed)="p.handleParsedData($event)"
         ></app-llm-processor>
       </div>

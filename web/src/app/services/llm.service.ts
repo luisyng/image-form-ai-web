@@ -141,4 +141,97 @@ If any field is not available in the image, use null for strings, 0 for numbers,
       throw new Error('Failed to parse response from OpenAI');
     }
   }
+
+  async transformAudioToMalariaData(audioFile: File): Promise<MalariaData> {
+    if (!this.apiKey) {
+      throw new Error('API key not set');
+    }
+    
+    try {
+      // First, we need to transcribe the audio
+      const transcription = await this.transcribeAudio(audioFile);
+      
+      // Then, we extract the malaria data from the transcription
+      return this.extractMalariaDataFromText(transcription);
+    } catch (error) {
+      console.error('Error in transformAudioToMalariaData:', error);
+      throw error;
+    }
+  }
+  
+  private async transcribeAudio(audioFile: File): Promise<string> {
+    try {
+      const formData = new FormData();
+      formData.append('file', audioFile);
+      formData.append('model', 'whisper-1');
+      
+      const response = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${this.apiKey}`
+        },
+        body: formData
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Transcription failed: ${errorData.error?.message || response.statusText}`);
+      }
+      
+      const data = await response.json();
+      return data.text;
+    } catch (error) {
+      console.error('Error transcribing audio:', error);
+      throw error;
+    }
+  }
+  
+  private async extractMalariaDataFromText(text: string): Promise<MalariaData> {
+    try {
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.apiKey}`
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o-mini',
+          messages: [
+            {
+              role: 'system',
+              content: `You are a medical data extraction assistant. Extract structured malaria test data from the provided text. Return ONLY a valid JSON object with the following structure:
+{
+  "name": string,
+  "age": number,
+  "fever": boolean,
+  "chills": boolean,
+  "sweating": boolean,
+  "headache": boolean,
+  "nausea": boolean,
+  "vomiting": boolean,
+  "musclePain": boolean,
+  "fatigue": boolean,
+  "otherSymptoms": string
+}`
+            },
+            {
+              role: 'user',
+              content: `Extract malaria test data from this transcription: ${text}`
+            }
+          ],
+          response_format: { type: 'json_object' }
+        })
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Data extraction failed: ${errorData.error?.message || response.statusText}`);
+      }
+      
+      return this.parseMalariaDataResponse(response);
+    } catch (error) {
+      console.error('Error extracting malaria data from text:', error);
+      throw error;
+    }
+  }
 }

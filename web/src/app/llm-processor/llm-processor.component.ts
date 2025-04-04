@@ -14,25 +14,35 @@ import { MalariaSummaryComponent } from '../malaria/malaria-summary/malaria-summ
 })
 export class LlmProcessorComponent implements OnChanges {
   @Input() imageFile: File | null = null;
+  @Input() audioFile: File | null = null;
   @Output() dataParsed = new EventEmitter<MalariaData>();
   
   apiToken: string = '';
   showToken: boolean = false;
   isProcessing: boolean = false;
+  showApiInput: boolean = true;
   processingError: string | null = null;
   extractedData: MalariaData | null = null;
-  
-  // Add a new state variable to track the input stage
-  showApiInput: boolean = true;
   
   constructor(private llmService: LlmService) {}
   
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['imageFile'] && this.imageFile) {
+    if ((changes['imageFile'] && this.imageFile) || (changes['audioFile'] && this.audioFile)) {
       this.resetState();
       // We don't automatically process now - we wait for the token
       this.showApiInput = true;
     }
+  }
+  
+  resetState(): void {
+    this.processingError = null;
+    this.extractedData = null;
+    this.isProcessing = false;
+  }
+  
+  resetAndRetry(): void {
+    this.resetState();
+    this.showApiInput = true;
   }
   
   toggleTokenVisibility(): void {
@@ -49,14 +59,20 @@ export class LlmProcessorComponent implements OnChanges {
       return;
     }
     
-    if (!this.imageFile) {
-      this.processingError = 'No image file to process.';
+    if (!this.imageFile && !this.audioFile) {
+      this.processingError = 'No media file to process.';
       return;
     }
     
     // Hide the API input when processing starts
     this.showApiInput = false;
-    this.processImage();
+    
+    // Determine which type of file to process
+    if (this.imageFile) {
+      this.processImage();
+    } else if (this.audioFile) {
+      this.processAudio();
+    }
   }
   
   processImage(): void {
@@ -82,15 +98,27 @@ export class LlmProcessorComponent implements OnChanges {
       });
   }
   
-  resetAndRetry(): void {
-    this.resetState();
-    this.showApiInput = true;
-  }
-  
-  resetState(): void {
-    this.isProcessing = false;
+  processAudio(): void {
+    this.isProcessing = true;
     this.processingError = null;
-    this.extractedData = null;
-    // Don't reset the API token if the user has entered it
+    
+    this.llmService.setApiKey(this.apiToken.trim());
+    
+    // Call the service method to process audio
+    this.llmService.transformAudioToMalariaData(this.audioFile!)
+      .then(data => {
+        this.extractedData = data;
+        this.dataParsed.emit(data);
+        this.isProcessing = false;
+        // Clear the API token from memory after successful processing
+        this.apiToken = '';
+      })
+      .catch(error => {
+        console.error('Error processing audio with LLM:', error);
+        this.processingError = 'Failed to extract data from the audio. Please check your API key and try again.';
+        this.isProcessing = false;
+        // Show the API input again on error
+        this.showApiInput = true;
+      });
   }
 } 
