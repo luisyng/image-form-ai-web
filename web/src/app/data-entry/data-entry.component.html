@@ -2,7 +2,7 @@
   <div class="stages-container">
     <app-data-entry-stage 
       title="Select Form"
-      [status]="c.selectedForm ? 'success' : 'normal'"
+      [status]="successIfNotNull(c.selectedForm)"
     >
       <div class="form-selection-stage">
         <app-selector 
@@ -15,7 +15,7 @@
     <app-data-entry-stage 
       title="Choose Input Type" 
       *ngIf="c.selectedForm !== null"
-      [status]="c.selectedInputType ? 'success' : 'normal'"
+      [status]="successIfNotNull(c.selectedInputType)"
     >
       <div class="input-type-stage">
         <app-selector 
@@ -28,7 +28,7 @@
     <app-data-entry-stage 
       title="Choose Input Method" 
       *ngIf="c.selectedInputType !== null && !c.isManualEntry()"
-      [status]="c.selectedInputMethod ? 'success' : 'normal'"
+      [status]="successIfNotNull(c.selectedInputMethod)"
     >
       <div class="input-method-stage">
         <app-selector 
@@ -41,7 +41,7 @@
     <app-data-entry-stage 
       [title]="c.selectedInputMethod.name || ''" 
       *ngIf="c.selectedInputMethod !== null"
-      [status]="p.photo ? 'success' : 'normal'"
+      [status]="successIfNotNull(p.photo)"
     >
       <div class="data-entry-stage">
         <ng-container [ngSwitch]="c.selectedInputMethod.id">
@@ -79,7 +79,7 @@
     <app-data-entry-stage 
       title="Choose Processing Method" 
       *ngIf="c.isPhotoEntry() && p.hasImage()"
-      [status]="c.selectedProcessMethod ? 'success' : 'normal'"
+      [status]="successIfNotNull(c.selectedProcessMethod)"
     >
       <div class="process-method-stage">
         <p>Select how you want to process the image:</p>
@@ -90,7 +90,7 @@
     <app-data-entry-stage 
       title="AI Analysis" 
       *ngIf="c.selectedProcessMethod?.id === 'llm' && c.isPhotoEntry() && p.hasImage()"
-      [status]="p.formData !== null ? 'success' : 'normal'"
+      [status]="successIfNotNull(p.formData)"
     >
       <div class="llm-processing-stage">
         <app-llm-processor 
@@ -103,7 +103,7 @@
     <app-data-entry-stage 
       title="Transform Image to Text" 
       *ngIf="c.selectedProcessMethod?.id === 'ocr' && c.isPhotoEntry() && p.hasImage()"
-      [status]="p.extractedText !== '' ? 'success' : 'normal'"
+      [status]="successIfNotNull(p.extractedText)"
     >
       <div class="image-processing-stage">
         <app-ocr-image-processor 
@@ -117,7 +117,7 @@
     <app-data-entry-stage 
       title="Parse Malaria Data" 
       *ngIf="c.selectedProcessMethod?.id === 'ocr' && c.isPhotoEntry() && p.hasImage() && p.extractedText !== ''"
-      [status]="p.formData !== null ? 'success' : 'normal'"
+      [status]="successIfNotNull(p.formData)"
     >
       <div class="malaria-parser-stage">
         <app-malaria-parser 

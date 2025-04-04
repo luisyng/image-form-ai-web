@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MalariaFormComponent } from '../malaria/malaria-form/malaria-form.component';
-import { DataEntryStageComponent } from '../data-entry-stage/data-entry-stage.component';
+import { DataEntryStageComponent, StageStatus } from '../data-entry-stage/data-entry-stage.component';
 import { SelectorComponent } from '../selector/selector.component';
 import { ImageLoaderComponent } from '../image-loader/image-loader.component';
 import { CameraCaptureComponent } from '../camera-capture/camera-capture.component';
@@ -35,4 +35,8 @@ import { DataEntryConfig } from '../models/data-entry-config';
 export class DataEntryComponent {
   p = new DataEntryPipeline();
   c = new DataEntryConfig();
+
+  successIfNotNull(value: any): StageStatus {
+    return value !== null && value != '' ? 'success' : 'normal';
+  }
 } 
