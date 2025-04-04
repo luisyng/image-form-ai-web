@@ -23,9 +23,9 @@ export class AudioRecorderComponent implements OnInit, OnDestroy {
   };
   
   private subscription: Subscription = new Subscription();
+  private recordingService: AudioRecordingService = new AudioRecordingService();
   
   constructor(
-    private recordingService: AudioRecordingService,
     private cdr: ChangeDetectorRef
   ) {}
   
