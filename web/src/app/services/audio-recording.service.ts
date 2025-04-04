@@ -135,10 +135,15 @@ export class AudioRecordingService {
     console.log('State reset, audioUrl is now:', this.currentState.audioUrl);
   }
   
-  private processAudio(): File | null {
-    if (this.audioChunks.length === 0) return null;
+  private processAudio(): void {
+    if (this.audioChunks.length === 0) {
+      console.warn('No audio chunks to process');
+      return;
+    }
     
+    // Create blob from chunks
     this.audioBlob = new Blob(this.audioChunks, { type: 'audio/webm' });
+    console.log('Audio blob created:', this.audioBlob);
     
     // Revoke previous URL if it exists
     if (this.currentState.audioUrl) {
@@ -148,13 +153,9 @@ export class AudioRecordingService {
     // Create new URL
     const audioUrl = URL.createObjectURL(this.audioBlob);
     console.log('Audio URL created:', audioUrl);
+    
+    // Update state with new URL
     this.updateState({ audioUrl });
-    
-    // Convert Blob to File
-    const fileName = `recording_${new Date().getTime()}.webm`;
-    const audioFile = new File([this.audioBlob], fileName, { type: 'audio/webm' });
-    
-    return audioFile;
   }
   
   private startTimer(): void {
@@ -187,5 +188,9 @@ export class AudioRecordingService {
     if (this.currentState.audioUrl) {
       URL.revokeObjectURL(this.currentState.audioUrl);
     }
+  }
+  
+  getAudioBlob(): Blob | null {
+    return this.audioBlob;
   }
 } 

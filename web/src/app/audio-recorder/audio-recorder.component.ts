@@ -53,13 +53,20 @@ export class AudioRecorderComponent implements OnInit, OnDestroy {
   }
   
   stopRecording(): void {
+    console.log('Stopping recording');
     this.recordingService.stopRecording();
-    // The service will update the state, which will trigger the UI update
-    // We need to emit the audio file for the parent component
-    const audioFile = this.getAudioFileFromBlob();
-    if (audioFile) {
-      this.audioRecorded.emit(audioFile);
-    }
+    
+    // Wait a short time for the audio processing to complete
+    setTimeout(() => {
+      // Get the audio file and emit it
+      const audioFile = this.getAudioFileFromBlob();
+      if (audioFile) {
+        console.log('Emitting audio file:', audioFile);
+        this.audioRecorded.emit(audioFile);
+      } else {
+        console.error('Failed to create audio file');
+      }
+    }, 300); // Short delay to ensure audio processing is complete
   }
   
   retryRecording(): void {
@@ -73,11 +80,14 @@ export class AudioRecorderComponent implements OnInit, OnDestroy {
   private getAudioFileFromBlob(): File | null {
     if (!this.state.audioUrl) return null;
     
-    // This is a simplified version - in a real implementation,
-    // you might want to store the blob in the service and provide a method to get the file
-    const blob = this.fetchBlobFromUrl(this.state.audioUrl);
-    if (!blob) return null;
+    // Get the blob from the recording service
+    const blob = this.recordingService.getAudioBlob();
+    if (!blob) {
+      console.error('No audio blob available');
+      return null;
+    }
     
+    // Create a File object from the blob
     const fileName = `recording_${new Date().getTime()}.webm`;
     return new File([blob], fileName, { type: 'audio/webm' });
   }
