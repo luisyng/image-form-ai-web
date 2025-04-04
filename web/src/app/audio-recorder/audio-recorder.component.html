@@ -1,10 +1,10 @@
 <div class="audio-recorder-container">
-  <div class="audio-status" *ngIf="!isAudioSupported">
+  <div class="audio-status" *ngIf="!state.isAudioSupported">
     <div class="error-icon">❌</div>
-    <p class="error-message">{{ errorMessage }}</p>
+    <p class="error-message">{{ state.errorMessage }}</p>
   </div>
   
-  <div class="recorder-controls" *ngIf="isAudioSupported && !isRecording && !audioUrl">
+  <div class="recorder-controls" *ngIf="state.isAudioSupported && !state.isRecording && !state.audioUrl">
     <button class="start-recording-button" (click)="startRecording()">
       <span class="mic-icon">🎙️</span>
       <span>Start Recording</span>
@@ -12,11 +12,11 @@
     <p class="recording-instructions">Click the button above to start recording your voice.</p>
   </div>
   
-  <div class="recording-view" *ngIf="isRecording">
+  <div class="recording-view" *ngIf="state.isRecording">
     <div class="recording-indicator">
       <div class="recording-pulse"></div>
       <span class="recording-label">Recording</span>
-      <span class="recording-timer">{{ formatTime(recordingTime) }}</span>
+      <span class="recording-timer">{{ formatTime(state.recordingTime) }}</span>
     </div>
     <button class="stop-recording-button" (click)="stopRecording()">
       <span class="stop-icon">⏹️</span>
@@ -24,12 +24,12 @@
     </button>
   </div>
   
-  <div class="recorded-audio-container" *ngIf="audioUrl">
+  <div class="recorded-audio-container" *ngIf="state.audioUrl">
     <h3 class="recording-complete-title">Recording Complete</h3>
     
-    <div class="audio-player-wrapper">
+    <div class="audio-player-wrapper" *ngIf="state.audioUrl">
       <app-audio-player 
-        [audioUrl]="audioUrl"
+        [audioUrl]="state.audioUrl"
         [showFileName]="true"
         [fileName]="'Voice Recording'"
       ></app-audio-player>
@@ -40,8 +40,8 @@
     </div>
   </div>
   
-  <div class="audio-error" *ngIf="errorMessage && isAudioSupported">
-    <p class="error-message">{{ errorMessage }}</p>
+  <div class="audio-error" *ngIf="state.errorMessage && state.isAudioSupported">
+    <p class="error-message">{{ state.errorMessage }}</p>
     <button class="retry-button" (click)="startRecording()">Try Again</button>
   </div>
 </div> 

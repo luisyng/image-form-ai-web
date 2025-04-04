@@ -23,74 +23,109 @@ export class AudioPlayerComponent implements OnChanges, OnDestroy {
   constructor(private cdr: ChangeDetectorRef) {}
   
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['audioUrl'] && this.audioUrl) {
-      this.setupAudio();
+    if (changes['audioUrl']) {
+      // Handle both setting and clearing the audio URL
+      if (this.audioUrl) {
+        this.setupAudio();
+      } else {
+        this.cleanupAudio();
+      }
     }
   }
   
   ngOnDestroy(): void {
-    this.clearProgressInterval();
-    if (this.audioElement) {
-      this.audioElement.pause();
-      this.audioElement.src = '';
-      this.audioElement = null;
-    }
+    this.cleanupAudio();
   }
   
-  private setupAudio(): void {
+  private cleanupAudio(): void {
+    this.clearProgressInterval();
+    
     if (this.audioElement) {
-      this.audioElement.pause();
-      this.clearProgressInterval();
+      // Stop any ongoing playback
+      try {
+        this.audioElement.pause();
+      } catch (e) {
+        console.warn('Error pausing audio element:', e);
+      }
+      
+      // Clear the source
+      this.audioElement.src = '';
+      this.audioElement.load();
+      this.audioElement = null;
     }
     
-    this.audioElement = new Audio(this.audioUrl || '');
+    // Reset state
     this.isPlaying = false;
     this.currentTime = 0;
     this.duration = 0;
     this.isValidDuration = false;
     
-    this.audioElement.addEventListener('loadedmetadata', () => {
-      if (this.audioElement) {
-        this.duration = this.audioElement.duration;
-        this.isValidDuration = !isNaN(this.duration) && isFinite(this.duration) && this.duration > 0;
-        console.log('Audio metadata loaded, duration:', this.duration, 'isValid:', this.isValidDuration);
-        this.cdr.detectChanges();
-      }
-    });
+    // Update UI
+    this.cdr.detectChanges();
+  }
+  
+  private setupAudio(): void {
+    // Clean up any existing audio element first
+    this.cleanupAudio();
     
-    this.audioElement.addEventListener('durationchange', () => {
-      if (this.audioElement) {
-        this.duration = this.audioElement.duration;
-        this.isValidDuration = !isNaN(this.duration) && isFinite(this.duration) && this.duration > 0;
-        console.log('Duration changed:', this.duration, 'isValid:', this.isValidDuration);
-        this.cdr.detectChanges();
-      }
-    });
+    if (!this.audioUrl) return;
     
-    this.audioElement.addEventListener('ended', () => {
+    try {
+      this.audioElement = new Audio(this.audioUrl);
       this.isPlaying = false;
-      this.clearProgressInterval();
-      if (this.audioElement) {
-        this.currentTime = 0;
-        this.audioElement.currentTime = 0;
-      }
-      this.cdr.detectChanges();
-    });
-    
-    this.audioElement.addEventListener('error', (e) => {
-      console.error('Audio element error:', e);
-    });
-    
-    // Add timeupdate event listener
-    this.audioElement.addEventListener('timeupdate', () => {
-      if (this.audioElement) {
-        this.currentTime = this.audioElement.currentTime;
+      this.currentTime = 0;
+      this.duration = 0;
+      this.isValidDuration = false;
+      
+      this.audioElement.addEventListener('loadedmetadata', () => {
+        if (this.audioElement) {
+          this.duration = this.audioElement.duration;
+          this.isValidDuration = !isNaN(this.duration) && isFinite(this.duration) && this.duration > 0;
+          console.log('Audio metadata loaded, duration:', this.duration, 'isValid:', this.isValidDuration);
+          this.cdr.detectChanges();
+        }
+      });
+      
+      this.audioElement.addEventListener('durationchange', () => {
+        if (this.audioElement) {
+          this.duration = this.audioElement.duration;
+          this.isValidDuration = !isNaN(this.duration) && isFinite(this.duration) && this.duration > 0;
+          console.log('Duration changed:', this.duration, 'isValid:', this.isValidDuration);
+          this.cdr.detectChanges();
+        }
+      });
+      
+      this.audioElement.addEventListener('ended', () => {
+        this.isPlaying = false;
+        this.clearProgressInterval();
+        if (this.audioElement) {
+          this.currentTime = 0;
+          this.audioElement.currentTime = 0;
+        }
         this.cdr.detectChanges();
-      }
-    });
-    
-    // Force the audio element to load
-    this.audioElement.load();
+      });
+      
+      this.audioElement.addEventListener('error', (e) => {
+        console.error('Audio element error:', e);
+        // Handle the error gracefully
+        this.isPlaying = false;
+        this.isValidDuration = false;
+        this.cdr.detectChanges();
+      });
+      
+      this.audioElement.addEventListener('timeupdate', () => {
+        if (this.audioElement) {
+          this.currentTime = this.audioElement.currentTime;
+          this.cdr.detectChanges();
+        }
+      });
+      
+      // Force the audio element to load
+      this.audioElement.load();
+    } catch (error) {
+      console.error('Error setting up audio:', error);
+      this.cleanupAudio();
+    }
   }
   
   togglePlayPause(): void {
