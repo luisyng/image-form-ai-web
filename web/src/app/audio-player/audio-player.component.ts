@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -18,6 +18,8 @@ export class AudioPlayerComponent implements OnChanges, OnDestroy {
   duration: number = 0;
   audioElement: HTMLAudioElement | null = null;
   progressInterval: any = null;
+  
+  constructor(private cdr: ChangeDetectorRef) {}
   
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['audioUrl'] && this.audioUrl) {
@@ -46,18 +48,18 @@ export class AudioPlayerComponent implements OnChanges, OnDestroy {
     
     this.audioElement.addEventListener('loadedmetadata', () => {
       if (this.audioElement) {
+        console.log('Audio metadata loaded, duration:', this.audioElement.duration);
         this.duration = this.audioElement.duration;
+        this.cdr.detectChanges();
       }
     });
     
-    this.audioElement.addEventListener('ended', () => {
-      this.isPlaying = false;
-      this.clearProgressInterval();
-      if (this.audioElement) {
-        this.currentTime = 0;
-        this.audioElement.currentTime = 0;
-      }
+    this.audioElement.addEventListener('error', (e) => {
+      console.error('Audio element error:', e);
     });
+    
+    // Force the audio element to load
+    this.audioElement.load();
   }
   
   togglePlayPause(): void {

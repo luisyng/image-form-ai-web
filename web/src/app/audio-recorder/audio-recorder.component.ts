@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, Output, EventEmitter, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AudioPlayerComponent } from '../audio-player/audio-player.component';
 
@@ -21,6 +21,8 @@ export class AudioRecorderComponent implements OnDestroy {
   audioUrl: string | null = null;
   isAudioSupported = true;
   errorMessage = '';
+  
+  constructor(private cdr: ChangeDetectorRef) {}
   
   ngOnInit() {
     // Check if audio recording is supported
@@ -84,7 +86,15 @@ export class AudioRecorderComponent implements OnDestroy {
     if (this.audioChunks.length === 0) return;
     
     this.audioBlob = new Blob(this.audioChunks, { type: 'audio/webm' });
+    
+    // Revoke previous URL if it exists
+    if (this.audioUrl) {
+      URL.revokeObjectURL(this.audioUrl);
+    }
+    
+    // Create new URL
     this.audioUrl = URL.createObjectURL(this.audioBlob);
+    console.log('Audio URL created:', this.audioUrl);
     
     // Convert Blob to File
     const fileName = `recording_${new Date().getTime()}.webm`;
@@ -92,6 +102,15 @@ export class AudioRecorderComponent implements OnDestroy {
     
     // Emit the audio file
     this.audioRecorded.emit(audioFile);
+    
+    // Explicitly trigger change detection
+    this.cdr.detectChanges();
+    
+    // Double-check with a timeout
+    setTimeout(() => {
+      console.log('Audio URL after timeout:', this.audioUrl);
+      this.cdr.detectChanges();
+    }, 100);
   }
   
   private startTimer() {

@@ -19,4 +19,12 @@
       <div class="time-display duration">{{ formatTime(duration) }}</div>
     </div>
   </div>
+  
+  <!-- Debug info (hidden in production) -->
+  <div class="debug-info" *ngIf="false">
+    <p>Audio URL: {{ audioUrl || 'none' }}</p>
+    <p>Duration: {{ duration }}</p>
+    <p>Current Time: {{ currentTime }}</p>
+    <p>Is Playing: {{ isPlaying }}</p>
+  </div>
 </div> 
