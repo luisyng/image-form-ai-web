@@ -1,0 +1,30 @@
+@use '../styles/color-palette.scss' as colors;
+
+.data-entry-container {
+  width: 100%;
+}
+
+.stages-container {
+  width: 100%;
+}
+
+.form-selection-stage {
+  p {
+    margin-bottom: 1.5rem;
+    color: colors.$text-muted;
+  }
+}
+
+.input-method-stage {
+  p {
+    margin-bottom: 1.5rem;
+    color: colors.$text-muted;
+  }
+}
+
+.process-method-stage {
+  p {
+    margin-bottom: 1.5rem;
+    color: colors.$text-muted;
+  }
+}
