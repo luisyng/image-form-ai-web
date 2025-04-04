@@ -16,7 +16,7 @@
         <div class="progress-fill" [style.width.%]="getProgressPercentage()"></div>
       </div>
       
-      <div class="time-display duration">{{ formatTime(duration) }}</div>
+      <div class="time-display duration">{{ isValidDuration ? formatTime(duration) : '00:00' }}</div>
     </div>
   </div>
   
@@ -26,5 +26,6 @@
     <p>Duration: {{ duration }}</p>
     <p>Current Time: {{ currentTime }}</p>
     <p>Is Playing: {{ isPlaying }}</p>
+    <p>Is Valid Duration: {{ isValidDuration }}</p>
   </div>
 </div> 

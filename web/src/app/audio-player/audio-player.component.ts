@@ -16,6 +16,7 @@ export class AudioPlayerComponent implements OnChanges, OnDestroy {
   isPlaying: boolean = false;
   currentTime: number = 0;
   duration: number = 0;
+  isValidDuration: boolean = false;
   audioElement: HTMLAudioElement | null = null;
   progressInterval: any = null;
   
@@ -45,17 +46,47 @@ export class AudioPlayerComponent implements OnChanges, OnDestroy {
     this.audioElement = new Audio(this.audioUrl || '');
     this.isPlaying = false;
     this.currentTime = 0;
+    this.duration = 0;
+    this.isValidDuration = false;
     
     this.audioElement.addEventListener('loadedmetadata', () => {
       if (this.audioElement) {
-        console.log('Audio metadata loaded, duration:', this.audioElement.duration);
         this.duration = this.audioElement.duration;
+        this.isValidDuration = !isNaN(this.duration) && isFinite(this.duration) && this.duration > 0;
+        console.log('Audio metadata loaded, duration:', this.duration, 'isValid:', this.isValidDuration);
         this.cdr.detectChanges();
       }
     });
     
+    this.audioElement.addEventListener('durationchange', () => {
+      if (this.audioElement) {
+        this.duration = this.audioElement.duration;
+        this.isValidDuration = !isNaN(this.duration) && isFinite(this.duration) && this.duration > 0;
+        console.log('Duration changed:', this.duration, 'isValid:', this.isValidDuration);
+        this.cdr.detectChanges();
+      }
+    });
+    
+    this.audioElement.addEventListener('ended', () => {
+      this.isPlaying = false;
+      this.clearProgressInterval();
+      if (this.audioElement) {
+        this.currentTime = 0;
+        this.audioElement.currentTime = 0;
+      }
+      this.cdr.detectChanges();
+    });
+    
     this.audioElement.addEventListener('error', (e) => {
       console.error('Audio element error:', e);
+    });
+    
+    // Add timeupdate event listener
+    this.audioElement.addEventListener('timeupdate', () => {
+      if (this.audioElement) {
+        this.currentTime = this.audioElement.currentTime;
+        this.cdr.detectChanges();
+      }
     });
     
     // Force the audio element to load
@@ -65,24 +96,55 @@ export class AudioPlayerComponent implements OnChanges, OnDestroy {
   togglePlayPause(): void {
     if (!this.audioElement) return;
     
-    if (this.isPlaying) {
-      this.audioElement.pause();
-      this.clearProgressInterval();
-    } else {
-      this.audioElement.play();
-      this.startProgressTracking();
+    try {
+      if (this.isPlaying) {
+        console.log('Pausing audio');
+        this.audioElement.pause();
+        this.clearProgressInterval();
+      } else {
+        console.log('Playing audio');
+        const playPromise = this.audioElement.play();
+        
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              console.log('Audio playback started successfully');
+              this.startProgressTracking();
+            })
+            .catch(error => {
+              console.error('Error playing audio:', error);
+              // Handle play error (e.g., autoplay policy)
+              this.isPlaying = false;
+            });
+        } else {
+          this.startProgressTracking();
+        }
+      }
+      
+      this.isPlaying = !this.isPlaying;
+      this.cdr.detectChanges();
+    } catch (error) {
+      console.error('Error in togglePlayPause:', error);
+      this.isPlaying = false;
+      this.cdr.detectChanges();
     }
-    
-    this.isPlaying = !this.isPlaying;
   }
   
   private startProgressTracking(): void {
     this.clearProgressInterval();
+    
+    // Update immediately before starting the interval
+    if (this.audioElement) {
+      this.currentTime = this.audioElement.currentTime;
+      this.cdr.detectChanges();
+    }
+    
     this.progressInterval = setInterval(() => {
       if (this.audioElement) {
         this.currentTime = this.audioElement.currentTime;
+        this.cdr.detectChanges(); // Ensure UI updates
       }
-    }, 100);
+    }, 100); // Update more frequently for smoother progress
   }
   
   private clearProgressInterval(): void {
@@ -105,13 +167,18 @@ export class AudioPlayerComponent implements OnChanges, OnDestroy {
   }
   
   formatTime(seconds: number): string {
+    // Handle invalid values
+    if (isNaN(seconds) || !isFinite(seconds) || seconds < 0) {
+      return '00:00';
+    }
+    
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = Math.floor(seconds % 60);
     return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
   }
   
   getProgressPercentage(): number {
-    if (this.duration === 0) return 0;
+    if (!this.isValidDuration || this.duration <= 0) return 0;
     return (this.currentTime / this.duration) * 100;
   }
 } 
