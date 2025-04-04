@@ -40,12 +40,15 @@
     
     <app-data-entry-stage 
       title="Choose Processing Method" 
-      *ngIf="c.selectedInputMethod !== null && c.isPhotoEntry()"
+      *ngIf="c.selectedInputMethod !== null && (c.isPhotoEntry() || c.isAudioEntry())"
       [status]="successIfNotNull(c.selectedProcessMethod)"
     >
       <div class="process-method-stage">
         <p>Select how you want to process the image:</p>
-        <app-image-process-method (methodSelected)="c.handleProcessMethodSelected($event)"></app-image-process-method>
+        <app-selector 
+        [options]="c.availableProcessMethods"
+        [selectedOption]="c.selectedProcessMethod"
+        (optionSelected)="c.handleProcessMethodSelection($event)"></app-selector>
       </div>
     </app-data-entry-stage>
   </div>

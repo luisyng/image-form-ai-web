@@ -43,6 +43,6 @@ export const inputMethods: InputMethod[] = [
   }
 ];
 
-export function getMethodsForInputType(inputTypeId: string): InputMethod[] {
+export function getInputMethodsForType(inputTypeId: string): InputMethod[] {
   return inputMethods.filter(method => method.forInputType === inputTypeId);
 } 

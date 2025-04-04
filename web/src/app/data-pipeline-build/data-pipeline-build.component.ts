@@ -2,7 +2,6 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DataEntryStageComponent, StageStatus } from '../data-entry-stage/data-entry-stage.component';
 import { SelectorComponent } from '../selector/selector.component';
-import { ImageProcessMethodComponent } from '../image-process-method/image-process-method.component';
 import { DataEntryConfig } from '../models/data-entry-config';
 
 @Component({
@@ -11,8 +10,7 @@ import { DataEntryConfig } from '../models/data-entry-config';
   imports: [
     CommonModule, 
     DataEntryStageComponent, 
-    SelectorComponent,
-    ImageProcessMethodComponent,
+    SelectorComponent
   ],
   templateUrl: './data-pipeline-build.component.html',
   styleUrls: ['./data-pipeline-build.component.scss']
