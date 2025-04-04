@@ -108,4 +108,16 @@
       </div>
     </app-data-entry-stage>
   </div>
+  
+  <!-- Add action buttons at the end -->
+  <div class="entry-actions" *ngIf="p.backendSubmitStatus === 'success'">
+    <button class="action-button new-entry" (click)="startNewEntry()">
+      <span class="button-icon">📝</span>
+      New Entry
+    </button>
+    <button class="action-button new-pipeline" (click)="createNewPipeline()">
+      <span class="button-icon">🔄</span>
+      New Pipeline
+    </button>
+  </div>
 </div>

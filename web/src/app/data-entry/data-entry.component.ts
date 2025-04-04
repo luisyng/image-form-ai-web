@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MalariaFormComponent } from '../malaria/malaria-form/malaria-form.component';
 import { DataEntryStageComponent, StageStatus } from '../data-entry-stage/data-entry-stage.component';
@@ -28,16 +28,21 @@ import { DataEntryConfig } from '../models/data-entry-config';
   templateUrl: './data-entry.component.html',
   styleUrls: ['./data-entry.component.scss']
 })
-export class DataEntryComponent implements OnInit {
+export class DataEntryComponent {
   @Input() c: DataEntryConfig = new DataEntryConfig();
-  p!: DataEntryPipeline;
-
-  ngOnInit(): void {
-    this.p = new DataEntryPipeline(this.c);
-    console.log(this.p);
-  }
+  @Input() p!: DataEntryPipeline;
+  @Output() newPipelineRequested = new EventEmitter<void>();
+  @Output() newEntryRequested = new EventEmitter<void>();
 
   successIfNotNull(value: any): StageStatus {
     return value !== null && value != '' ? 'success' : 'normal';
+  }
+  
+  startNewEntry(): void {
+    this.newEntryRequested.emit();
+  }
+  
+  createNewPipeline(): void {
+    this.newPipelineRequested.emit();
   }
 } 
