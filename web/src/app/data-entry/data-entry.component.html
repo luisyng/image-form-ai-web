@@ -14,21 +14,13 @@
           <div *ngSwitchCase="'camera'" class="camera-input-stage">
             <app-camera-capture (photoTaken)="p.handlePhotoTaken($event)"></app-camera-capture>
           </div>
-          
-          <div *ngSwitchCase="'microphone'" class="audio-stage-content">
-            <p>Record audio to extract information automatically.</p>
-            <div class="audio-placeholder">
-              <span class="audio-icon">🎤</span>
-              <span class="audio-text">Click to start recording</span>
-            </div>
+
+          <div *ngSwitchCase="'upload-audio'" class="audio-stage-content">
+            <!-- <app-audio-uploader (audioUploaded)="p.handleAudioLoaded($event)"></app-audio-uploader> -->
           </div>
           
-          <div *ngSwitchCase="'upload-audio'" class="audio-stage-content">
-            <p>Upload an audio file to extract information automatically.</p>
-            <div class="audio-placeholder">
-              <span class="audio-icon">🔊</span>
-              <span class="audio-text">Click to upload audio</span>
-            </div>
+          <div *ngSwitchCase="'microphone'" class="audio-stage-content">
+            <app-audio-recorder (audioRecorded)="p.handleAudioRecorded($event)"></app-audio-recorder>
           </div>
           
           <div *ngSwitchDefault class="placeholder-content">

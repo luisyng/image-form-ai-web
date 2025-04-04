@@ -8,6 +8,7 @@ import { ImageToTextComponent } from '../image-to-text-processor/image-to-text-p
 import { LlmProcessorComponent } from '../llm-processor/llm-processor.component';
 import { MalariaParserComponent } from '../malaria/malaria-parser/malaria-parser.component';
 import { BackendDataSenderComponent } from '../backend-data-sender/backend-data-sender.component';
+import { AudioRecorderComponent } from '../audio-recorder/audio-recorder.component';
 import { DataEntryPipeline } from '../models/data-entry-pipeline';
 import { DataEntryConfig } from '../models/data-entry-config';
 
@@ -23,7 +24,8 @@ import { DataEntryConfig } from '../models/data-entry-config';
     ImageToTextComponent,
     LlmProcessorComponent,
     MalariaParserComponent,
-    BackendDataSenderComponent
+    BackendDataSenderComponent,
+    AudioRecorderComponent
   ],
   templateUrl: './data-entry.component.html',
   styleUrls: ['./data-entry.component.scss']

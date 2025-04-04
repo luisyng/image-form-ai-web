@@ -27,34 +27,6 @@
   }
 }
 
-.audio-placeholder {
-  border: 2px dashed colors.$neutral-medium-gray;
-  border-radius: 8px;
-  padding: 3rem 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  
-  &:hover {
-    border-color: colors.$neutral-dark-gray;
-    background-color: colors.$neutral-light-gray;
-  }
-}
-
-.audio-icon {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  color: colors.$text-muted;
-}
-
-.audio-text {
-  color: colors.$text-muted;
-  font-size: typography.$font-size-md;
-}
-
 .placeholder-content {
   text-align: center;
   padding: 3rem 2rem;

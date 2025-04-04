@@ -1,0 +1,189 @@
+@use '../styles/color-palette.scss' as colors;
+@use '../styles/typography.scss' as typography;
+@use "sass:color";
+
+.audio-recorder-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+}
+
+.recorder-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+}
+
+.start-recording-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+  background-color: colors.$primary-blue;
+  color: colors.$neutral-white;
+  border: none;
+  border-radius: 8px;
+  font-size: typography.$font-size-md;
+  font-weight: typography.$font-weight-medium;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  
+  &:hover {
+    background-color: color.adjust(colors.$primary-blue, $lightness: -10%);
+  }
+  
+  .mic-icon {
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+  }
+}
+
+.recording-instructions {
+  margin-top: 1rem;
+  color: colors.$text-secondary;
+  text-align: center;
+  max-width: 400px;
+}
+
+.recording-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+}
+
+.recording-indicator {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+  
+  .recording-pulse {
+    width: 16px;
+    height: 16px;
+    background-color: colors.$danger;
+    border-radius: 50%;
+    margin-right: 0.75rem;
+    animation: pulse 1.5s infinite;
+  }
+  
+  .recording-label {
+    color: colors.$danger;
+    font-weight: typography.$font-weight-medium;
+    margin-right: 1rem;
+  }
+  
+  .recording-timer {
+    font-family: monospace;
+    font-size: typography.$font-size-lg;
+    color: colors.$text-primary;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(colors.$danger, 0.7);
+  }
+  
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(colors.$danger, 0);
+  }
+  
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(colors.$danger, 0);
+  }
+}
+
+.stop-recording-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  background-color: colors.$danger;
+  color: colors.$neutral-white;
+  border: none;
+  border-radius: 8px;
+  font-size: typography.$font-size-md;
+  font-weight: typography.$font-weight-medium;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  
+  &:hover {
+    background-color: color.adjust(colors.$danger, $lightness: -10%);
+  }
+  
+  .stop-icon {
+    font-size: 1.25rem;
+    margin-right: 0.5rem;
+  }
+}
+
+.recorded-audio-container {
+  width: 100%;
+  max-width: 500px;
+  
+  .audio-player {
+    width: 100%;
+    margin-bottom: 1rem;
+    
+    audio {
+      width: 100%;
+    }
+  }
+  
+  .audio-controls {
+    display: flex;
+    justify-content: center;
+    
+    .retry-button {
+      padding: 0.75rem 1.5rem;
+      background-color: colors.$neutral-medium-gray;
+      color: colors.$text-primary;
+      border: none;
+      border-radius: 4px;
+      font-weight: typography.$font-weight-medium;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      
+      &:hover {
+        background-color: color.adjust(colors.$neutral-medium-gray, $lightness: -10%);
+      }
+    }
+  }
+}
+
+.audio-error, .audio-status {
+  padding: 1.5rem;
+  text-align: center;
+  
+  .error-icon {
+    font-size: 2rem;
+    color: colors.$danger;
+    margin-bottom: 1rem;
+  }
+  
+  .error-message {
+    color: colors.$text-primary;
+    margin-bottom: 1rem;
+  }
+  
+  .retry-button {
+    padding: 0.75rem 1.5rem;
+    background-color: colors.$primary-blue;
+    color: colors.$neutral-white;
+    border: none;
+    border-radius: 4px;
+    font-weight: typography.$font-weight-medium;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    
+    &:hover {
+      background-color: color.adjust(colors.$primary-blue, $lightness: -10%);
+    }
+  }
+} 
