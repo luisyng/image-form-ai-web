@@ -32,7 +32,7 @@
     
     <app-data-entry-stage 
       title="AI Analysis" 
-      *ngIf="c.selectedProcessMethod?.id === 'llm' && c.isPhotoEntry() && p.hasImage()"
+      *ngIf="c.selectedProcessMethod?.id === 'llm' && (p.hasImage() || p.hasAudio())"
       [status]="successIfNotNull(p.formData)"
     >
       <div class="llm-processing-stage">
