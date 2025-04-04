@@ -37,12 +37,18 @@ export class DataEntryComponent {
   successIfNotNull(value: any): StageStatus {
     return value !== null && value != '' ? 'success' : 'normal';
   }
+
+  private scrollToTop(): void {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
   
   startNewEntry(): void {
+    this.scrollToTop();
     this.newEntryRequested.emit();
   }
   
   createNewPipeline(): void {
+    this.scrollToTop();
     this.newPipelineRequested.emit();
   }
 } 
