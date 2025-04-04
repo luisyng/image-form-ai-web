@@ -26,7 +26,11 @@
   
   <div class="recorded-audio-container" *ngIf="audioUrl">
     <div class="audio-player">
-      <audio controls [src]="audioUrl"></audio>
+      <app-audio-player 
+        [audioUrl]="audioUrl"
+        [showFileName]="true"
+        [fileName]="'Voice Recording'"
+      ></app-audio-player>
     </div>
     <div class="audio-controls">
       <button class="retry-button" (click)="retryRecording()">Record Again</button>

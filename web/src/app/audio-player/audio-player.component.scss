@@ -1,0 +1,88 @@
+@use '../styles/color-palette.scss' as colors;
+@use '../styles/typography.scss' as typography;
+@use "sass:color";
+
+.audio-player-container {
+  width: 100%;
+  padding: 1rem;
+  background-color: colors.$neutral-white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.file-info {
+  margin-bottom: 0.75rem;
+  
+  .file-name {
+    font-size: typography.$font-size-sm;
+    color: colors.$text-secondary;
+    font-weight: typography.$font-weight-medium;
+  }
+}
+
+.player-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.play-pause-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  .button-icon {
+    font-size: 1.5rem;
+  }
+}
+
+.progress-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.time-display {
+  font-family: monospace;
+  font-size: typography.$font-size-sm;
+  color: colors.$text-secondary;
+  min-width: 40px;
+  
+  &.current-time {
+    text-align: right;
+  }
+  
+  &.duration {
+    text-align: left;
+  }
+}
+
+.progress-bar {
+  flex: 1;
+  height: 6px;
+  background-color: colors.$neutral-light-gray;
+  border-radius: 3px;
+  position: relative;
+  cursor: pointer;
+  
+  &:hover {
+    .progress-fill {
+      background-color: color.adjust(colors.$primary-blue, $lightness: -10%);
+    }
+  }
+}
+
+.progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: colors.$primary-blue;
+  border-radius: 3px;
+  transition: width 0.1s linear;
+} 

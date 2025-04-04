@@ -1,10 +1,11 @@
 import { Component, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AudioPlayerComponent } from '../audio-player/audio-player.component';
 
 @Component({
   selector: 'app-audio-recorder',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, AudioPlayerComponent],
   templateUrl: './audio-recorder.component.html',
   styleUrls: ['./audio-recorder.component.scss']
 })

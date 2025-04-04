@@ -1,0 +1,22 @@
+<div class="audio-player-container">
+  <div class="file-info" *ngIf="showFileName">
+    <span class="file-name">{{ fileName }}</span>
+  </div>
+  
+  <div class="player-controls">
+    <button class="play-pause-button" (click)="togglePlayPause()">
+      <span class="button-icon" *ngIf="!isPlaying">▶️</span>
+      <span class="button-icon" *ngIf="isPlaying">⏸️</span>
+    </button>
+    
+    <div class="progress-container">
+      <div class="time-display current-time">{{ formatTime(currentTime) }}</div>
+      
+      <div class="progress-bar" (click)="onProgressBarClick($event)">
+        <div class="progress-fill" [style.width.%]="getProgressPercentage()"></div>
+      </div>
+      
+      <div class="time-display duration">{{ formatTime(duration) }}</div>
+    </div>
+  </div>
+</div> 
