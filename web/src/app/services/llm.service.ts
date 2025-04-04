@@ -3,17 +3,18 @@ import { MalariaData } from "../malaria/malaria-data";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { firstValueFrom } from "rxjs";
 import { LlmPromptService } from "./llm-prompt.service";
+import { LlmRequestHelperService } from "./llm-request-helper.service";
 
 @Injectable({
     providedIn: 'root'
   })
 export class LlmService {
   private readonly OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
-  private readonly MODEL = 'gpt-4o-mini';
   private apiKey: string = '';
 
   constructor(private http: HttpClient,
-    private llmPromptService: LlmPromptService
+    private llmPromptService: LlmPromptService,
+    private llmRequestHelperService: LlmRequestHelperService
   ) { }
   
   setApiKey(key: string): void {
@@ -27,13 +28,14 @@ export class LlmService {
     
     try {
       // Convert the image to base64
-      const base64Image = await this.fileToBase64(imageFile);
+      const base64Image = await this.llmRequestHelperService.fileToBase64(imageFile);
       
       // Create the prompt for the OpenAI API
       const prompt = this.llmPromptService.createMalariaDataPrompt('image');
       
       // Make the API call
-      const response = await this.callOpenAIAPIForImage(base64Image, prompt);
+      const response = await this.callOpenAI(
+        this.llmRequestHelperService.createPayloadForImage(base64Image, prompt));
       console.log(response);
       
       // Parse the response to extract the malaria data
@@ -44,73 +46,9 @@ export class LlmService {
     }
   }
 
-  private async fileToBase64(file: File): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        const result = reader.result as string;
-        // Remove the data URL prefix (e.g., "data:image/jpeg;base64,")
-        const base64 = result.split(',')[1];
-        resolve(base64);
-      };
-      reader.onerror = error => reject(error);
-    });
-  }
-
-  private createHeaders(): HttpHeaders {
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${this.apiKey}`
-    })
-  }
-
-  private createPayloadForImage(base64Image: string, prompt: string): any {
-    return {
-      model: this.MODEL,
-      messages: [
-        {
-          role: "user",
-          content: [
-            { type: "text", text: prompt },
-            {
-              type: "image_url",
-              image_url: {
-                url: `data:image/jpeg;base64,${base64Image}`
-              }
-            }
-          ]
-        }
-      ],
-      max_tokens: 1000
-    }
-  }
-
-  private createPayloadForText(text: string, prompt: string): any {
-    return {
-      model: this.MODEL,
-      messages: [
-        {
-          role: 'system',
-          content: prompt
-        },
-        {
-          role: 'user',
-          content: `Extract malaria test data from this transcription: ${text}`
-        }
-      ],
-      max_tokens: 1000
-    }
-  }
-
-  private async callOpenAIAPIForImage(base64Image: string, prompt: string): Promise<any> {
-    return firstValueFrom(this.http.post(this.OPENAI_API_URL, 
-      this.createPayloadForImage(base64Image, prompt), { headers: this.createHeaders() }));
-  }
-
-  private async callOpenAIAPIForText(text: string, prompt: string): Promise<any> {
-    return firstValueFrom(this.http.post(this.OPENAI_API_URL, 
-      this.createPayloadForText(text, prompt), { headers: this.createHeaders() }));
+  private async callOpenAI(payload: any): Promise<any> {
+    return firstValueFrom(this.http.post(this.OPENAI_API_URL, payload,
+       { headers: this.llmRequestHelperService.createHeaders(this.apiKey) }));
   }
 
   private parseMalariaDataResponse(response: any): MalariaData {
@@ -193,7 +131,8 @@ export class LlmService {
   
   private async extractMalariaDataFromText(text: string): Promise<MalariaData> {
     const prompt = this.llmPromptService.createMalariaDataPrompt('text');
-    const response = await this.callOpenAIAPIForText(text, prompt);
+    const response = await this.callOpenAI(
+      this.llmRequestHelperService.createPayloadForText(text, prompt));
     return this.parseMalariaDataResponse(response);
   }
 }
