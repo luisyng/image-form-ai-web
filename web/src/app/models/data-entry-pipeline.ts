@@ -1,28 +1,21 @@
 import { MalariaData } from '../malaria/malaria-data';
-import { InputType } from './input-type';
+import { DataEntryConfig } from './data-entry-config';
+import { StageStatus } from '../data-entry-stage/data-entry-stage.component';
 
 export class DataEntryPipeline {
-  
   photo: File | null = null;
   audio: File | null = null;
   extractedText: string = '';
   formData: MalariaData | null = null;
-  backendSubmitStatus: 'normal' | 'success' | 'error' = 'normal';
-  
-  handleInputTypeSelection(inputType: InputType): void {
-    // Reset all input data
-    this.photo = null;
-    this.audio = null;
-    this.extractedText = '';
-    
-    // If manual input is selected, initialize an empty form
-    if (inputType.id === 'manual') {
+  backendSubmitStatus: StageStatus = 'normal';
+
+  constructor(c: DataEntryConfig) {
+    if (c.selectedInputType?.id === 'manual') {
       this.formData = new MalariaData();
     } else {
       this.formData = null;
     }
-    
-    console.log('Selected input type:', inputType);
+    console.log(this.formData);
   }
   
   handleImageLoaded(file: File): void {

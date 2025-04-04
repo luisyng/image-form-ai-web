@@ -15,9 +15,10 @@ import { DataEntryConfig } from './models/data-entry-config';
 export class AppComponent {
   title = 'AI Data Capture';
 
-  dataEntryConfig: DataEntryConfig | null = null; 
+  c: DataEntryConfig | null = null; 
 
   onConfigReady(config: DataEntryConfig) {
-    this.dataEntryConfig = config;
+    this.c = config;
+    console.log(this.c);
   }
 }

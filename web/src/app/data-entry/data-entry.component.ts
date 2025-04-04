@@ -1,11 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MalariaFormComponent } from '../malaria/malaria-form/malaria-form.component';
 import { DataEntryStageComponent, StageStatus } from '../data-entry-stage/data-entry-stage.component';
-import { SelectorComponent } from '../selector/selector.component';
 import { ImageLoaderComponent } from '../image-loader/image-loader.component';
 import { CameraCaptureComponent } from '../camera-capture/camera-capture.component';
-import { ImageProcessMethodComponent } from '../image-process-method/image-process-method.component';
 import { ImageToTextComponent } from '../image-to-text-processor/image-to-text-processor.component';
 import { LlmProcessorComponent } from '../llm-processor/llm-processor.component';
 import { MalariaParserComponent } from '../malaria/malaria-parser/malaria-parser.component';
@@ -20,10 +18,8 @@ import { DataEntryConfig } from '../models/data-entry-config';
     CommonModule, 
     MalariaFormComponent, 
     DataEntryStageComponent, 
-    SelectorComponent,
     ImageLoaderComponent,
     CameraCaptureComponent,
-    ImageProcessMethodComponent,
     ImageToTextComponent,
     LlmProcessorComponent,
     MalariaParserComponent,
@@ -32,9 +28,14 @@ import { DataEntryConfig } from '../models/data-entry-config';
   templateUrl: './data-entry.component.html',
   styleUrls: ['./data-entry.component.scss']
 })
-export class DataEntryComponent {
-  p = new DataEntryPipeline();
-  c = new DataEntryConfig();
+export class DataEntryComponent implements OnInit {
+  @Input() c: DataEntryConfig = new DataEntryConfig();
+  p!: DataEntryPipeline;
+
+  ngOnInit(): void {
+    this.p = new DataEntryPipeline(this.c);
+    console.log(this.p);
+  }
 
   successIfNotNull(value: any): StageStatus {
     return value !== null && value != '' ? 'success' : 'normal';

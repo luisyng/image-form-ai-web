@@ -2,9 +2,9 @@
   <header class="app-header">
     <h1 class="app-title">AI Data Capture</h1>
   </header>
-  <app-data-pipeline-build *ngIf="dataEntryConfig === null" 
+  <app-data-pipeline-build *ngIf="c === null" 
     (configReady)="onConfigReady($event)"></app-data-pipeline-build>
-  <app-data-entry *ngIf="dataEntryConfig !== null"></app-data-entry>
+  <app-data-entry *ngIf="c !== null" [c]="c"></app-data-entry>
 </div>
 
 <router-outlet />

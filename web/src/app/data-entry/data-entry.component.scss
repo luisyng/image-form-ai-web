@@ -9,36 +9,15 @@
   width: 100%;
 }
 
-.form-selection-stage {
-  p {
-    margin-bottom: 1.5rem;
-    color: colors.$text-muted;
-  }
-}
-
-.input-method-stage {
-  p {
-    margin-bottom: 1.5rem;
-    color: colors.$text-muted;
-  }
-}
-
 .image-input-stage {
   width: 100%;
-}
-
-.process-method-stage {
-  p {
-    margin-bottom: 1.5rem;
-    color: colors.$text-muted;
-  }
 }
 
 .image-processing-stage {
   width: 100%;
 }
 
-.upload-stage-content, .audio-stage-content {
+.audio-stage-content {
   text-align: center;
   
   p {
@@ -47,7 +26,7 @@
   }
 }
 
-.upload-placeholder, .audio-placeholder {
+.audio-placeholder {
   border: 2px dashed colors.$neutral-medium-gray;
   border-radius: 8px;
   padding: 3rem 2rem;
@@ -64,13 +43,13 @@
   }
 }
 
-.upload-icon, .audio-icon {
+.audio-icon {
   font-size: 3rem;
   margin-bottom: 1rem;
   color: colors.$text-muted;
 }
 
-.upload-text, .audio-text {
+.audio-text {
   color: colors.$text-muted;
   font-size: typography.$font-size-md;
 }

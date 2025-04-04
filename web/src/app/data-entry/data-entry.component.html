@@ -1,46 +1,8 @@
 <div class="data-entry-container">
   <div class="stages-container">
     <app-data-entry-stage 
-      title="Select Form"
-      [status]="successIfNotNull(c.selectedForm)"
-    >
-      <div class="form-selection-stage">
-        <app-selector 
-        [options]="c.availableForms"
-        [selectedOption]="c.selectedForm"
-        (optionSelected)="c.handleFormSelection($event)"></app-selector>
-      </div>
-    </app-data-entry-stage>
-
-    <app-data-entry-stage 
-      title="Choose Input Type" 
-      *ngIf="c.selectedForm !== null"
-      [status]="successIfNotNull(c.selectedInputType)"
-    >
-      <div class="input-type-stage">
-        <app-selector 
-        [options]="c.availableInputTypes"
-        [selectedOption]="c.selectedInputType"
-        (optionSelected)="c.handleInputTypeSelection($event); p.handleInputTypeSelection($event)"></app-selector>
-      </div>
-    </app-data-entry-stage>
-
-    <app-data-entry-stage 
-      title="Choose Input Method" 
-      *ngIf="c.selectedInputType !== null && !c.isManualEntry()"
-      [status]="successIfNotNull(c.selectedInputMethod)"
-    >
-      <div class="input-method-stage">
-        <app-selector 
-        [options]="c.availableInputMethods"
-        [selectedOption]="c.selectedInputMethod"
-        (optionSelected)="c.handleInputMethodSelection($event)"></app-selector>
-      </div>
-    </app-data-entry-stage>
-
-    <app-data-entry-stage 
       [title]="c.selectedInputMethod.name || ''" 
-      *ngIf="c.selectedInputMethod !== null"
+      *ngIf="c.selectedInputMethod !== null && !c.isManualEntry()"
       [status]="successIfNotNull(p.photo)"
     >
       <div class="data-entry-stage">
@@ -73,17 +35,6 @@
             <p>Please select an input method to continue.</p>
           </div>
         </ng-container>
-      </div>
-    </app-data-entry-stage>
-    
-    <app-data-entry-stage 
-      title="Choose Processing Method" 
-      *ngIf="c.isPhotoEntry() && p.hasImage()"
-      [status]="successIfNotNull(c.selectedProcessMethod)"
-    >
-      <div class="process-method-stage">
-        <p>Select how you want to process the image:</p>
-        <app-image-process-method (methodSelected)="c.handleProcessMethodSelected($event)"></app-image-process-method>
       </div>
     </app-data-entry-stage>
     
