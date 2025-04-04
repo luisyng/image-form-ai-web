@@ -25,4 +25,8 @@ export class DataPipelineBuildComponent {
   successIfNotNull(value: any): StageStatus {
     return value !== null && value != '' ? 'success' : 'normal';
   }
+
+  savePipeline(): void {
+    this.configReady.emit(this.c);
+  }
 } 

@@ -40,7 +40,7 @@
     
     <app-data-entry-stage 
       title="Choose Processing Method" 
-      *ngIf="c.isPhotoEntry()"
+      *ngIf="c.selectedInputMethod !== null && c.isPhotoEntry()"
       [status]="successIfNotNull(c.selectedProcessMethod)"
     >
       <div class="process-method-stage">
@@ -48,5 +48,12 @@
         <app-image-process-method (methodSelected)="c.handleProcessMethodSelected($event)"></app-image-process-method>
       </div>
     </app-data-entry-stage>
+  </div>
+  
+  <div class="pipeline-actions" *ngIf="c.isComplete()">
+    <button class="save-button" (click)="savePipeline()">
+      <span class="save-icon">💾</span>
+      Save Pipeline
+    </button>
   </div>
 </div>

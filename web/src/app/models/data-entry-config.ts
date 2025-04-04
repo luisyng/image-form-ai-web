@@ -24,6 +24,9 @@ export class DataEntryConfig {
     this.selectedInputType = inputType;
     this.selectedInputMethod = null;
     this.availableInputMethods = getMethodsForInputType(inputType.id);
+    if (this.availableInputMethods.length === 1) {
+      this.selectedInputMethod = this.availableInputMethods[0];
+    }
     console.log('Selected input type:', inputType);
   }
   
@@ -63,5 +66,12 @@ export class DataEntryConfig {
   
   isUploadAudioMethod(): boolean {
     return this.selectedInputMethod?.id === 'upload-audio';
+  }
+
+  isComplete(): boolean {
+    return this.selectedForm !== null &&
+      this.selectedInputType !== null &&
+      this.selectedInputMethod !== null &&
+      (this.selectedInputType.id === 'manual' || this.selectedProcessMethod !== null);
   }
 } 
