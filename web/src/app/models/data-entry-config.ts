@@ -10,11 +10,13 @@ export class DataEntryConfig {
   availableInputTypes: InputType[] = inputTypes;
   availableInputMethods!: InputMethod[];
   availableProcessMethods!: ProcessMethod[];
-  
+  availableProcessMethodsForText = getProcessMethodsForType('text');
+
   selectedForm: FormType | null = null;
   selectedInputType: InputType | null = null;
   selectedInputMethod: InputMethod | null = null;
   selectedProcessMethod: ProcessMethod | null = null;
+  selectedProcessMethodforText: ProcessMethod | null = null;
  
   handleFormSelection(form: FormType): void {
     this.selectedForm = form;
@@ -36,7 +38,13 @@ export class DataEntryConfig {
   
   handleProcessMethodSelection(method: ProcessMethod): void {
     this.selectedProcessMethod = method;
+    this.selectedProcessMethodforText = null;
     console.log('Selected process method:', method);
+  }
+
+  handleProcessMethodSelectionforText(method: ProcessMethod): void {
+    this.selectedProcessMethodforText = method;
+    console.log('Selected process method for text:', method);
   }
   
   isManualEntry(): boolean {
@@ -67,10 +75,15 @@ export class DataEntryConfig {
     return this.selectedInputMethod?.id === 'upload-audio';
   }
 
+  isProcessingToText(): boolean {
+    return this.selectedProcessMethod?.outputType === 'text';
+  }
+
   isComplete(): boolean {
     return this.selectedForm !== null &&
       this.selectedInputType !== null &&
       (this.selectedInputType.id === 'manual' || this.selectedInputMethod !== null) &&
-      !(this.selectedInputType.id === 'photo' && this.selectedProcessMethod === null);
+      !(this.selectedInputType.id === 'photo' && this.selectedProcessMethod === null) &&
+      !(this.isProcessingToText() && this.selectedProcessMethodforText === null);
   }
 } 

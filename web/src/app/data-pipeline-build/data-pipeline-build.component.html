@@ -44,11 +44,23 @@
       [status]="successIfNotNull(c.selectedProcessMethod)"
     >
       <div class="process-method-stage">
-        <p>Select how you want to process the image:</p>
         <app-selector 
         [options]="c.availableProcessMethods"
         [selectedOption]="c.selectedProcessMethod"
         (optionSelected)="c.handleProcessMethodSelection($event)"></app-selector>
+      </div>
+    </app-data-entry-stage>
+
+    <app-data-entry-stage 
+      title="Choose Text Processing Method" 
+      *ngIf="c.isProcessingToText()"
+      [status]="successIfNotNull(c.selectedProcessMethodforText)"
+    >
+      <div class="process-method-stage">
+        <app-selector 
+        [options]="c.availableProcessMethodsForText"
+        [selectedOption]="c.selectedProcessMethodforText"
+        (optionSelected)="c.handleProcessMethodSelectionforText($event)"></app-selector>
       </div>
     </app-data-entry-stage>
   </div>

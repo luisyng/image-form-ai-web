@@ -1,33 +1,53 @@
 import { Selectable } from "./selectable";
 
 export interface ProcessMethod extends Selectable {
-    forInputType: string;
+    inputType: string;
+    outputType: string;
 }
 
 export const processMethods: ProcessMethod[] = [
     {
+        id: 'ai-image-to-json',
+        name: 'AI: image to form data',
+        description: 'Use a multi-modal LLM to convert the image to our form data. Model: OpenAI GPT-4o mini.',
+        icon: '🤖',
+        inputType: 'photo',
+        outputType: 'JSON'
+    },
+    {
+        id: 'ai-audio-transcription',
+        name: 'AI: audio to text',
+        description: 'Use an AI to transcribe the audio. Model: OpenAI Whisper.',
+        icon: '🤖',
+        inputType: 'audio',
+        outputType: 'text'
+    },
+    {
+        id: 'ai-text-to-json',
+        name: 'AI: text to form data',
+        description: 'Use a multi-modal LLM to convert the text to our form data. Model: OpenAI GPT-4o mini.',
+        icon: '🤖',
+        inputType: 'text',
+        outputType: 'JSON'
+    },
+    {
         id: 'ocr',
-        name: 'Local image processing',
-        description: 'Process the image locally on your device. Faster but may be less accurate for complex forms.',
+        name: 'OCR: image to text',
+        description: 'Process the image locally on your device. Library: Tesseract OCR.',
         icon: '💻',
-        forInputType: 'photo'
+        inputType: 'photo',
+        outputType: 'text'
     },
     {
-        id: 'llm',
-        name: 'Send to LLM',
-        description: 'Send the image to a Large Language Model for processing. More accurate but requires internet connection and may take longer and cost money.',
-        icon: '🤖',
-        forInputType: 'photo'
+        id: 'parsing',
+        name: 'Old School Parsing',
+        description: 'Parse the text to extract the data.',
+        icon: '💻',
+        inputType: 'text',
+        outputType: 'JSON'
     },
-    {
-        id: 'llm',
-        name: 'Send to LLM',
-        description: 'Send the audio to a Large Language Model for processing.',
-        icon: '🤖',
-        forInputType: 'audio'
-    }
 ];
 
 export function getProcessMethodsForType(inputTypeId: string): ProcessMethod[] {
-    return processMethods.filter(method => method.forInputType === inputTypeId);
+    return processMethods.filter(method => method.inputType === inputTypeId);
   } 
