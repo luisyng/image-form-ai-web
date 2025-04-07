@@ -1,16 +1,14 @@
-<div class="ocr-processor-container">
-  <div class="extraction-results">
-    <div class="results-header">
-      <p class="results-subheader">Text (you can edit below):</p>
-    </div>
-    
-    <div class="extracted-text-container">
-      <textarea 
-        class="extracted-text-display" 
-        [(ngModel)]="text" 
-        (ngModelChange)="onTextChanged($event)"
-        rows="10"
-      ></textarea>
-    </div>
+<div class="text-input-container">
+  <div class="text-input-header">
+    <p class="text-input-subheader">Text (you can edit below):</p>
+  </div>
+  
+  <div class="text-input-content">
+    <textarea 
+      class="text-input-textarea" 
+      [(ngModel)]="text" 
+      (ngModelChange)="onTextChanged($event)"
+      rows="10"
+    ></textarea>
   </div>
 </div> 
