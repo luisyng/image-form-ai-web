@@ -4,7 +4,6 @@ import { MalariaFormComponent } from '../malaria/malaria-form/malaria-form.compo
 import { DataEntryStageComponent, StageStatus } from '../data-entry-stage/data-entry-stage.component';
 import { ImageLoaderComponent } from '../image-loader/image-loader.component';
 import { CameraCaptureComponent } from '../camera-capture/camera-capture.component';
-import { ImageToTextComponent } from '../image-to-text-processor/image-to-text-processor.component';
 import { LlmProcessorComponent } from '../llm-processor/llm-processor.component';
 import { MalariaParserComponent } from '../malaria/malaria-parser/malaria-parser.component';
 import { BackendDataSenderComponent } from '../backend-data-sender/backend-data-sender.component';
@@ -12,6 +11,8 @@ import { AudioRecorderComponent } from '../audio-recorder/audio-recorder.compone
 import { DataEntryPipeline } from '../models/data-entry-pipeline';
 import { DataEntryConfig } from '../models/data-entry-config';
 import { TextInputComponent } from '../text-input/text-input.component';
+import { DataProcessorComponent } from '../data-processor/data-processor.component';
+import { OcrProcessManagerService } from '../services/ocr-process-manager.service';
 
 @Component({
   selector: 'app-data-entry',
@@ -22,18 +23,18 @@ import { TextInputComponent } from '../text-input/text-input.component';
     DataEntryStageComponent, 
     ImageLoaderComponent,
     CameraCaptureComponent,
-    ImageToTextComponent,
     LlmProcessorComponent,
     MalariaParserComponent,
     BackendDataSenderComponent,
     AudioRecorderComponent,
-    TextInputComponent
+    TextInputComponent,
+    DataProcessorComponent
   ],
   templateUrl: './data-entry.component.html',
   styleUrls: ['./data-entry.component.scss']
 })
 export class DataEntryComponent {
-  @Input() c: DataEntryConfig = new DataEntryConfig();
+  @Input() c!: DataEntryConfig;
   @Input() p!: DataEntryPipeline;
   @Output() newPipelineRequested = new EventEmitter<void>();
   @Output() newEntryRequested = new EventEmitter<void>();

@@ -2,8 +2,29 @@
 @use '../styles/typography.scss' as typography;
 @use "sass:color";
 
-.ocr-processor-container {
+.data-processor-container {
   width: 100%;
+}
+
+.initial-state {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.process-button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  background-color: colors.$primary-blue;
+  color: colors.$neutral-white;
+  font-weight: typography.$font-weight-medium;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background-color: color.adjust(colors.$primary-blue, $lightness: -10%);
+  }
 }
 
 .processing-status {
@@ -73,7 +94,7 @@
   }
 }
 
-.extraction-results {
+.processing-results {
   width: 100%;
 }
 
@@ -92,10 +113,6 @@
   color: colors.$text-muted;
   font-size: typography.$font-size-sm;
   margin: 0;
-}
-
-.results-subheader {
   margin-bottom: 10px;
   font-style: italic;
-  color: #666;
 } 

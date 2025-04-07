@@ -4,13 +4,32 @@ import { getInputMethodsForType, InputMethod } from './input-method';
 import { getProcessMethodsForType, ProcessMethod } from './process-method';
 import { formTypes } from './form-type';
 import { inputTypes } from './input-type';
+import { ProcessManager } from '../data-processor/data-processor.component';
+import { OcrProcessManagerService } from '../services/ocr-process-manager.service';
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DataEntryConfigFactory {
+
+  constructor(private ocrProcessManager: OcrProcessManagerService) {}
+
+  createConfig(): DataEntryConfig {
+    return new DataEntryConfig(this.ocrProcessManager);
+  }
+
+}
 
 export class DataEntryConfig {
+
   availableForms: FormType[] = formTypes;
   availableInputTypes: InputType[] = inputTypes;
   availableInputMethods!: InputMethod[];
   availableProcessMethods!: ProcessMethod[];
   availableProcessMethodsForText = getProcessMethodsForType('text');
+
+  processManager: ProcessManager<File, string> | null = null;
 
   selectedForm: FormType | null = null;
   selectedInputType: InputType | null = null;
@@ -18,6 +37,10 @@ export class DataEntryConfig {
   selectedProcessMethod: ProcessMethod | null = null;
   selectedProcessMethodforText: ProcessMethod | null = null;
  
+  constructor(private ocrProcessManager: OcrProcessManagerService) {
+    this.processManager = this.ocrProcessManager;
+  }
+  
   handleFormSelection(form: FormType): void {
     this.selectedForm = form;
     console.log('Selected form:', form);

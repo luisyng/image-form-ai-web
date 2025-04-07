@@ -1,0 +1,26 @@
+<div class="data-processor-container">
+  <!-- Initial state - show process button -->
+  <div class="initial-state" *ngIf="!isProcessing && !isProcessingComplete && !processingError && inputData">
+    <button class="process-button" (click)="processData()">Process Data</button>
+  </div>
+  
+  <!-- Processing state -->
+  <div class="processing-status" *ngIf="isProcessing">
+    <div class="spinner"></div>
+    <p class="processing-message">Processing with {{ processManager.getProcessName() }}...</p>
+  </div>
+  
+  <!-- Error state -->
+  <div class="processing-error" *ngIf="processingError">
+    <div class="error-icon">❌</div>
+    <p class="error-message">{{ processingError }}</p>
+    <button class="retry-button" (click)="retryProcessing()">Try Again</button>
+  </div>
+  
+  <!-- Results state -->
+  <div class="processing-results" *ngIf="isProcessingComplete">
+    <div class="results-header">
+      <p class="results-subheader">Process completed</p>
+    </div>
+  </div>
+</div> 

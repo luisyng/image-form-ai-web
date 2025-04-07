@@ -45,16 +45,16 @@
     </app-data-entry-stage>
     
     <app-data-entry-stage 
-      *ngIf="c.selectedProcessMethod !== null && c.isProcessingToText() && p.hasFile()"
+    *ngIf="c.selectedProcessMethod !== null && c.isProcessingToText() && p.hasFile()"
       [title]="c.selectedProcessMethod.name" 
       [status]="successIfNotNull(p.extractedText)"
     >
-      <div class="image-processing-stage" *ngIf="c.selectedProcessMethod?.id === 'ocr'">
-        <app-ocr-image-processor 
-          [imageFile]="p.file" 
-          [processingMethod]="c.selectedProcessMethod.id || ''"
-          (textExtracted)="p.handleTextExtracted($event)"
-        ></app-ocr-image-processor>
+      <div class="data-processing-stage" *ngIf="c.selectedProcessMethod?.id === 'ocr'">
+        <app-data-processor 
+          [inputData]="p.file" 
+          [processManager]="c.processManager!"
+          (processingComplete)="p.handleTextExtracted($event)"
+        ></app-data-processor>
       </div>
     </app-data-entry-stage>
 

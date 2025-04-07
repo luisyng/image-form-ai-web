@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DataEntryStageComponent, StageStatus } from '../data-entry-stage/data-entry-stage.component';
 import { SelectorComponent } from '../selector/selector.component';
 import { DataEntryConfig } from '../models/data-entry-config';
+import { DataEntryConfigFactory } from '../models/data-entry-config';
 
 @Component({
   selector: 'app-data-pipeline-build',
@@ -17,8 +18,12 @@ import { DataEntryConfig } from '../models/data-entry-config';
 })
 export class DataPipelineBuildComponent {
   @Output() configReady = new EventEmitter<DataEntryConfig>();
-  
-  c = new DataEntryConfig();
+
+  c!: DataEntryConfig;
+
+  constructor(private dataEntryConfigFactory: DataEntryConfigFactory) {
+    this.c = this.dataEntryConfigFactory.createConfig();
+  }
 
   successIfNotNull(value: any): StageStatus {
     return value !== null && value != '' ? 'success' : 'normal';
