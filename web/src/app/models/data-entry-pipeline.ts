@@ -25,6 +25,7 @@ export class DataEntryPipeline {
   
   handleTextExtracted(text: string): void {
     this.extractedText = text;
+    this.reviewedText = text;
     console.log('Extracted text:', text);
   }
   

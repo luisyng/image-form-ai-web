@@ -45,14 +45,14 @@
     </app-data-entry-stage>
     
     <app-data-entry-stage 
-      title="Transform to Text" 
-      *ngIf="c.isProcessingToText() && p.hasFile()"
+      *ngIf="c.selectedProcessMethod !== null && c.isProcessingToText() && p.hasFile()"
+      [title]="c.selectedProcessMethod.name" 
       [status]="successIfNotNull(p.extractedText)"
     >
       <div class="image-processing-stage" *ngIf="c.selectedProcessMethod?.id === 'ocr'">
         <app-ocr-image-processor 
           [imageFile]="p.file" 
-          [processingMethod]="c.selectedProcessMethod?.id || ''"
+          [processingMethod]="c.selectedProcessMethod.id || ''"
           (textExtracted)="p.handleTextExtracted($event)"
         ></app-ocr-image-processor>
       </div>

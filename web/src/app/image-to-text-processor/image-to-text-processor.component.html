@@ -16,7 +16,7 @@
   <!-- Processing state -->
   <div class="processing-status" *ngIf="isProcessing">
     <div class="spinner"></div>
-    <p class="processing-message">Processing image with {{ processingMethod === 'ocr' ? 'OCR' : 'LLM' }}...</p>
+    <p class="processing-message">Processing image with OCR...</p>
   </div>
   
   <!-- Error state -->
@@ -29,16 +29,7 @@
   <!-- Results state -->
   <div class="extraction-results" *ngIf="processingComplete">
     <div class="results-header">
-      <p class="results-subheader">Extracted text (you can edit below):</p>
-    </div>
-    
-    <div class="extracted-text-container">
-      <textarea 
-        class="extracted-text-display" 
-        [(ngModel)]="extractedText" 
-        (ngModelChange)="onTextChanged($event)"
-        rows="10"
-      ></textarea>
+      <p class="results-subheader">Process completed</p>
     </div>
   </div>
 </div> 
