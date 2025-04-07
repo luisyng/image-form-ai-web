@@ -11,6 +11,7 @@ import { BackendDataSenderComponent } from '../backend-data-sender/backend-data-
 import { AudioRecorderComponent } from '../audio-recorder/audio-recorder.component';
 import { DataEntryPipeline } from '../models/data-entry-pipeline';
 import { DataEntryConfig } from '../models/data-entry-config';
+import { TextInputComponent } from '../text-input/text-input.component';
 
 @Component({
   selector: 'app-data-entry',
@@ -25,7 +26,8 @@ import { DataEntryConfig } from '../models/data-entry-config';
     LlmProcessorComponent,
     MalariaParserComponent,
     BackendDataSenderComponent,
-    AudioRecorderComponent
+    AudioRecorderComponent,
+    TextInputComponent
   ],
   templateUrl: './data-entry.component.html',
   styleUrls: ['./data-entry.component.scss']

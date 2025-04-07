@@ -57,6 +57,19 @@
         ></app-ocr-image-processor>
       </div>
     </app-data-entry-stage>
+
+    <app-data-entry-stage 
+      title="Review text" 
+      *ngIf="(c.selectedProcessMethodforText !== null && p.extractedText !== '')"
+      [status]="successIfNotNull(p.formData)"
+    >
+      <div class="text-processing-stage">
+        <app-text-input 
+        [text]="p.extractedText"
+        (textChanged)="p.handleTextChanged($event)"
+        ></app-text-input>
+      </div>
+    </app-data-entry-stage>
     
     <app-data-entry-stage 
       title="Parse Malaria Data" 
