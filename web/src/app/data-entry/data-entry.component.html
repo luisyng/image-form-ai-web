@@ -31,29 +31,15 @@
     </app-data-entry-stage>
     
     <app-data-entry-stage 
+      *ngIf="p.hasFile()"
       [title]="c.selectedProcessMethod?.name || 'AI Analysis'" 
-      *ngIf="(c.selectedProcessMethod?.id === 'ai-image-to-json' || c.selectedProcessMethod?.id === 'ai-audio-transcription') && p.hasFile()"
       [status]="successIfNotNull(p.formData)"
     >
       <div class="data-processing-stage">
         <app-data-processor 
           [inputData]="p.file" 
-          [processManager]="c.llmProcessManager!"
-          (processingComplete)="p.handleParsedData($event)"
-        ></app-data-processor>
-      </div>
-    </app-data-entry-stage>
-    
-    <app-data-entry-stage 
-    *ngIf="c.selectedProcessMethod !== null && c.isProcessingToText() && p.hasFile()"
-      [title]="c.selectedProcessMethod.name" 
-      [status]="successIfNotNull(p.extractedText)"
-    >
-      <div class="data-processing-stage" *ngIf="c.selectedProcessMethod?.id === 'ocr'">
-        <app-data-processor 
-          [inputData]="p.file" 
           [processManager]="c.processManager!"
-          (processingComplete)="p.handleTextExtracted($event)"
+          (processingComplete)="p.handleParsedData($event)"
         ></app-data-processor>
       </div>
     </app-data-entry-stage>
@@ -65,8 +51,8 @@
     >
       <div class="text-processing-stage">
         <app-text-input 
-        [text]="p.extractedText"
-        (textChanged)="p.handleTextReviewed($event)"
+          [text]="p.extractedText"
+          (textChanged)="p.handleTextReviewed($event)"
         ></app-text-input>
       </div>
     </app-data-entry-stage>
@@ -79,7 +65,7 @@
       <div class="data-processing-stage">
         <app-data-processor 
           [inputData]="p.reviewedText" 
-          [processManager]="c.malariaParserProcessManager!"
+          [processManager]="c.processManagerForText!"
           (processingComplete)="p.handleParsedData($event)"
         ></app-data-processor>
       </div>

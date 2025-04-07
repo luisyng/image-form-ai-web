@@ -40,10 +40,9 @@ export class DataEntryConfig {
   availableProcessMethods!: ProcessMethod[];
   availableProcessMethodsForText = getProcessMethodsForType('text');
 
-  processManager: ProcessManager<File, string> | null = null;
-  llmProcessManager: ProcessManager<File, MalariaData> | null = null;
-  malariaParserProcessManager: ProcessManager<string, MalariaData> | null = null;
-
+  processManager: ProcessManager<any, any> | null = null;
+  processManagerForText: ProcessManager<string, any> | null = null;
+  
   selectedForm: FormType | null = null;
   selectedInputType: InputType | null = null;
   selectedInputMethod: InputMethod | null = null;
@@ -52,13 +51,9 @@ export class DataEntryConfig {
  
   constructor(
     private ocrProcessManager: OcrProcessManagerService,
-    private llmProcessManagerService: LlmProcessManagerService,
-    private malariaParserProcessManagerService: MalariaParserProcessManagerService
-  ) {
-    this.processManager = this.ocrProcessManager;
-    this.llmProcessManager = this.llmProcessManagerService;
-    this.malariaParserProcessManager = this.malariaParserProcessManagerService;
-  }
+    private llmProcessManager: LlmProcessManagerService,
+    private malariaParserProcessManager: MalariaParserProcessManagerService
+  ) {}
   
   handleFormSelection(form: FormType): void {
     this.selectedForm = form;
@@ -82,8 +77,13 @@ export class DataEntryConfig {
     this.selectedProcessMethod = method;
     this.selectedProcessMethodforText = null;
     
-    if (method.id === 'ai-image-to-json' || method.id === 'ai-audio-transcription') {
-      (this.llmProcessManager as LlmProcessManagerService).setProcessingMethod(method);
+    if (method.id === 'ocr') {
+      this.processManager = this.ocrProcessManager;
+    } else if (method.id === 'ai-image-to-json' || method.id === 'ai-audio-transcription') {
+      this.processManager = this.llmProcessManager;
+      (this.processManager as LlmProcessManagerService).setProcessingMethod(method);
+    } else {
+      this.processManager = null;
     }
     
     console.log('Selected process method:', method);
@@ -91,6 +91,13 @@ export class DataEntryConfig {
 
   handleProcessMethodSelectionforText(method: ProcessMethod): void {
     this.selectedProcessMethodforText = method;
+    
+    if (method.id === 'parsing') {
+      this.processManagerForText = this.malariaParserProcessManager;
+    } else {
+      this.processManagerForText = null;
+    }
+    
     console.log('Selected process method for text:', method);
   }
   
