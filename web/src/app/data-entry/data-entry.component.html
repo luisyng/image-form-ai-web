@@ -31,16 +31,16 @@
     </app-data-entry-stage>
     
     <app-data-entry-stage 
-      title="AI Analysis" 
+      [title]="c.selectedProcessMethod?.name || 'AI Analysis'" 
       *ngIf="(c.selectedProcessMethod?.id === 'ai-image-to-json' || c.selectedProcessMethod?.id === 'ai-audio-transcription') && p.hasFile()"
       [status]="successIfNotNull(p.formData)"
     >
-      <div class="llm-processing-stage">
-        <app-llm-processor 
-          [file]="p.file" 
-          [processingMethod]="c.selectedProcessMethod"
-          (dataParsed)="p.handleParsedData($event)"
-        ></app-llm-processor>
+      <div class="data-processing-stage">
+        <app-data-processor 
+          [inputData]="p.file" 
+          [processManager]="c.llmProcessManager!"
+          (processingComplete)="p.handleParsedData($event)"
+        ></app-data-processor>
       </div>
     </app-data-entry-stage>
     

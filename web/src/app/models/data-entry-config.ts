@@ -6,17 +6,22 @@ import { formTypes } from './form-type';
 import { inputTypes } from './input-type';
 import { ProcessManager } from '../data-processor/data-processor.component';
 import { OcrProcessManagerService } from '../services/ocr-process-manager.service';
+import { LlmProcessManagerService } from '../services/llm-process-manager.service';
 import { Injectable } from '@angular/core';
+import { MalariaData } from '../malaria/malaria-data';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataEntryConfigFactory {
 
-  constructor(private ocrProcessManager: OcrProcessManagerService) {}
+  constructor(
+    private ocrProcessManager: OcrProcessManagerService,
+    private llmProcessManager: LlmProcessManagerService
+  ) {}
 
   createConfig(): DataEntryConfig {
-    return new DataEntryConfig(this.ocrProcessManager);
+    return new DataEntryConfig(this.ocrProcessManager, this.llmProcessManager);
   }
 
 }
@@ -30,6 +35,7 @@ export class DataEntryConfig {
   availableProcessMethodsForText = getProcessMethodsForType('text');
 
   processManager: ProcessManager<File, string> | null = null;
+  llmProcessManager: ProcessManager<File, MalariaData> | null = null;
 
   selectedForm: FormType | null = null;
   selectedInputType: InputType | null = null;
@@ -37,8 +43,12 @@ export class DataEntryConfig {
   selectedProcessMethod: ProcessMethod | null = null;
   selectedProcessMethodforText: ProcessMethod | null = null;
  
-  constructor(private ocrProcessManager: OcrProcessManagerService) {
+  constructor(
+    private ocrProcessManager: OcrProcessManagerService,
+    private llmProcessManagerService: LlmProcessManagerService
+  ) {
     this.processManager = this.ocrProcessManager;
+    this.llmProcessManager = this.llmProcessManagerService;
   }
   
   handleFormSelection(form: FormType): void {
@@ -62,6 +72,11 @@ export class DataEntryConfig {
   handleProcessMethodSelection(method: ProcessMethod): void {
     this.selectedProcessMethod = method;
     this.selectedProcessMethodforText = null;
+    
+    if (method.id === 'ai-image-to-json' || method.id === 'ai-audio-transcription') {
+      (this.llmProcessManager as LlmProcessManagerService).setProcessingMethod(method);
+    }
+    
     console.log('Selected process method:', method);
   }
 
