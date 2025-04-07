@@ -4,7 +4,6 @@ import { MalariaFormComponent } from '../malaria/malaria-form/malaria-form.compo
 import { DataEntryStageComponent, StageStatus } from '../data-entry-stage/data-entry-stage.component';
 import { ImageLoaderComponent } from '../image-loader/image-loader.component';
 import { CameraCaptureComponent } from '../camera-capture/camera-capture.component';
-import { MalariaParserComponent } from '../malaria/malaria-parser/malaria-parser.component';
 import { BackendDataSenderComponent } from '../backend-data-sender/backend-data-sender.component';
 import { AudioRecorderComponent } from '../audio-recorder/audio-recorder.component';
 import { DataEntryPipeline } from '../models/data-entry-pipeline';
@@ -21,7 +20,6 @@ import { DataProcessorComponent } from '../data-processor/data-processor.compone
     DataEntryStageComponent, 
     ImageLoaderComponent,
     CameraCaptureComponent,
-    MalariaParserComponent,
     BackendDataSenderComponent,
     AudioRecorderComponent,
     TextInputComponent,

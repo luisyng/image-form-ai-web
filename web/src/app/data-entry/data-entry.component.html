@@ -76,11 +76,12 @@
       *ngIf="c.selectedProcessMethodforText?.id === 'parsing' && p.reviewedText !== null"
       [status]="successIfNotNull(p.formData)"
     >
-      <div class="malaria-parser-stage">
-        <app-malaria-parser *ngIf="c.selectedProcessMethodforText?.id === 'parsing'"
-          [extractedText]="p.reviewedText"
-          (dataParsed)="p.handleParsedData($event)"
-        ></app-malaria-parser>
+      <div class="data-processing-stage">
+        <app-data-processor 
+          [inputData]="p.reviewedText" 
+          [processManager]="c.malariaParserProcessManager!"
+          (processingComplete)="p.handleParsedData($event)"
+        ></app-data-processor>
       </div>
     </app-data-entry-stage>
     

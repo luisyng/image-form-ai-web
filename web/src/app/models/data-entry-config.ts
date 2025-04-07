@@ -7,6 +7,7 @@ import { inputTypes } from './input-type';
 import { ProcessManager } from '../data-processor/data-processor.component';
 import { OcrProcessManagerService } from '../services/ocr-process-manager.service';
 import { LlmProcessManagerService } from '../services/llm-process-manager.service';
+import { MalariaParserProcessManagerService } from '../services/malaria-parser-process-manager.service';
 import { Injectable } from '@angular/core';
 import { MalariaData } from '../malaria/malaria-data';
 
@@ -17,11 +18,16 @@ export class DataEntryConfigFactory {
 
   constructor(
     private ocrProcessManager: OcrProcessManagerService,
-    private llmProcessManager: LlmProcessManagerService
+    private llmProcessManager: LlmProcessManagerService,
+    private malariaParserProcessManager: MalariaParserProcessManagerService
   ) {}
 
   createConfig(): DataEntryConfig {
-    return new DataEntryConfig(this.ocrProcessManager, this.llmProcessManager);
+    return new DataEntryConfig(
+      this.ocrProcessManager, 
+      this.llmProcessManager,
+      this.malariaParserProcessManager
+    );
   }
 
 }
@@ -36,6 +42,7 @@ export class DataEntryConfig {
 
   processManager: ProcessManager<File, string> | null = null;
   llmProcessManager: ProcessManager<File, MalariaData> | null = null;
+  malariaParserProcessManager: ProcessManager<string, MalariaData> | null = null;
 
   selectedForm: FormType | null = null;
   selectedInputType: InputType | null = null;
@@ -45,10 +52,12 @@ export class DataEntryConfig {
  
   constructor(
     private ocrProcessManager: OcrProcessManagerService,
-    private llmProcessManagerService: LlmProcessManagerService
+    private llmProcessManagerService: LlmProcessManagerService,
+    private malariaParserProcessManagerService: MalariaParserProcessManagerService
   ) {
     this.processManager = this.ocrProcessManager;
     this.llmProcessManager = this.llmProcessManagerService;
+    this.malariaParserProcessManager = this.malariaParserProcessManagerService;
   }
   
   handleFormSelection(form: FormType): void {
