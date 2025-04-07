@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-ocr-image-processor',
+  selector: 'app-text-input',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './text-input.component.html',

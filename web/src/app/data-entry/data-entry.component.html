@@ -45,11 +45,11 @@
     </app-data-entry-stage>
     
     <app-data-entry-stage 
-      title="Transform Image to Text" 
-      *ngIf="c.selectedProcessMethod?.id === 'ocr' && p.hasFile()"
+      title="Transform to Text" 
+      *ngIf="c.isProcessingToText() && p.hasFile()"
       [status]="successIfNotNull(p.extractedText)"
     >
-      <div class="image-processing-stage">
+      <div class="image-processing-stage" *ngIf="c.selectedProcessMethod?.id === 'ocr'">
         <app-ocr-image-processor 
           [imageFile]="p.file" 
           [processingMethod]="c.selectedProcessMethod?.id || ''"
@@ -60,25 +60,25 @@
 
     <app-data-entry-stage 
       title="Review text" 
-      *ngIf="(c.selectedProcessMethodforText !== null && p.extractedText !== '')"
-      [status]="successIfNotNull(p.formData)"
+      *ngIf="c.isProcessingToText() && p.extractedText !== null"
+      [status]="successIfNotNull(p.reviewedText)"
     >
       <div class="text-processing-stage">
         <app-text-input 
         [text]="p.extractedText"
-        (textChanged)="p.handleTextChanged($event)"
+        (textChanged)="p.handleTextReviewed($event)"
         ></app-text-input>
       </div>
     </app-data-entry-stage>
     
     <app-data-entry-stage 
-      title="Parse Malaria Data" 
-      *ngIf="c.selectedProcessMethodforText?.id === 'parsing' && p.hasFile() && p.extractedText !== ''"
+      title="Text to Form Data" 
+      *ngIf="c.selectedProcessMethodforText?.id === 'parsing' && p.reviewedText !== null"
       [status]="successIfNotNull(p.formData)"
     >
       <div class="malaria-parser-stage">
-        <app-malaria-parser 
-          [extractedText]="p.extractedText"
+        <app-malaria-parser *ngIf="c.selectedProcessMethodforText?.id === 'parsing'"
+          [extractedText]="p.reviewedText"
           (dataParsed)="p.handleParsedData($event)"
         ></app-malaria-parser>
       </div>

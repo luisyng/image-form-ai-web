@@ -4,7 +4,8 @@ import { StageStatus } from '../data-entry-stage/data-entry-stage.component';
 
 export class DataEntryPipeline {
   file: File | null = null;
-  extractedText: string = '';
+  extractedText: string | null = null;
+  reviewedText: string | null = null;
   formData: MalariaData | null = null;
   backendSubmitStatus: StageStatus = 'normal';
 
@@ -25,6 +26,11 @@ export class DataEntryPipeline {
   handleTextExtracted(text: string): void {
     this.extractedText = text;
     console.log('Extracted text:', text);
+  }
+  
+  handleTextReviewed(text: string): void {
+    this.reviewedText = text;
+    console.log('Reviewed text:', text);
   }
 
   handleParsedData(data: MalariaData): void {
