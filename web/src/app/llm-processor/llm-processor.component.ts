@@ -59,6 +59,9 @@ export class LlmProcessorComponent implements OnChanges {
     } else if (this.processingMethod?.id === 'ai-audio-transcription') {
       return this.llmService.transformAudioToMalariaData(this.file!);
     }
+    
+    // Add a default return or throw an error for unsupported processing methods
+    throw new Error(`Unsupported processing method: ${this.processingMethod?.id}`);
   }
 
   private processInternally(): void {
