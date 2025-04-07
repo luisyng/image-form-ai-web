@@ -3,8 +3,7 @@ import { DataEntryConfig } from './data-entry-config';
 import { StageStatus } from '../data-entry-stage/data-entry-stage.component';
 
 export class DataEntryPipeline {
-  photo: File | null = null;
-  audio: File | null = null;
+  file: File | null = null;
   extractedText: string = '';
   formData: MalariaData | null = null;
   backendSubmitStatus: StageStatus = 'normal';
@@ -18,24 +17,9 @@ export class DataEntryPipeline {
     console.log(this.formData);
   }
   
-  handleImageLoaded(file: File): void {
-    this.photo = file;
-    console.log('Image loaded:', file);
-  }
-  
-  handlePhotoTaken(file: File): void {
-    this.photo = file;
-    console.log('Photo taken:', file);
-  }
-  
-  handleAudioLoaded(file: File): void {
-    this.audio = file;
-    console.log('Audio loaded:', file);
-  }
-  
-  handleAudioRecorded(file: File): void {
-    this.audio = file;
-    console.log('Audio recorded:', file);
+  handleFileLoaded(file: File): void {
+    this.file = file;
+    console.log('File loaded:', file);
   }
   
   handleTextExtracted(text: string): void {
@@ -61,11 +45,7 @@ export class DataEntryPipeline {
     this.backendSubmitStatus = 'error';
   }
   
-  hasImage(): boolean {
-    return this.photo !== null;
-  }
-  
-  hasAudio(): boolean {
-    return this.audio !== null;
+  hasFile(): boolean {
+    return this.file !== null;
   }
 } 

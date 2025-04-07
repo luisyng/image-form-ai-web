@@ -3,24 +3,24 @@
     <app-data-entry-stage 
       [title]="c.selectedInputMethod.name || ''" 
       *ngIf="c.selectedInputMethod !== null && !c.isManualEntry()"
-      [status]="successIfNotNull(p.photo)"
+      [status]="successIfNotNull(p.file)"
     >
       <div class="data-entry-stage">
         <ng-container [ngSwitch]="c.selectedInputMethod.id">
           <div *ngSwitchCase="'upload-photo'" class="image-input-stage">
-            <app-image-loader (imageLoaded)="p.handleImageLoaded($event)"></app-image-loader>
+            <app-image-loader (imageLoaded)="p.handleFileLoaded($event)"></app-image-loader>
           </div>
           
           <div *ngSwitchCase="'camera'" class="camera-input-stage">
-            <app-camera-capture (photoTaken)="p.handlePhotoTaken($event)"></app-camera-capture>
+            <app-camera-capture (photoTaken)="p.handleFileLoaded($event)"></app-camera-capture>
           </div>
 
           <div *ngSwitchCase="'upload-audio'" class="audio-stage-content">
-            <!-- <app-audio-uploader (audioUploaded)="p.handleAudioLoaded($event)"></app-audio-uploader> -->
+            <!-- <app-audio-uploader (audioUploaded)="p.handleFileLoaded($event)"></app-audio-uploader> -->
           </div>
           
           <div *ngSwitchCase="'microphone'" class="audio-stage-content">
-            <app-audio-recorder (audioRecorded)="p.handleAudioRecorded($event)"></app-audio-recorder>
+            <app-audio-recorder (audioRecorded)="p.handleFileLoaded($event)"></app-audio-recorder>
           </div>
           
           <div *ngSwitchDefault class="placeholder-content">
@@ -32,13 +32,13 @@
     
     <app-data-entry-stage 
       title="AI Analysis" 
-      *ngIf="(c.selectedProcessMethod?.id === 'ai-image-to-json' || c.selectedProcessMethod?.id === 'ai-audio-transcription') && (p.hasImage() || p.hasAudio())"
+      *ngIf="(c.selectedProcessMethod?.id === 'ai-image-to-json' || c.selectedProcessMethod?.id === 'ai-audio-transcription') && p.hasFile()"
       [status]="successIfNotNull(p.formData)"
     >
       <div class="llm-processing-stage">
         <app-llm-processor 
-          [imageFile]="p.photo" 
-          [audioFile]="p.audio"
+          [file]="p.file" 
+          [processingMethod]="c.selectedProcessMethod"
           (dataParsed)="p.handleParsedData($event)"
         ></app-llm-processor>
       </div>
@@ -46,12 +46,12 @@
     
     <app-data-entry-stage 
       title="Transform Image to Text" 
-      *ngIf="c.selectedProcessMethod?.id === 'ocr' && c.isPhotoEntry() && p.hasImage()"
+      *ngIf="c.selectedProcessMethod?.id === 'ocr' && p.hasFile()"
       [status]="successIfNotNull(p.extractedText)"
     >
       <div class="image-processing-stage">
         <app-ocr-image-processor 
-          [imageFile]="p.photo" 
+          [imageFile]="p.file" 
           [processingMethod]="c.selectedProcessMethod?.id || ''"
           (textExtracted)="p.handleTextExtracted($event)"
         ></app-ocr-image-processor>
@@ -60,7 +60,7 @@
     
     <app-data-entry-stage 
       title="Parse Malaria Data" 
-      *ngIf="c.selectedProcessMethod?.id === 'ocr' && c.isPhotoEntry() && p.hasImage() && p.extractedText !== ''"
+      *ngIf="c.selectedProcessMethodforText?.id === 'parsing' && p.hasFile() && p.extractedText !== ''"
       [status]="successIfNotNull(p.formData)"
     >
       <div class="malaria-parser-stage">

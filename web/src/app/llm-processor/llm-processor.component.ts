@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MalariaData } from '../malaria/malaria-data';
 import { LlmService } from '../services/llm.service';
 import { MalariaSummaryComponent } from '../malaria/malaria-summary/malaria-summary.component';
+import { ProcessMethod } from '../models/process-method';
 
 @Component({
   selector: 'app-llm-processor',
@@ -12,8 +13,8 @@ import { MalariaSummaryComponent } from '../malaria/malaria-summary/malaria-summ
   styleUrls: ['./llm-processor.component.scss']
 })
 export class LlmProcessorComponent implements OnChanges {
-  @Input() imageFile: File | null = null;
-  @Input() audioFile: File | null = null;
+  @Input() processingMethod: ProcessMethod | null = null;
+  @Input() file: File | null = null;
   @Output() dataParsed = new EventEmitter<MalariaData>();
   
   isProcessing: boolean = false;
@@ -23,11 +24,15 @@ export class LlmProcessorComponent implements OnChanges {
   constructor(private llmService: LlmService) {}
   
   ngOnChanges(changes: SimpleChanges): void {
-    if ((changes['imageFile'] && this.imageFile) || (changes['audioFile'] && this.audioFile)) {
+    if ((changes['imageFile'] && this.file) || (changes['audioFile'] && this.file)) {
       this.resetState();
       // Auto-process when a file is provided
       this.processMedia();
     }
+  }
+
+  getTypeStr(): string {
+    return this.processingMethod?.inputType === 'photo' ? 'photo' : 'audio recording';
   }
   
   resetState(): void {
@@ -37,7 +42,7 @@ export class LlmProcessorComponent implements OnChanges {
   }
   
   processMedia(): void {
-    if (!this.imageFile && !this.audioFile) {
+    if (!this.file && !this.file) {
       this.processingError = 'No media file to process.';
       return;
     }
@@ -45,16 +50,19 @@ export class LlmProcessorComponent implements OnChanges {
     this.isProcessing = true;
     this.processingError = null;
     
-    // Determine which type of file to process
-    if (this.imageFile) {
-      this.processImage();
-    } else if (this.audioFile) {
-      this.processAudio();
+    this.processInternally();
+  }
+
+  private processCall(): Promise<MalariaData> {
+    if (this.processingMethod?.id === 'ai-image-to-json') {
+      return this.llmService.transformImageToMalariaData(this.file!);
+    } else if (this.processingMethod?.id === 'ai-audio-transcription') {
+      return this.llmService.transformAudioToMalariaData(this.file!);
     }
   }
-  
-  processImage(): void {
-    this.llmService.transformImageToMalariaData(this.imageFile!)
+
+  private processInternally(): void {
+    this.processCall()
       .then(data => {
         this.extractedData = data;
         this.dataParsed.emit(data);
@@ -63,20 +71,6 @@ export class LlmProcessorComponent implements OnChanges {
       .catch(error => {
         console.error('Error processing image with LLM:', error);
         this.processingError = 'Failed to extract data from the image. Please try again later.';
-        this.isProcessing = false;
-      });
-  }
-  
-  processAudio(): void {
-    this.llmService.transformAudioToMalariaData(this.audioFile!)
-      .then(data => {
-        this.extractedData = data;
-        this.dataParsed.emit(data);
-        this.isProcessing = false;
-      })
-      .catch(error => {
-        console.error('Error processing audio with LLM:', error);
-        this.processingError = 'Failed to extract data from the audio. Please try again later.';
         this.isProcessing = false;
       });
   }

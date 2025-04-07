@@ -3,20 +3,20 @@
   <div *ngIf="!isProcessing && !processingError && !extractedData" class="processor-status">
     <div class="ai-info">
       <h3>AI Analysis</h3>
-      <p>Our AI will analyze your {{ imageFile ? 'image' : 'audio recording' }} to extract malaria data.</p>
+      <p>Our AI will analyze your {{ getTypeStr() }} to extract malaria data.</p>
       <p class="model-info">Using <span class="model-name">OpenAI GPT-4o mini</span></p>
     </div>
     
     <button class="process-button" (click)="processMedia()">
       <span class="button-icon">🤖</span>
-      <span>Process {{ imageFile ? 'Image' : 'Audio' }}</span>
+      <span>Process {{ getTypeStr() }}</span>
     </button>
   </div>
   
   <!-- Processing state -->
   <div *ngIf="isProcessing" class="processing-indicator">
     <div class="spinner"></div>
-    <p>AI is analyzing your {{ imageFile ? 'image' : 'audio recording' }}...</p>
+    <p>AI is analyzing your {{ getTypeStr() }}...</p>
     <p class="processing-note">This may take a moment as we extract and structure the data.</p>
   </div>
   
@@ -30,7 +30,7 @@
   <!-- Results state -->
   <div *ngIf="extractedData" class="extraction-results">
     <div class="results-header">
-      <p class="results-subheader">Data extracted from your {{ imageFile ? 'image' : 'audio recording' }}:</p>
+      <p class="results-subheader">Data extracted from your {{ getTypeStr() }}:</p>
     </div>
     
     <app-malaria-summary [data]="extractedData"></app-malaria-summary>
