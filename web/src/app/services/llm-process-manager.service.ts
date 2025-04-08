@@ -7,26 +7,31 @@ import { ProcessMethod } from '../models/process-method';
 @Injectable({
   providedIn: 'root'
 })
-export class LlmProcessManagerService implements ProcessManager<File, MalariaData> {
-  private processingMethod: ProcessMethod | null = null;
-  
+export class LlmProcessManagerFactory {
   constructor(private llmService: LlmService) {}
   
-  setProcessingMethod(method: ProcessMethod): void {
-    this.processingMethod = method;
+  getManager(method: ProcessMethod): ProcessManager<File, MalariaData> {
+    return new LlmProcessManager(this.llmService, method);
   }
+}
+
+export class LlmProcessManager implements ProcessManager<File, MalariaData> {
+  constructor(
+    private llmService: LlmService,
+    private processingMethod: ProcessMethod
+  ) {}
   
   processData(file: File): Promise<MalariaData> {
-    if (this.processingMethod?.id === 'ai-image-to-json') {
+    if (this.processingMethod.id === 'ai-image-to-json') {
       return this.llmService.transformImageToMalariaData(file);
-    } else if (this.processingMethod?.id === 'ai-audio-transcription') {
+    } else if (this.processingMethod.id === 'ai-audio-transcription') {
       return this.llmService.transformAudioToMalariaData(file);
     }
     
-    throw new Error(`Unsupported processing method: ${this.processingMethod?.id}`);
+    throw new Error(`Unsupported processing method: ${this.processingMethod.id}`);
   }
   
   getProcessName(): string {
-    return this.processingMethod?.name || 'AI Analysis';
+    return this.processingMethod.name || 'AI Analysis';
   }
 } 

@@ -6,7 +6,7 @@ import { formTypes } from './form-type';
 import { inputTypes } from './input-type';
 import { ProcessManager } from '../data-processor/data-processor.component';
 import { OcrProcessManagerService } from '../services/ocr-process-manager.service';
-import { LlmProcessManagerService } from '../services/llm-process-manager.service';
+import { LlmProcessManagerFactory } from '../services/llm-process-manager.service';
 import { MalariaParserProcessManagerService } from '../services/malaria-parser-process-manager.service';
 import { Injectable } from '@angular/core';
 import { MalariaData } from '../malaria/malaria-data';
@@ -18,14 +18,14 @@ export class DataEntryConfigFactory {
 
   constructor(
     private ocrProcessManager: OcrProcessManagerService,
-    private llmProcessManager: LlmProcessManagerService,
+    private llmProcessManagerFactory: LlmProcessManagerFactory,
     private malariaParserProcessManager: MalariaParserProcessManagerService
   ) {}
 
   createConfig(): DataEntryConfig {
     return new DataEntryConfig(
       this.ocrProcessManager, 
-      this.llmProcessManager,
+      this.llmProcessManagerFactory,
       this.malariaParserProcessManager
     );
   }
@@ -51,7 +51,7 @@ export class DataEntryConfig {
  
   constructor(
     private ocrProcessManager: OcrProcessManagerService,
-    private llmProcessManager: LlmProcessManagerService,
+    private llmProcessManagerFactory: LlmProcessManagerFactory,
     private malariaParserProcessManager: MalariaParserProcessManagerService
   ) {}
   
@@ -80,8 +80,7 @@ export class DataEntryConfig {
     if (method.id === 'ocr') {
       this.processManager = this.ocrProcessManager;
     } else if (method.id === 'ai-image-to-json' || method.id === 'ai-audio-transcription') {
-      this.processManager = this.llmProcessManager;
-      (this.processManager as LlmProcessManagerService).setProcessingMethod(method);
+      this.processManager = this.llmProcessManagerFactory.getManager(method);
     } else {
       this.processManager = null;
     }
