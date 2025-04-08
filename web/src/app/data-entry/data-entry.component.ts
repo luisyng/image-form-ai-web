@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MalariaFormComponent } from '../malaria/malaria-form/malaria-form.component';
 import { DataEntryStageComponent, StageStatus } from '../data-entry-stage/data-entry-stage.component';
-import { ImageLoaderComponent } from '../image-loader/image-loader.component';
+import { FileLoaderComponent } from '../file-loader/file-loader.component';
 import { CameraCaptureComponent } from '../camera-capture/camera-capture.component';
 import { BackendDataSenderComponent } from '../backend-data-sender/backend-data-sender.component';
 import { AudioRecorderComponent } from '../audio-recorder/audio-recorder.component';
@@ -18,7 +18,7 @@ import { DataProcessorComponent } from '../data-processor/data-processor.compone
     CommonModule, 
     MalariaFormComponent, 
     DataEntryStageComponent, 
-    ImageLoaderComponent,
+    FileLoaderComponent,
     CameraCaptureComponent,
     BackendDataSenderComponent,
     AudioRecorderComponent,

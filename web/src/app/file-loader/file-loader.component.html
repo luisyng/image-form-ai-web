@@ -1,8 +1,9 @@
-<div class="image-loader-container">
+<div class="file-loader-container">
   <div 
     class="upload-area" 
     [class.dragging]="isDragging"
     [class.has-preview]="previewUrl"
+    [class.is-audio]="isAudio"
     (dragover)="onDragOver($event)" 
     (dragleave)="onDragLeave($event)" 
     (drop)="onDrop($event)"
@@ -11,22 +12,32 @@
     <input 
       type="file" 
       id="fileInput" 
-      accept="image/*,application/pdf" 
+      [accept]="acceptedFileTypes" 
       (change)="onFileSelected($event)" 
       class="file-input"
     >
     
-    <ng-container *ngIf="!previewUrl">
+    <ng-container *ngIf="!previewUrl && !isAudio">
       <div class="upload-placeholder">
-        <span class="upload-icon">📄</span>
-        <span class="upload-text">Drag & drop an image here or click to browse</span>
-        <span class="upload-hint">Supported formats: JPG, PNG, PDF</span>
+        <span class="upload-icon">{{ icon }}</span>
+        <span class="upload-text">Drag & drop a file here or click to browse</span>
+        <span class="upload-hint">{{ fileTypeDescription }}</span>
       </div>
     </ng-container>
     
     <ng-container *ngIf="previewUrl">
-      <div class="image-preview">
+      <div class="file-preview">
         <img [src]="previewUrl" alt="Preview">
+        <div class="file-info">
+          <span class="file-name">{{ selectedFile?.name }}</span>
+          <span class="file-size">{{ (selectedFile?.size || 0) / 1024 | number:'1.0-0' }} KB</span>
+        </div>
+      </div>
+    </ng-container>
+    
+    <ng-container *ngIf="isAudio">
+      <div class="file-preview audio-preview">
+        <div class="audio-icon">🎵</div>
         <div class="file-info">
           <span class="file-name">{{ selectedFile?.name }}</span>
           <span class="file-size">{{ (selectedFile?.size || 0) / 1024 | number:'1.0-0' }} KB</span>
@@ -36,7 +47,7 @@
   </div>
   
   <div class="actions" *ngIf="selectedFile">
-    <button class="action-button secondary" (click)="$event.stopPropagation(); selectedFile = null; previewUrl = null">
+    <button class="action-button secondary" (click)="removeFile($event)">
       Remove
     </button>
   </div>

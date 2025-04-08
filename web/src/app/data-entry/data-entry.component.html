@@ -8,7 +8,12 @@
       <div class="data-entry-stage">
         <ng-container [ngSwitch]="c.selectedInputMethod.id">
           <div *ngSwitchCase="'upload-photo'" class="image-input-stage">
-            <app-image-loader (imageLoaded)="p.handleFileLoaded($event)"></app-image-loader>
+            <app-file-loader 
+              acceptedFileTypes="image/*,application/pdf"
+              fileTypeDescription="Supported formats: JPG, PNG, PDF"
+              icon="📷"
+              (fileLoaded)="p.handleFileLoaded($event)"
+            ></app-file-loader>
           </div>
           
           <div *ngSwitchCase="'camera'" class="camera-input-stage">
@@ -16,7 +21,12 @@
           </div>
 
           <div *ngSwitchCase="'upload-audio'" class="audio-stage-content">
-            <!-- <app-audio-uploader (audioUploaded)="p.handleFileLoaded($event)"></app-audio-uploader> -->
+            <app-file-loader 
+              acceptedFileTypes="audio/*"
+              fileTypeDescription="Supported formats: MP3, WAV, OGG"
+              icon="🎵"
+              (fileLoaded)="p.handleFileLoaded($event)"
+            ></app-file-loader>
           </div>
           
           <div *ngSwitchCase="'microphone'" class="audio-stage-content">
@@ -58,7 +68,7 @@
     </app-data-entry-stage>
     
     <app-data-entry-stage 
-      title="Text to Form Data" 
+      [title]="c.selectedProcessMethodforText?.name || 'Text to Form Data'" 
       *ngIf="c.isProcessingToText() && p.reviewedText !== null"
       [status]="successIfNotNull(p.formData)"
     >
