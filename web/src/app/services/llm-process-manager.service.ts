@@ -10,11 +10,13 @@ import { ProcessMethod } from '../models/process-method';
 export class LlmProcessManagerFactory {
   constructor(private llmService: LlmService) {}
   
-  getManager<R>(method: ProcessMethod): ProcessManager<File, R> {
+  getManager<T, R>(method: ProcessMethod): ProcessManager<T, R> {
     if (method.id === 'ai-image-to-json') {
-      return new ImageToDataProcessManager(this.llmService, method) as unknown as ProcessManager<File, R>;
+      return new ImageToDataProcessManager(this.llmService, method) as unknown as ProcessManager<T, R>;
     } else if (method.id === 'ai-audio-transcription' || method.id === 'ai-text-to-json') {
-      return new AudioToTextProcessManager(this.llmService, method) as unknown as ProcessManager<File, R>;
+      return new AudioToTextProcessManager(this.llmService, method) as unknown as ProcessManager<T, R>;
+    } else if (method.id === 'ai-text-to-json') {
+      return new TextToDataProcessManager(this.llmService, method) as unknown as ProcessManager<T, R>;
     }
     
     throw new Error(`Unsupported processing method: ${method.id}`);
@@ -38,5 +40,15 @@ class AudioToTextProcessManager extends ProcessManager<File, string> {
 
   processData(file: File): Promise<string> {
     return this.llmService.transcribeAudio(file);
+  }
+}
+
+class TextToDataProcessManager extends ProcessManager<string, MalariaData> {
+  constructor(private llmService: LlmService, method: ProcessMethod) {
+    super(method);
+  }
+
+  processData(text: string): Promise<MalariaData> {
+    return this.llmService.extractMalariaDataFromText(text);
   }
 } 

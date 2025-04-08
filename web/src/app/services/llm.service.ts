@@ -94,7 +94,7 @@ export class LlmService {
     }
   }
   
-  private async extractMalariaDataFromText(text: string): Promise<MalariaData> {
+  async extractMalariaDataFromText(text: string): Promise<MalariaData> {
     const prompt = this.llmPromptService.createMalariaDataPrompt('text');
     const response = await this.callOpenAI(
       this.llmRequestHelperService.createPayloadForText(text, prompt));
