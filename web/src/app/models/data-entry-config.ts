@@ -9,7 +9,8 @@ import { OcrProcessManagerService } from '../services/ocr-process-manager.servic
 import { LlmProcessManagerFactory } from '../services/llm-process-manager.service';
 import { MalariaParserProcessManagerService } from '../services/malaria-parser-process-manager.service';
 import { Injectable } from '@angular/core';
-import { MalariaData } from '../malaria/malaria-data';
+import { FormData } from './form-data';
+import { getFormDataForForm } from './form-data-samples';
 
 @Injectable({
   providedIn: 'root'
@@ -44,6 +45,7 @@ export class DataEntryConfig {
   processManagerForText: ProcessManager<string, any> | null = null;
   
   selectedForm: FormType | null = null;
+  selectedFormData: FormData | null = null;
   selectedInputType: InputType | null = null;
   selectedInputMethod: InputMethod | null = null;
   selectedProcessMethod: ProcessMethod | null = null;
@@ -57,6 +59,7 @@ export class DataEntryConfig {
   
   handleFormSelection(form: FormType): void {
     this.selectedForm = form;
+    this.selectedFormData = getFormDataForForm(form);
     console.log('Selected form:', form);
   }
   
