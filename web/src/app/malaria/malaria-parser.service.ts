@@ -44,7 +44,6 @@ export class FormDataParserService {
    * @returns The extracted value, or undefined if not found
    */
   private extractValueForElement(lines: string[], element: DataElement): any {
-    const elementId = element.id;
     const elementType = element.type;
     const possibleLabels = [
       element.name.toLowerCase(),

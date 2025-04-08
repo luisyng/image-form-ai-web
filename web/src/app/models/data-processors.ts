@@ -21,7 +21,7 @@ export class DataProcessorsFactory {
 
     getProcessors(c: DataEntryConfig, formData: FormData): DataProcessors {
         return new DataProcessors(
-            this.getProcessManager(c.selectedProcessMethod),
+            this.getProcessManager(c.selectedProcessMethod!),
             this.getProcessManagerForText(c.selectedProcessMethodforText, formData)
         );
     }

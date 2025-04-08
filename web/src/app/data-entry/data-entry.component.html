@@ -68,8 +68,8 @@
     </app-data-entry-stage>
     
     <app-data-entry-stage 
-      [title]="c.selectedProcessMethodforText?.name || 'Text to Form Data'" 
       *ngIf="c.isProcessingToText() && p.reviewedText !== null"
+      [title]="c.selectedProcessMethodforText?.name || 'Text to Form Data'" 
       [status]="successIfNotNull(p.formData)"
     >
       <div class="data-processing-stage">
@@ -82,8 +82,8 @@
     </app-data-entry-stage>
     
     <app-data-entry-stage 
+      *ngIf="p.showForm()"
       [title]="c.isManualEntry() ? 'Fill Form' : 'Review Data'"
-      *ngIf="p.formData !== null"
       [status]="'success'"
     >
       <div class="review-stage-content">
@@ -97,8 +97,8 @@
     </app-data-entry-stage>
 
     <app-data-entry-stage 
+      *ngIf="p.showForm()"
       title="Submit Data" 
-      *ngIf="p.formData !== null"
       [status]="p.backendSubmitStatus"
     >
       <div class="submit-stage-content">

@@ -10,18 +10,17 @@ export class DataEntryPipeline {
   file: File | null = null;
   extractedText: string | null = null;
   reviewedText: string | null = null;
+
+  hasInputBeenProcessed: boolean = false;
+
   formData: FormData | null = null;
   reviewedFormData: FormData | null = null;
   backendSubmitStatus: StageStatus = 'normal';
 
   constructor(c: DataEntryConfig, dataProcessorsFactory: DataProcessorsFactory) {
     this.c = c;
-    if (c.selectedInputType?.id === 'manual') {
-      this.formData = getFormDataForForm(c.selectedForm!);
-      this.processors = dataProcessorsFactory.getProcessors(c, this.formData);
-    } else {
-      this.formData = null;
-    }
+    this.formData = getFormDataForForm(c.selectedForm!);
+    this.processors = dataProcessorsFactory.getProcessors(c, this.formData);
   }
   
   handleFileLoaded(file: File): void {
@@ -42,6 +41,7 @@ export class DataEntryPipeline {
 
   handleParsedData(data: FormData): void {
     this.formData = data;
+    this.hasInputBeenProcessed = true;
     console.log('Parsed form data:', data);
   }
 
@@ -70,5 +70,9 @@ export class DataEntryPipeline {
   
   hasFile(): boolean {
     return this.file !== null;
+  }
+
+  showForm(): boolean {
+    return this.c.selectedInputType?.id === 'manual' || this.hasInputBeenProcessed;
   }
 } 
