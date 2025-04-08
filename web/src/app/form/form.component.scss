@@ -31,12 +31,21 @@
       border: 1px solid colors.$neutral-medium-gray;
       border-radius: 4px;
       font-size: typography.$font-size-sm;
+      background-color: white;
       
       &:focus {
         outline: none;
         border-color: colors.$primary-blue;
         box-shadow: 0 0 0 2px rgba(colors.$primary-blue, 0.1);
       }
+    }
+    
+    select {
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'%3E%3Cpath fill='%23666' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.5rem center;
+      padding-right: 2rem;
     }
     
     input[type="checkbox"] {
