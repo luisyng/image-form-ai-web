@@ -39,7 +39,7 @@
         <app-data-processor 
           [inputData]="p.file" 
           [processManager]="c.processManager!"
-          (processingComplete)="p.handleParsedData($event)"
+          (processingComplete)="p.handleInputProcessed($event)"
         ></app-data-processor>
       </div>
     </app-data-entry-stage>
@@ -94,7 +94,7 @@
       <div class="submit-stage-content">
         <p>Review your data and submit to the backend system.</p>
         <app-backend-data-sender 
-          [payload]="p.formData"
+          [payload]="p.reviewedFormData"
           (sendSuccess)="p.handleBackendSubmitSuccess($event)"
           (sendError)="p.handleBackendSubmitError($event)"
         ></app-backend-data-sender>
