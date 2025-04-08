@@ -12,7 +12,6 @@ import { FormData } from '../models/form-data';
 })
 export class FormComponent implements OnInit {
   @Input() formData!: FormData;
-  @Input() initialData: any = {};
   @Output() dataUpdated = new EventEmitter<any>();
 
   form!: FormGroup;
@@ -27,24 +26,7 @@ export class FormComponent implements OnInit {
     const group: any = {};
     
     for (const element of this.formData.elements) {
-      let initialValue = this.initialData[element.id];
-      
-      // Set default values based on type if no initial value
-      if (initialValue === undefined) {
-        switch (element.type) {
-          case 'boolean':
-            initialValue = false;
-            break;
-          case 'number':
-          case 'text':
-          case 'textarea':
-          case 'select':
-            initialValue = null;
-            break;
-        }
-      }
-      
-      group[element.id] = [initialValue];
+      group[element.id] = [element.value];
     }
     
     this.form = this.fb.group(group);

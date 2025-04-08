@@ -91,7 +91,6 @@
         <p *ngIf="!c.isManualEntry()">Review and edit the extracted information before submission.</p>
         <app-form
           [formData]="c.selectedFormData!"
-          [initialData]="p.formData"
           (dataUpdated)="p.handleFormSubmission($event)"
         ></app-form>
       </div>
