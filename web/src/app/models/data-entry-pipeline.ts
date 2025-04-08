@@ -18,7 +18,6 @@ export class DataEntryPipeline {
     } else {
       this.formData = null;
     }
-    console.log(this.formData);
   }
   
   handleFileLoaded(file: File): void {

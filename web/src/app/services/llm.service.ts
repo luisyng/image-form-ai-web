@@ -67,7 +67,7 @@ export class LlmService {
       { headers: this.llmRequestHelperService.createHeaders(this.apiKey) }));
   }
 
-  private async transcribeAudio(audioFile: File): Promise<string> {
+  async transcribeAudio(audioFile: File): Promise<string> {
     try {
       const formData = new FormData();
       formData.append('file', audioFile);
