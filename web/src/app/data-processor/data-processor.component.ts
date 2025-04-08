@@ -1,10 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-export interface ProcessManager<T, R> {
-  processData: (data: T) => Promise<R>;
-  getProcessName: () => string;
-}
+import { ProcessManager } from '../models/process-manager';
 
 @Component({
   selector: 'app-data-processor',

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ProcessManager } from '../data-processor/data-processor.component';
+import { ProcessManager } from '../models/process-manager';
 import { MalariaData } from '../malaria/malaria-data';
 import { MalariaParserService } from '../malaria/malaria-parser.service';
 

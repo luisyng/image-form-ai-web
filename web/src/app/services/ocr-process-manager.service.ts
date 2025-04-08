@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { OcrService } from './ocr.service';
-import { ProcessManager } from '../data-processor/data-processor.component';
+import { ProcessManager } from '../models/process-manager';
 
 @Injectable({
   providedIn: 'root'

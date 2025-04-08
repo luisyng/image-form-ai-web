@@ -4,7 +4,7 @@ import { getInputMethodsForType, InputMethod } from './input-method';
 import { getProcessMethodsForType, ProcessMethod } from './process-method';
 import { formTypes } from './form-type';
 import { inputTypes } from './input-type';
-import { ProcessManager } from '../data-processor/data-processor.component';
+import { ProcessManager } from '../models/process-manager';
 import { OcrProcessManagerService } from '../services/ocr-process-manager.service';
 import { LlmProcessManagerFactory } from '../services/llm-process-manager.service';
 import { MalariaParserProcessManagerService } from '../services/malaria-parser-process-manager.service';
