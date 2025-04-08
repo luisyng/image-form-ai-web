@@ -105,7 +105,11 @@ export class DataEntryConfig {
 
   private getProcessManagerForText(method: ProcessMethod): ProcessManager<string, any> | null {
     if (method.id === 'parsing') {
-      return this.malariaParserProcessManager;
+      const parserManager = this.malariaParserProcessManager;
+      if (this.selectedFormData) {
+        parserManager.setFormData(this.selectedFormData);
+      }
+      return parserManager;
     } else if (method.id === 'ai-text-to-json') {
       return this.llmProcessManagerFactory.getTextToDataManager(method);
     } else {

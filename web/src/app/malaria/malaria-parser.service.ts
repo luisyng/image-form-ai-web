@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MalariaData } from './malaria-data';
+import { FormData } from '../models/form-data';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +9,193 @@ export class MalariaParserService {
 
   constructor() { }
 
+  /**
+   * Parse text into a FormData structure based on the form definition
+   * 
+   * @param text The text to parse
+   * @param formData The form definition to use for parsing
+   * @returns An object with the parsed data matching the form structure
+   */
+  parseTextToFormData(text: string, formData: FormData): any {
+    // Create an empty result object
+    const result: any = {};
+    
+    // Split the text into lines for better processing
+    const lines = text.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+    
+    // Process each form element
+    for (const element of formData.elements) {
+      // Look for the element in the text
+      const value = this.extractValueForElement(lines, element);
+      
+      // Add the value to the result object
+      if (value !== undefined) {
+        result[element.id] = value;
+      }
+    }
+    
+    return result;
+  }
+  
+  /**
+   * Extract a value for a specific form element from the text
+   * 
+   * @param lines The lines of text to search
+   * @param element The form element to extract a value for
+   * @returns The extracted value, or undefined if not found
+   */
+  private extractValueForElement(lines: string[], element: any): any {
+    const elementId = element.id;
+    const elementType = element.type;
+    const possibleLabels = [element.label, ...element.alternateLabels || []];
+    
+    // Look for the element in the text
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      const lineLower = line.toLowerCase();
+      
+      // Check if the line contains any of the possible labels
+      const matchedLabel = possibleLabels.find(label => 
+        label && lineLower.includes(label.toLowerCase())
+      );
+      
+      if (matchedLabel) {
+        // Extract the value based on the element type
+        switch (elementType) {
+          case 'text':
+          case 'number':
+            return this.extractTextValue(line, matchedLabel);
+          case 'boolean':
+            return this.extractBooleanValue(line, matchedLabel);
+          case 'select':
+            return this.extractSelectValue(line, matchedLabel, element.options);
+          case 'textarea':
+            return this.extractTextAreaValue(lines, i, matchedLabel);
+          default:
+            return undefined;
+        }
+      }
+    }
+    
+    return undefined;
+  }
+  
+  /**
+   * Extract a text value from a line
+   * 
+   * @param line The line to extract from
+   * @param label The label to look for
+   * @returns The extracted text value
+   */
+  private extractTextValue(line: string, label: string): string {
+    // Remove the label and any separators like ":" from the line
+    const labelPattern = new RegExp(`${label}\\s*:?\\s*`, 'i');
+    return line.replace(labelPattern, '').trim();
+  }
+  
+  /**
+   * Extract a boolean value from a line
+   * 
+   * @param line The line to extract from
+   * @param label The label to look for
+   * @returns The extracted boolean value
+   */
+  private extractBooleanValue(line: string, label: string): boolean {
+    const lineLower = line.toLowerCase();
+    const valueText = this.extractTextValue(line, label).toLowerCase();
+    
+    // Check for positive indicators
+    const positiveIndicators = ['yes', 'true', 'positive', 'present', '+', '✓', '✔'];
+    const negativeIndicators = ['no', 'false', 'negative', 'absent', '-', '✗', '✘'];
+    
+    if (positiveIndicators.some(indicator => valueText.includes(indicator))) {
+      return true;
+    }
+    
+    if (negativeIndicators.some(indicator => valueText.includes(indicator))) {
+      return false;
+    }
+    
+    // If no clear indicators, check if the line itself suggests a positive
+    return !negativeIndicators.some(indicator => lineLower.includes(indicator));
+  }
+  
+  /**
+   * Extract a select value from a line
+   * 
+   * @param line The line to extract from
+   * @param label The label to look for
+   * @param options The available options
+   * @returns The extracted select value
+   */
+  private extractSelectValue(line: string, label: string, options: any[]): string {
+    const valueText = this.extractTextValue(line, label).toLowerCase();
+    
+    // Find the option that best matches the text
+    const matchedOption = options.find(option => 
+      valueText.includes(option.value.toLowerCase()) || 
+      valueText.includes(option.label.toLowerCase())
+    );
+    
+    return matchedOption ? matchedOption.value : '';
+  }
+  
+  /**
+   * Extract a text area value from multiple lines
+   * 
+   * @param lines All lines of text
+   * @param startIndex The index of the line with the label
+   * @param label The label to look for
+   * @returns The extracted text area value
+   */
+  private extractTextAreaValue(lines: string[], startIndex: number, label: string): string {
+    // Get the initial value from the first line
+    let value = this.extractTextValue(lines[startIndex], label);
+    
+    // Look for additional lines that might be part of this text area
+    let currentIndex = startIndex + 1;
+    while (currentIndex < lines.length) {
+      const nextLine = lines[currentIndex];
+      
+      // Stop if we hit another field
+      if (this.isLikelyAnotherField(nextLine)) {
+        break;
+      }
+      
+      // Add this line to the value
+      value += '\n' + nextLine;
+      currentIndex++;
+    }
+    
+    return value;
+  }
+  
+  /**
+   * Check if a line is likely to be the start of another field
+   * 
+   * @param line The line to check
+   * @returns True if the line is likely another field, false otherwise
+   */
+  private isLikelyAnotherField(line: string): boolean {
+    const lineLower = line.toLowerCase();
+    
+    // Common field patterns
+    const fieldPatterns = [
+      /^[a-z\s]+:\s*/i,  // "Field name: value"
+      /^[0-9]+\.\s+/,    // "1. Item"
+      /^[-•*]\s+/,       // "- Item" or "• Item"
+      /^[A-Z][a-z]+:/    // "Field:"
+    ];
+    
+    return fieldPatterns.some(pattern => pattern.test(line));
+  }
+  
+  /**
+   * Legacy method for backward compatibility
+   * 
+   * @param text The text to parse
+   * @returns A MalariaData object
+   */
   parseText(text: string): MalariaData {
     const data = new MalariaData();
     
@@ -21,123 +209,81 @@ export class MalariaParserService {
       
       // Parse name - look for specific name patterns
       if (lineLower.includes('name:') || lineLower.includes('patient:') || 
-          lineLower.includes('patient name:') || lineLower.includes('full name:')) {
-        const colonIndex = line.indexOf(':');
-        if (colonIndex !== -1) {
-          // Preserve original case for the value
-          data.name = line.substring(colonIndex + 1).trim();
-          
-          // Check if the next line might be part of the name (no colon)
-          if (i + 1 < lines.length && !lines[i + 1].includes(':')) {
-            const nextLine = lines[i + 1].trim();
-            // Only append if it's not likely to be another field
-            if (!this.isLikelyAnotherField(nextLine)) {
-              data.name += ' ' + nextLine;
-              i++; // Skip the next line since we've processed it
-            }
-          }
-        }
+          lineLower.includes('patient name:')) {
+        data.name = this.extractValue(line);
       }
       
-      // Parse age - look for specific age patterns
-      else if (lineLower.includes('age:') || lineLower.includes('age (years):') || lineLower.includes('years:')) {
-        const colonIndex = line.indexOf(':');
-        if (colonIndex !== -1) {
-          // Extract numeric part from the age
-          const ageValue = line.substring(colonIndex + 1).trim();
-          const ageMatch = ageValue.match(/\d+/);
-          if (ageMatch) {
-            data.age = parseInt(ageMatch[0], 10);
-          }
+      // Parse age
+      else if (lineLower.includes('age:') || lineLower.match(/\bage\b/)) {
+        const ageText = this.extractValue(line);
+        const ageMatch = ageText.match(/\d+/);
+        if (ageMatch) {
+          data.age = parseInt(ageMatch[0], 10);
         }
       }
       
       // Parse symptoms
-      else if (this.isSymptomLine(lineLower)) {
-        this.parseSymptomLine(lineLower, data);
+      else if (lineLower.includes('symptom') || lineLower.includes('clinical')) {
+        // Look ahead for symptom details in subsequent lines
+        let j = i + 1;
+        while (j < lines.length && !this.isLikelyAnotherField(lines[j])) {
+          this.parseSymptomLine(lines[j], data);
+          j++;
+        }
       }
       
-      // Parse other symptoms
-      else if (lineLower.includes('other symptoms:') || lineLower.includes('notes:') || lineLower.includes('additional:')) {
-        const colonIndex = line.indexOf(':');
-        if (colonIndex !== -1) {
-          // Preserve original case for the value
-          data.otherSymptoms = line.substring(colonIndex + 1).trim();
-          
-          // Check if there are more lines of other symptoms
-          let j = i + 1;
-          while (j < lines.length && !this.isLikelyAnotherField(lines[j])) {
-            data.otherSymptoms += ' ' + lines[j].trim();
-            j++;
-          }
-          i = j - 1; // Update the index to skip processed lines
-        }
+      // Direct symptom mentions
+      else {
+        this.parseSymptomLine(line, data);
       }
     }
     
     return data;
   }
   
-  private isSymptomLine(lineLower: string): boolean {
-    const symptomKeywords = [
-      'fever', 'chills', 'sweating', 'headache', 
-      'nausea', 'vomiting', 'muscle pain', 'musculepain', 
-      'muscle-pain', 'fatigue'
-    ];
-    
-    // Check if the line contains any symptom keyword
-    return symptomKeywords.some(keyword => lineLower.includes(keyword));
+  private extractValue(line: string): string {
+    // Extract the value after a colon or similar separator
+    const parts = line.split(/:\s*|:\s+|\s+-\s+|\s+–\s+/);
+    if (parts.length > 1) {
+      return parts.slice(1).join(' ').trim();
+    }
+    return line.trim();
   }
   
-  private parseSymptomLine(lineLower: string, data: MalariaData): void {
-    const isPositive = lineLower.includes('yes') || lineLower.includes('true') || lineLower.includes('positive') || 
-                       lineLower.includes('✓') || lineLower.includes('✔') || lineLower.includes('☑');
-    const isNegative = lineLower.includes('no') || lineLower.includes('false') || lineLower.includes('negative') || 
-                       lineLower.includes('✗') || lineLower.includes('✘') || lineLower.includes('☐');
-    
-    // Default to positive if there's a symptom mentioned without explicit yes/no
-    const hasSymptom = isPositive || (!isNegative && !lineLower.includes(':'));
-    
-    if (lineLower.includes('fever')) {
-      data.fever = hasSymptom;
-    }
-    if (lineLower.includes('chills')) {
-      data.chills = hasSymptom;
-    }
-    if (lineLower.includes('sweating')) {
-      data.sweating = hasSymptom;
-    }
-    if (lineLower.includes('headache')) {
-      data.headache = hasSymptom;
-    }
-    if (lineLower.includes('nausea')) {
-      data.nausea = hasSymptom;
-    }
-    if (lineLower.includes('vomiting')) {
-      data.vomiting = hasSymptom;
-    }
-    if (lineLower.includes('muscle pain') || lineLower.includes('musculepain') || lineLower.includes('muscle-pain')) {
-      data.musclePain = hasSymptom;
-    }
-    if (lineLower.includes('fatigue')) {
-      data.fatigue = hasSymptom;
-    }
-  }
-  
-  private isLikelyAnotherField(line: string): boolean {
-    // Check if the line is likely to be the start of another field
-    const fieldKeywords = [
-      'name:', 'age:', 'fever:', 'chills:', 'sweating:', 'headache:', 
-      'nausea:', 'vomiting:', 'muscle pain:', 'fatigue:', 'other symptoms:',
-      'patient:', 'gender:', 'sex:', 'date:', 'diagnosis:', 'treatment:'
-    ];
-    
+  private parseSymptomLine(line: string, data: MalariaData): void {
     const lineLower = line.toLowerCase();
     
-    // Check if the line contains any field keyword
-    return fieldKeywords.some(keyword => lineLower.includes(keyword)) || 
-           // Or if it looks like a bullet point or numbered list
-           /^[-•*]\s/.test(line) || 
-           /^\d+[.)]/.test(line);
+    // Check for common symptoms
+    this.checkSymptom(lineLower, 'fever', data, 'fever');
+    this.checkSymptom(lineLower, 'chill', data, 'chills');
+    this.checkSymptom(lineLower, 'sweat', data, 'sweating');
+    this.checkSymptom(lineLower, 'headache', data, 'headache');
+    this.checkSymptom(lineLower, 'nausea', data, 'nausea');
+    this.checkSymptom(lineLower, 'vomit', data, 'vomiting');
+    this.checkSymptom(lineLower, 'muscle pain', data, 'musclePain');
+    this.checkSymptom(lineLower, 'muscle ache', data, 'musclePain');
+    this.checkSymptom(lineLower, 'myalgia', data, 'musclePain');
+    this.checkSymptom(lineLower, 'fatigue', data, 'fatigue');
+    this.checkSymptom(lineLower, 'tired', data, 'fatigue');
+    this.checkSymptom(lineLower, 'weakness', data, 'fatigue');
+    
+    // Check for other symptoms
+    if (lineLower.includes('other symptom') || lineLower.includes('additional symptom')) {
+      const otherSymptoms = this.extractValue(line);
+      data.otherSymptoms = otherSymptoms;
+    }
+  }
+  
+  private checkSymptom(lineLower: string, keyword: string, data: MalariaData, property: keyof MalariaData): void {
+    if (lineLower.includes(keyword)) {
+      const hasSymptom = !lineLower.includes('no ' + keyword) && 
+                         !lineLower.includes('not ' + keyword) &&
+                         !lineLower.includes('negative for ' + keyword);
+      
+      // Set the property if it's a boolean property
+      if (typeof data[property] === 'boolean') {
+        (data[property] as boolean) = hasSymptom;
+      }
+    }
   }
 } 
