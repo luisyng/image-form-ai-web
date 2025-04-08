@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MalariaFormComponent } from '../malaria/malaria-form/malaria-form.component';
+import { FormComponent } from '../form/form.component';
 import { DataEntryStageComponent, StageStatus } from '../data-entry-stage/data-entry-stage.component';
 import { FileLoaderComponent } from '../file-loader/file-loader.component';
 import { CameraCaptureComponent } from '../camera-capture/camera-capture.component';
@@ -16,7 +16,7 @@ import { DataProcessorComponent } from '../data-processor/data-processor.compone
   standalone: true,
   imports: [
     CommonModule, 
-    MalariaFormComponent, 
+    FormComponent, 
     DataEntryStageComponent, 
     FileLoaderComponent,
     CameraCaptureComponent,

@@ -31,16 +31,11 @@ export class MalariaParserProcessManagerService extends ProcessManager<string, a
   processData(text: string): Promise<any> {
     return new Promise((resolve, reject) => {
       try {
-        let parsedData;
-        
-        if (this.formData) {
-          // Use the generic parser if we have form data
-          parsedData = this.malariaParserService.parseTextToFormData(text, this.formData);
-        } else {
-          // Fall back to the legacy parser
-          parsedData = this.malariaParserService.parseText(text);
+        if (!this.formData) {
+          throw new Error('No form data provided for parsing');
         }
         
+        const parsedData = this.malariaParserService.parseTextToFormData(text, this.formData);
         resolve(parsedData);
       } catch (error) {
         reject(error);

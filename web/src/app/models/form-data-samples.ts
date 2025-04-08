@@ -26,7 +26,11 @@ export const malariaFormData: FormData = {
             type: 'select',
             value: '',
             required: false,
-            options: ['Male', 'Female', 'Other']
+            options: [
+                { value: 'male', label: 'Male' },
+                { value: 'female', label: 'Female' },
+                { value: 'other', label: 'Other' }
+            ]
         },
         {
             id: 'fever',

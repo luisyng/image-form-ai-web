@@ -89,10 +89,11 @@
       <div class="review-stage-content">
         <p *ngIf="c.isManualEntry()">Fill out the form with patient information.</p>
         <p *ngIf="!c.isManualEntry()">Review and edit the extracted information before submission.</p>
-        <app-malaria-form 
-          [malariaData]="p.formData"
+        <app-form
+          [formData]="c.selectedFormData!"
+          [initialData]="p.formData"
           (dataUpdated)="p.handleFormSubmission($event)"
-        ></app-malaria-form>
+        ></app-form>
       </div>
     </app-data-entry-stage>
 

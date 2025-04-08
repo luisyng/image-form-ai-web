@@ -1,11 +1,12 @@
 export interface DataElement {
     id: string;
+    type: 'text' | 'number' | 'boolean' | 'select' | 'textarea';
     name: string;
-    description?: string;
-    type: 'text' | 'number' | 'boolean' | 'select';
+    placeholder?: string;
+    required?: boolean;
+    options?: SelectOption[];
     value?: any;
-    options?: any[];
-    required: boolean;
+    alternateLabels?: string[]; // For text parsing
 }
 
 export interface FormData {
@@ -13,4 +14,9 @@ export interface FormData {
     name: string;
     description?: string;
     elements: DataElement[];
+}
+
+export interface SelectOption {
+    value: string;
+    label: string;
 }
