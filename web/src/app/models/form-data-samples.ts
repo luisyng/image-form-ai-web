@@ -8,10 +8,11 @@ export const malariaFormData: FormData = {
     elements: [
         {
             id: 'name',
-            name: 'Name',
+            name: 'Patient Name',
             type: 'text',
             value: '',
-            required: true
+            required: true,
+            alternateLabels: ['name', 'patient', 'patient name']
         },
         {
             id: 'age',

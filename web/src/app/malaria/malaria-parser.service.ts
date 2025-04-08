@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormData } from '../models/form-data';
+import { FormData, DataElement, SelectOption } from '../models/form-data';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +27,7 @@ export class FormDataParserService {
       // Look for the element in the text
       const value = this.extractValueForElement(lines, element);
       
-      // Add the value to the result object
+      // Add the value to the result object if found
       if (value !== undefined) {
         result[element.id] = value;
       }
@@ -43,19 +43,21 @@ export class FormDataParserService {
    * @param element The form element to extract a value for
    * @returns The extracted value, or undefined if not found
    */
-  private extractValueForElement(lines: string[], element: any): any {
+  private extractValueForElement(lines: string[], element: DataElement): any {
     const elementId = element.id;
     const elementType = element.type;
-    const possibleLabels = [element.label, ...element.alternateLabels || []];
+    const possibleLabels = [
+      element.name.toLowerCase(),
+      ...(element.alternateLabels || []).map((label: string) => label.toLowerCase())
+    ];
     
     // Look for the element in the text
     for (let i = 0; i < lines.length; i++) {
-      const line = lines[i];
-      const lineLower = line.toLowerCase();
+      const line = lines[i].toLowerCase();
       
       // Check if the line contains any of the possible labels
       const matchedLabel = possibleLabels.find(label => 
-        label && lineLower.includes(label.toLowerCase())
+        line.includes(label)
       );
       
       if (matchedLabel) {
@@ -63,11 +65,11 @@ export class FormDataParserService {
         switch (elementType) {
           case 'text':
           case 'number':
-            return this.extractTextValue(line, matchedLabel);
+            return this.extractTextValue(lines[i], matchedLabel);
           case 'boolean':
-            return this.extractBooleanValue(line, matchedLabel);
+            return this.extractBooleanValue(lines[i], matchedLabel);
           case 'select':
-            return this.extractSelectValue(line, matchedLabel, element.options);
+            return this.extractSelectValue(lines[i], matchedLabel, element.options || []);
           case 'textarea':
             return this.extractTextAreaValue(lines, i, matchedLabel);
           default:
@@ -127,7 +129,7 @@ export class FormDataParserService {
    * @param options The available options
    * @returns The extracted select value
    */
-  private extractSelectValue(line: string, label: string, options: any[]): string {
+  private extractSelectValue(line: string, label: string, options: SelectOption[]): string {
     const valueText = this.extractTextValue(line, label).toLowerCase();
     
     // Find the option that best matches the text
