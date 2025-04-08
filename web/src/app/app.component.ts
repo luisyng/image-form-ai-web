@@ -5,6 +5,7 @@ import { DataEntryComponent } from './data-entry/data-entry.component';
 import { DataPipelineBuildComponent } from './data-pipeline-build/data-pipeline-build.component';
 import { DataEntryConfig } from './models/data-entry-config';
 import { DataEntryPipeline } from './models/data-entry-pipeline';
+import { DataProcessorsFactory } from './models/data-processors';
 
 @Component({
   selector: 'app-root',
@@ -19,13 +20,15 @@ export class AppComponent {
   c: DataEntryConfig | null = null; 
   p: DataEntryPipeline | null = null;
 
-  constructor(private changeDetectorRef: ChangeDetectorRef) {
+  constructor(private changeDetectorRef: ChangeDetectorRef,
+    private dataProcessorsFactory: DataProcessorsFactory
+  ) {
 
   }
 
   onConfigReady(c: DataEntryConfig) {
     this.c = c;
-    this.p = new DataEntryPipeline(c);
+    this.instantiatePipeline(c);
   }
 
   onNewPipelineRequested() {
@@ -37,7 +40,11 @@ export class AppComponent {
     this.p = null;
     this.changeDetectorRef.detectChanges();
     if (this.c) {
-      this.p = new DataEntryPipeline(this.c);
+      this.instantiatePipeline(this.c);
     }
-  } 
+  }
+
+  private instantiatePipeline(c: DataEntryConfig) {
+    this.p = new DataEntryPipeline(c, this.dataProcessorsFactory);
+  }
 }

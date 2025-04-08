@@ -48,7 +48,7 @@
       <div class="data-processing-stage">
         <app-data-processor 
           [inputData]="p.file" 
-          [processManager]="c.processManager!"
+          [processManager]="p.processors!.processManager!"
           (processingComplete)="p.handleInputProcessed($event)"
         ></app-data-processor>
       </div>
@@ -75,7 +75,7 @@
       <div class="data-processing-stage">
         <app-data-processor 
           [inputData]="p.reviewedText" 
-          [processManager]="c.processManagerForText!"
+          [processManager]="p.processors!.processManagerForText!"
           (processingComplete)="p.handleParsedData($event)"
         ></app-data-processor>
       </div>
@@ -90,7 +90,7 @@
         <p *ngIf="c.isManualEntry()">Fill out the form with patient information.</p>
         <p *ngIf="!c.isManualEntry()">Review and edit the extracted information before submission.</p>
         <app-form
-          [formData]="c.selectedFormData!"
+          [formData]="p.formData!"
           (dataUpdated)="p.handleFormSubmission($event)"
         ></app-form>
       </div>

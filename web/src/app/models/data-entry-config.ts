@@ -4,13 +4,7 @@ import { getInputMethodsForType, InputMethod } from './input-method';
 import { getProcessMethodsForType, ProcessMethod } from './process-method';
 import { formTypes } from './form-type';
 import { inputTypes } from './input-type';
-import { ProcessManager } from '../models/process-manager';
-import { OcrProcessManagerService } from '../services/ocr-process-manager.service';
-import { LlmProcessManagerFactory } from '../services/llm-process-manager.service';
-import { MalariaParserProcessManagerService } from '../services/malaria-parser-process-manager.service';
 import { Injectable } from '@angular/core';
-import { FormData } from './form-data';
-import { getFormDataForForm } from './form-data-samples';
 
 @Injectable({
   providedIn: 'root'
@@ -18,16 +12,12 @@ import { getFormDataForForm } from './form-data-samples';
 export class DataEntryConfigFactory {
 
   constructor(
-    private ocrProcessManager: OcrProcessManagerService,
-    private llmProcessManagerFactory: LlmProcessManagerFactory,
-    private malariaParserProcessManager: MalariaParserProcessManagerService
+
   ) {}
 
   createConfig(): DataEntryConfig {
     return new DataEntryConfig(
-      this.ocrProcessManager, 
-      this.llmProcessManagerFactory,
-      this.malariaParserProcessManager
+
     );
   }
 
@@ -40,26 +30,18 @@ export class DataEntryConfig {
   availableInputMethods!: InputMethod[];
   availableProcessMethods!: ProcessMethod[];
   availableProcessMethodsForText = getProcessMethodsForType('text');
-
-  processManager: ProcessManager<any, any> | null = null;
-  processManagerForText: ProcessManager<string, any> | null = null;
   
   selectedForm: FormType | null = null;
-  selectedFormData: FormData | null = null;
   selectedInputType: InputType | null = null;
   selectedInputMethod: InputMethod | null = null;
   selectedProcessMethod: ProcessMethod | null = null;
   selectedProcessMethodforText: ProcessMethod | null = null;
  
   constructor(
-    private ocrProcessManager: OcrProcessManagerService,
-    private llmProcessManagerFactory: LlmProcessManagerFactory,
-    private malariaParserProcessManager: MalariaParserProcessManagerService
   ) {}
   
   handleFormSelection(form: FormType): void {
     this.selectedForm = form;
-    this.selectedFormData = getFormDataForForm(form);
     console.log('Selected form:', form);
   }
   
@@ -78,43 +60,13 @@ export class DataEntryConfig {
   
   handleProcessMethodSelection(method: ProcessMethod): void {
     this.selectedProcessMethod = method;
-    this.selectedProcessMethodforText = null;
-    this.processManager = this.getProcessManager(method);
-    
+    this.selectedProcessMethodforText = null;    
     console.log('Selected process method:', method);
   }
 
-  private getProcessManager(method: ProcessMethod): ProcessManager<any, any> | null {
-    if (method.id === 'ocr') {
-      return this.ocrProcessManager;
-    } else if (method.id === 'ai-image-to-json') {
-      return this.llmProcessManagerFactory.getImageToDataManager(method);
-    } else if (method.id === 'ai-audio-transcription') {
-      return this.llmProcessManagerFactory.getAudioToTextManager(method);
-    } else {
-      return null;
-    }
-  }
-
   handleProcessMethodSelectionforText(method: ProcessMethod): void {
-    this.selectedProcessMethodforText = method;
-    this.processManagerForText = this.getProcessManagerForText(method);
-    
+    this.selectedProcessMethodforText = method;    
     console.log('Selected process method for text:', method);
-  }
-
-  private getProcessManagerForText(method: ProcessMethod): ProcessManager<string, any> | null {
-    if (method.id === 'parsing') {
-      const parserManager = this.malariaParserProcessManager;
-      if (this.selectedFormData) {
-        parserManager.setFormData(this.selectedFormData);
-      }
-      return parserManager;
-    } else if (method.id === 'ai-text-to-json') {
-      return this.llmProcessManagerFactory.getTextToDataManager(method);
-    } else {
-      return null;
-    }
   }
   
   isManualEntry(): boolean {

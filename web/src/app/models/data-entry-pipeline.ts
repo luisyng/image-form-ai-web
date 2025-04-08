@@ -1,9 +1,12 @@
 import { DataEntryConfig } from './data-entry-config';
 import { StageStatus } from '../data-entry-stage/data-entry-stage.component';
 import { FormData } from './form-data';
+import { getFormDataForForm } from './form-data-samples';
+import { DataProcessors, DataProcessorsFactory } from './data-processors';
 
 export class DataEntryPipeline {
   c!: DataEntryConfig;
+  processors!: DataProcessors;
   file: File | null = null;
   extractedText: string | null = null;
   reviewedText: string | null = null;
@@ -11,10 +14,11 @@ export class DataEntryPipeline {
   reviewedFormData: FormData | null = null;
   backendSubmitStatus: StageStatus = 'normal';
 
-  constructor(c: DataEntryConfig) {
+  constructor(c: DataEntryConfig, dataProcessorsFactory: DataProcessorsFactory) {
     this.c = c;
     if (c.selectedInputType?.id === 'manual') {
-      this.formData = c.selectedFormData;
+      this.formData = getFormDataForForm(c.selectedForm!);
+      this.processors = dataProcessorsFactory.getProcessors(c, this.formData);
     } else {
       this.formData = null;
     }
