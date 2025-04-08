@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { MalariaData } from './malaria-data';
 import { FormData } from '../models/form-data';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MalariaParserService {
+export class FormDataParserService {
 
   constructor() { }
 
@@ -188,102 +187,5 @@ export class MalariaParserService {
     ];
     
     return fieldPatterns.some(pattern => pattern.test(line));
-  }
-  
-  /**
-   * Legacy method for backward compatibility
-   * 
-   * @param text The text to parse
-   * @returns A MalariaData object
-   */
-  parseText(text: string): MalariaData {
-    const data = new MalariaData();
-    
-    // Split the text into lines for better processing
-    const lines = text.split('\n').map(line => line.trim()).filter(line => line.length > 0);
-    
-    // Process each line
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i];
-      const lineLower = line.toLowerCase();
-      
-      // Parse name - look for specific name patterns
-      if (lineLower.includes('name:') || lineLower.includes('patient:') || 
-          lineLower.includes('patient name:')) {
-        data.name = this.extractValue(line);
-      }
-      
-      // Parse age
-      else if (lineLower.includes('age:') || lineLower.match(/\bage\b/)) {
-        const ageText = this.extractValue(line);
-        const ageMatch = ageText.match(/\d+/);
-        if (ageMatch) {
-          data.age = parseInt(ageMatch[0], 10);
-        }
-      }
-      
-      // Parse symptoms
-      else if (lineLower.includes('symptom') || lineLower.includes('clinical')) {
-        // Look ahead for symptom details in subsequent lines
-        let j = i + 1;
-        while (j < lines.length && !this.isLikelyAnotherField(lines[j])) {
-          this.parseSymptomLine(lines[j], data);
-          j++;
-        }
-      }
-      
-      // Direct symptom mentions
-      else {
-        this.parseSymptomLine(line, data);
-      }
-    }
-    
-    return data;
-  }
-  
-  private extractValue(line: string): string {
-    // Extract the value after a colon or similar separator
-    const parts = line.split(/:\s*|:\s+|\s+-\s+|\s+–\s+/);
-    if (parts.length > 1) {
-      return parts.slice(1).join(' ').trim();
-    }
-    return line.trim();
-  }
-  
-  private parseSymptomLine(line: string, data: MalariaData): void {
-    const lineLower = line.toLowerCase();
-    
-    // Check for common symptoms
-    this.checkSymptom(lineLower, 'fever', data, 'fever');
-    this.checkSymptom(lineLower, 'chill', data, 'chills');
-    this.checkSymptom(lineLower, 'sweat', data, 'sweating');
-    this.checkSymptom(lineLower, 'headache', data, 'headache');
-    this.checkSymptom(lineLower, 'nausea', data, 'nausea');
-    this.checkSymptom(lineLower, 'vomit', data, 'vomiting');
-    this.checkSymptom(lineLower, 'muscle pain', data, 'musclePain');
-    this.checkSymptom(lineLower, 'muscle ache', data, 'musclePain');
-    this.checkSymptom(lineLower, 'myalgia', data, 'musclePain');
-    this.checkSymptom(lineLower, 'fatigue', data, 'fatigue');
-    this.checkSymptom(lineLower, 'tired', data, 'fatigue');
-    this.checkSymptom(lineLower, 'weakness', data, 'fatigue');
-    
-    // Check for other symptoms
-    if (lineLower.includes('other symptom') || lineLower.includes('additional symptom')) {
-      const otherSymptoms = this.extractValue(line);
-      data.otherSymptoms = otherSymptoms;
-    }
-  }
-  
-  private checkSymptom(lineLower: string, keyword: string, data: MalariaData, property: keyof MalariaData): void {
-    if (lineLower.includes(keyword)) {
-      const hasSymptom = !lineLower.includes('no ' + keyword) && 
-                         !lineLower.includes('not ' + keyword) &&
-                         !lineLower.includes('negative for ' + keyword);
-      
-      // Set the property if it's a boolean property
-      if (typeof data[property] === 'boolean') {
-        (data[property] as boolean) = hasSymptom;
-      }
-    }
   }
 } 

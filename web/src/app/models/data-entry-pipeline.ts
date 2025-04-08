@@ -1,20 +1,20 @@
-import { MalariaData } from '../malaria/malaria-data';
 import { DataEntryConfig } from './data-entry-config';
 import { StageStatus } from '../data-entry-stage/data-entry-stage.component';
+import { FormData } from './form-data';
 
 export class DataEntryPipeline {
   c!: DataEntryConfig;
   file: File | null = null;
   extractedText: string | null = null;
   reviewedText: string | null = null;
-  formData: MalariaData | null = null;
-  reviewedFormData: MalariaData | null = null;
+  formData: FormData | null = null;
+  reviewedFormData: FormData | null = null;
   backendSubmitStatus: StageStatus = 'normal';
 
   constructor(c: DataEntryConfig) {
     this.c = c;
     if (c.selectedInputType?.id === 'manual') {
-      this.formData = new MalariaData();
+      this.formData = c.selectedFormData;
     } else {
       this.formData = null;
     }
@@ -36,9 +36,9 @@ export class DataEntryPipeline {
     console.log('Reviewed text:', text);
   }
 
-  handleParsedData(data: MalariaData): void {
+  handleParsedData(data: FormData): void {
     this.formData = data;
-    console.log('Parsed malaria data:', data);
+    console.log('Parsed form data:', data);
   }
 
   handleInputProcessed(data: any) {

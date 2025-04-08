@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ProcessManager } from '../models/process-manager';
 import { MalariaData } from '../malaria/malaria-data';
-import { MalariaParserService } from '../malaria/malaria-parser.service';
+import { FormDataParserService } from '../malaria/malaria-parser.service';
 import { ProcessMethod } from '../models/process-method';
 import { FormData } from '../models/form-data';
 
@@ -20,7 +20,7 @@ export class MalariaParserProcessManagerService extends ProcessManager<string, a
   
   private formData: FormData | null = null;
   
-  constructor(private malariaParserService: MalariaParserService) {
+  constructor(private malariaParserService: FormDataParserService) {
     super(MalariaParserProcessManagerService.PARSER_METHOD);
   }
   
