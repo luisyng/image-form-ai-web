@@ -9,17 +9,17 @@ import { ProcessMethod } from '../models/process-method';
 })
 export class LlmProcessManagerFactory {
   constructor(private llmService: LlmService) {}
-  
-  getManager<T, R>(method: ProcessMethod): ProcessManager<T, R> {
-    if (method.id === 'ai-image-to-json') {
-      return new ImageToDataProcessManager(this.llmService, method) as unknown as ProcessManager<T, R>;
-    } else if (method.id === 'ai-audio-transcription' || method.id === 'ai-text-to-json') {
-      return new AudioToTextProcessManager(this.llmService, method) as unknown as ProcessManager<T, R>;
-    } else if (method.id === 'ai-text-to-json') {
-      return new TextToDataProcessManager(this.llmService, method) as unknown as ProcessManager<T, R>;
-    }
-    
-    throw new Error(`Unsupported processing method: ${method.id}`);
+
+  getImageToDataManager(method: ProcessMethod): ProcessManager<File, MalariaData> {
+    return new ImageToDataProcessManager(this.llmService, method);
+  }
+
+  getAudioToTextManager(method: ProcessMethod): ProcessManager<File, string> {
+    return new AudioToTextProcessManager(this.llmService, method);
+  }
+
+  getTextToDataManager(method: ProcessMethod): ProcessManager<string, MalariaData> {
+    return new TextToDataProcessManager(this.llmService, method);
   }
 }
 

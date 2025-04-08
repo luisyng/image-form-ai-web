@@ -59,7 +59,7 @@
     
     <app-data-entry-stage 
       title="Text to Form Data" 
-      *ngIf="c.selectedProcessMethodforText?.id === 'parsing' && p.reviewedText !== null"
+      *ngIf="c.isProcessingToText() && p.reviewedText !== null"
       [status]="successIfNotNull(p.formData)"
     >
       <div class="data-processing-stage">

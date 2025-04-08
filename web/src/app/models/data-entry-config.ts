@@ -76,28 +76,38 @@ export class DataEntryConfig {
   handleProcessMethodSelection(method: ProcessMethod): void {
     this.selectedProcessMethod = method;
     this.selectedProcessMethodforText = null;
-    
-    if (method.id === 'ocr') {
-      this.processManager = this.ocrProcessManager;
-    } else if (method.id === 'ai-image-to-json' || method.id === 'ai-audio-transcription') {
-      this.processManager = this.llmProcessManagerFactory.getManager(method);
-    } else {
-      this.processManager = null;
-    }
+    this.processManager = this.getProcessManager(method);
     
     console.log('Selected process method:', method);
   }
 
+  private getProcessManager(method: ProcessMethod): ProcessManager<any, any> | null {
+    if (method.id === 'ocr') {
+      return this.ocrProcessManager;
+    } else if (method.id === 'ai-image-to-json') {
+      return this.llmProcessManagerFactory.getImageToDataManager(method);
+    } else if (method.id === 'ai-audio-transcription') {
+      return this.llmProcessManagerFactory.getAudioToTextManager(method);
+    } else {
+      return null;
+    }
+  }
+
   handleProcessMethodSelectionforText(method: ProcessMethod): void {
     this.selectedProcessMethodforText = method;
-    
-    if (method.id === 'parsing') {
-      this.processManagerForText = this.malariaParserProcessManager;
-    } else {
-      this.processManagerForText = null;
-    }
+    this.processManagerForText = this.getProcessManagerForText(method);
     
     console.log('Selected process method for text:', method);
+  }
+
+  private getProcessManagerForText(method: ProcessMethod): ProcessManager<string, any> | null {
+    if (method.id === 'parsing') {
+      return this.malariaParserProcessManager;
+    } else if (method.id === 'ai-text-to-json') {
+      return this.llmProcessManagerFactory.getTextToDataManager(method);
+    } else {
+      return null;
+    }
   }
   
   isManualEntry(): boolean {
