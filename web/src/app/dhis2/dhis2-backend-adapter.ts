@@ -4,7 +4,8 @@ import { map } from 'rxjs/operators';
 import { Dhis2BackendService } from './dhis2-backend.service';
 import { FormType } from '../models/form-type';
 import { Dhis2Program, Dhis2DataElement, Dhis2ProgramStageDataElement, Dhis2EventsPayload } from './dhis2-models';
-import { FormMetadata, DataElement, SelectOption } from '../models/form-metadata';
+import { FormMetadata, DataElement } from '../models/form-metadata';
+import { FormDataProjection } from '../models/form-data';
 
 @Injectable({
   providedIn: 'root'
@@ -80,7 +81,7 @@ export class Dhis2BackendAdapter {
   buildEventsPayload(
     programId: string, 
     programStageId: string, 
-    dataValues: { [key: string]: any }
+    dataProjection: FormDataProjection
   ): Dhis2EventsPayload  {
     
     return {
@@ -90,7 +91,7 @@ export class Dhis2BackendAdapter {
         program: programId,
         programStage: programStageId,
         orgUnit: this.DEFAULT_ORG_UNIT,
-        dataValues: Object.entries(dataValues).map(([key, value]) => ({
+        dataValues: Object.entries(dataProjection).map(([key, value]) => ({
           dataElement: key,
           value: value?.toString() || ''
         }))
