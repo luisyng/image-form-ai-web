@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormData, DataElement, SelectOption } from '../models/form-data';
+import { FormMetadata, DataElement, SelectOption } from '../models/form-metadata';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class FormDataParserService {
    * @param formData The form definition to use for parsing
    * @returns An object with the parsed data matching the form structure
    */
-  parseTextToFormData(text: string, formData: FormData): any {
+  parseTextToFormData(text: string, formData: FormMetadata): any {
     // Create an empty result object
     const result: any = {};
     

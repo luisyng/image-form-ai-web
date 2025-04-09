@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ProcessManager } from '../models/process-manager';
 import { FormDataParserService } from '../malaria/malaria-parser.service';
 import { ProcessMethod } from '../models/process-method';
-import { FormData } from '../models/form-data';
+import { FormMetadata } from '../models/form-metadata';
 
 @Injectable({
   providedIn: 'root'
@@ -17,13 +17,13 @@ export class MalariaParserProcessManagerService extends ProcessManager<string, a
     outputType: 'JSON'
   };
   
-  private formData: FormData | null = null;
+  private formData: FormMetadata | null = null;
   
   constructor(private malariaParserService: FormDataParserService) {
     super(MalariaParserProcessManagerService.PARSER_METHOD);
   }
   
-  setFormData(formData: FormData): void {
+  setFormData(formData: FormMetadata): void {
     this.formData = formData;
   }
   

@@ -6,7 +6,7 @@ import { OcrProcessManagerService } from "../services/ocr-process-manager.servic
 import { ProcessMethod } from "./process-method";
 import { DataEntryConfig } from "./data-entry-config";
 import { LlmProcessManagerFactory } from "../services/llm-process-manager.service";
-import { FormData } from "./form-data";
+import { FormMetadata } from "./form-metadata";
 
 @Injectable({
     providedIn: 'root'
@@ -19,7 +19,7 @@ export class DataProcessorsFactory {
         private malariaParserProcessManager: MalariaParserProcessManagerService
     ) {}
 
-    getProcessors(c: DataEntryConfig, formData: FormData): DataProcessors {
+    getProcessors(c: DataEntryConfig, formData: FormMetadata): DataProcessors {
         return new DataProcessors(
             this.getProcessManager(c.selectedProcessMethod!),
             this.getProcessManagerForText(c.selectedProcessMethodforText, formData)
@@ -38,7 +38,7 @@ export class DataProcessorsFactory {
         }
       }
 
-      private getProcessManagerForText(method: ProcessMethod | null, formData: FormData): ProcessManager<string, any> | null {
+      private getProcessManagerForText(method: ProcessMethod | null, formData: FormMetadata): ProcessManager<string, any> | null {
         if (method?.id === 'parsing') {
           const parserManager = this.malariaParserProcessManager;
           parserManager.setFormData(formData);

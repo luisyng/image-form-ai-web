@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
-import { FormData } from '../models/form-data';
+import { FormMetadata } from '../models/form-metadata';
 
 @Component({
   selector: 'app-form',
@@ -11,7 +11,7 @@ import { FormData } from '../models/form-data';
   styleUrls: ['./form.component.scss']
 })
 export class FormComponent implements OnInit {
-  @Input() formData!: FormData;
+  @Input() formData!: FormMetadata;
   @Output() dataUpdated = new EventEmitter<any>();
 
   form!: FormGroup;
@@ -26,7 +26,7 @@ export class FormComponent implements OnInit {
     const group: any = {};
     
     for (const element of this.formData.elements) {
-      group[element.id] = [element.value];
+      group[element.id] = [element.defaultValue];
     }
     
     this.form = this.fb.group(group);

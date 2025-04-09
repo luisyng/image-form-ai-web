@@ -1,7 +1,7 @@
 import { DataEntryConfig } from './data-entry-config';
 import { StageStatus } from '../data-entry-stage/data-entry-stage.component';
-import { FormData } from './form-data';
-import { getFormDataForForm } from './form-data-samples';
+import { FormMetadata } from './form-metadata';
+import { getFormDataForForm } from './form-metadata-samples';
 import { DataProcessors, DataProcessorsFactory } from './data-processors';
 
 export class DataEntryPipeline {
@@ -13,8 +13,8 @@ export class DataEntryPipeline {
 
   hasInputBeenProcessed: boolean = false;
 
-  formData: FormData | null = null;
-  reviewedFormData: FormData | null = null;
+  formData: FormMetadata | null = null;
+  reviewedFormData: FormMetadata | null = null;
   backendSubmitStatus: StageStatus = 'normal';
 
   constructor(c: DataEntryConfig, dataProcessorsFactory: DataProcessorsFactory) {
@@ -39,7 +39,7 @@ export class DataEntryPipeline {
     console.log('Reviewed text:', text);
   }
 
-  handleParsedData(data: FormData): void {
+  handleParsedData(data: FormMetadata): void {
     this.formData = data;
     this.hasInputBeenProcessed = true;
     console.log('Parsed form data:', data);
