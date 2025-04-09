@@ -24,6 +24,17 @@
             [placeholder]="element.placeholder || ''"
           >
         </ng-container>
+
+        <!-- Date Input -->
+        <ng-container *ngSwitchCase="'DATE'">
+          <label [for]="element.id">{{ element.name }}</label>
+          <input 
+            [id]="element.id"
+            type="date"
+            [formControlName]="element.id"
+            [placeholder]="element.placeholder || ''"
+          >
+        </ng-container>
   
         <!-- Number Input -->
         <ng-container *ngSwitchCase="'INTEGER_ZERO_OR_POSITIVE'">
@@ -31,6 +42,7 @@
           <input 
             [id]="element.id"
             type="number"
+            min="0"
             [formControlName]="element.id"
             [placeholder]="element.placeholder || ''"
           >

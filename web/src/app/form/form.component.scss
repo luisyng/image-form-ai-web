@@ -100,4 +100,19 @@
   &:hover {
     background-color: color.adjust(colors.$neutral-medium-gray, $lightness: -10%);
   }
+}
+
+input[type="date"] {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid colors.$neutral-medium-gray;
+  border-radius: 4px;
+  font-size: typography.$font-size-sm;
+  background-color: white;
+  
+  &:focus {
+    outline: none;
+    border-color: colors.$primary-blue;
+    box-shadow: 0 0 0 2px rgba(colors.$primary-blue, 0.1);
+  }
 } 
