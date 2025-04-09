@@ -92,7 +92,7 @@
         <app-form
           [metadata]="c.selectedFormMetadata!"
           [data]="p.formData!"
-          (dataUpdated)="p.handleFormSubmission($event)"
+          (dataChanged)="p.handleFormSubmission($event)"
         ></app-form>
       </div>
     </app-data-entry-stage>

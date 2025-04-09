@@ -10,7 +10,6 @@ export const malariaFormData: FormMetadata = {
             id: 'name',
             name: 'Patient Name',
             type: 'text',
-            defaultValue: '',
             required: true,
             alternateLabels: ['name', 'patient', 'patient name']
         },
@@ -18,14 +17,12 @@ export const malariaFormData: FormMetadata = {
             id: 'age',
             name: 'Age',
             type: 'number',
-            defaultValue: '',
             required: true
         },
         {
             id: 'gender',
             name: 'Gender',
             type: 'select',
-            defaultValue: '',
             required: false,
             options: [
                 { value: 'male', label: 'Male' },
@@ -93,7 +90,6 @@ export const malariaFormData: FormMetadata = {
             id: 'otherSymptoms',
             name: 'Other Symptoms',
             type: 'text',
-            defaultValue: null,
             required: false
         }
     ]
