@@ -47,6 +47,18 @@ export class DataEntryConfig {
   constructor(
   ) {}
   
+  handleServerSelection(server: Server): void {
+    this.selectedServer = server;
+    this.selectedForm = null;
+    this.selectedFormMetadata = null;
+    this.selectedInputType = null;
+    this.selectedInputMethod = null;
+    this.selectedProcessMethod = null;
+    this.selectedProcessMethodforText = null;
+    this.availableForms = formTypes;
+    console.log('Selected server:', server);
+  }
+  
   handleFormSelection(form: FormType): void {
     this.selectedForm = form;
     this.selectedFormMetadata = getFormMetadataForForm(form);
@@ -75,18 +87,6 @@ export class DataEntryConfig {
   handleProcessMethodSelectionforText(method: ProcessMethod): void {
     this.selectedProcessMethodforText = method;    
     console.log('Selected process method for text:', method);
-  }
-  
-  handleServerSelection(server: Server): void {
-    this.selectedServer = server;
-    this.selectedForm = null;
-    this.selectedFormMetadata = null;
-    this.selectedInputType = null;
-    this.selectedInputMethod = null;
-    this.selectedProcessMethod = null;
-    this.selectedProcessMethodforText = null;
-    this.availableForms = formTypes;
-    console.log('Selected server:', server);
   }
   
   isManualEntry(): boolean {
