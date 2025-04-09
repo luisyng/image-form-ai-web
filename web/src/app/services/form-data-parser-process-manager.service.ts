@@ -2,32 +2,24 @@ import { Injectable } from '@angular/core';
 import { ProcessManager } from '../models/process-manager';
 import { FormDataParser } from './form-data-parser.service';
 import { ProcessMethod } from '../models/process-method';
-import { FormMetadata } from '../models/form-metadata';
 import { FormDataProjection } from '../models/form-data';
+import { FormMetadata } from '../models/form-metadata';
 
 @Injectable({
   providedIn: 'root'
 })
-export class FormDataParserProcessManagerService extends ProcessManager<string, FormDataProjection> {
-  private static readonly PARSER_METHOD: ProcessMethod = {
-    id: 'parsing',
-    name: 'Text Parser',
-    description: 'Parse the text to extract structured data.',
-    icon: '💻',
-    inputType: 'text',
-    outputType: 'JSON'
-  };
+export class FormDataParserProcessManagerService {
+  getProcessManager(method: ProcessMethod, metadata: FormMetadata): FormDataParserProcessManager {
+    return new FormDataParserProcessManager(method, new FormDataParser(metadata));
+  } 
+}
+
+export class FormDataParserProcessManager extends ProcessManager<string, FormDataProjection> {
+
   
-  private formMetadata: FormMetadata | null = null;
-  private parser: FormDataParser | null = null;
-  
-  constructor() {
-    super(FormDataParserProcessManagerService.PARSER_METHOD);
-  }
-  
-  setFormData(formMetadata: FormMetadata): void {
-    this.formMetadata = formMetadata;
-    this.parser = new FormDataParser(formMetadata);
+  constructor(method: ProcessMethod, private parser: FormDataParser ) {
+    super(method);
+    this.parser = parser;
   }
   
   processData(text: string): Promise<FormDataProjection> {

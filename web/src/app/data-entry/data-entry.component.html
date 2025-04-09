@@ -90,7 +90,8 @@
         <p *ngIf="c.isManualEntry()">Fill out the form with patient information.</p>
         <p *ngIf="!c.isManualEntry()">Review and edit the extracted information before submission.</p>
         <app-form
-          [formData]="p.formData!"
+          [metadata]="c.selectedFormMetadata!"
+          [data]="p.formData!"
           (dataUpdated)="p.handleFormSubmission($event)"
         ></app-form>
       </div>

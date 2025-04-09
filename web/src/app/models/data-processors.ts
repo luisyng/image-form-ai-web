@@ -19,10 +19,10 @@ export class DataProcessorsFactory {
         private malariaParserProcessManager: FormDataParserProcessManagerService
     ) {}
 
-    getProcessors(c: DataEntryConfig, formData: FormMetadata): DataProcessors {
+    getProcessors(c: DataEntryConfig, formMetadata: FormMetadata): DataProcessors {
         return new DataProcessors(
             this.getProcessManager(c.selectedProcessMethod!),
-            this.getProcessManagerForText(c.selectedProcessMethodforText, formData)
+            this.getProcessManagerForText(c.selectedProcessMethodforText, formMetadata)
         );
     }
 
@@ -38,11 +38,9 @@ export class DataProcessorsFactory {
         }
       }
 
-      private getProcessManagerForText(method: ProcessMethod | null, formData: FormMetadata): ProcessManager<string, any> | null {
+      private getProcessManagerForText(method: ProcessMethod | null, formMetadata: FormMetadata): ProcessManager<string, any> | null {
         if (method?.id === 'parsing') {
-          const parserManager = this.malariaParserProcessManager;
-          parserManager.setFormData(formData);
-          return parserManager;
+          return this.malariaParserProcessManager.getProcessManager(method, formMetadata);
         } else if (method?.id === 'ai-text-to-json') {
           return this.llmProcessManagerFactory.getTextToDataManager(method);
         } else {

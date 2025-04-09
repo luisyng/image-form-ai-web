@@ -1,8 +1,8 @@
 import { DataEntryConfig } from './data-entry-config';
 import { StageStatus } from '../data-entry-stage/data-entry-stage.component';
 import { FormMetadata } from './form-metadata';
-import { getFormMetadataForForm } from './form-metadata-samples';
 import { DataProcessors, DataProcessorsFactory } from './data-processors';
+import { FormDataProjection } from './form-data';
 
 export class DataEntryPipeline {
   c!: DataEntryConfig;
@@ -13,14 +13,17 @@ export class DataEntryPipeline {
 
   hasInputBeenProcessed: boolean = false;
 
-  formData: FormMetadata | null = null;
-  reviewedFormData: FormMetadata | null = null;
+  formData: FormDataProjection | null = null;
+  reviewedFormData: FormDataProjection | null = null;
+  
   backendSubmitStatus: StageStatus = 'normal';
 
   constructor(c: DataEntryConfig, dataProcessorsFactory: DataProcessorsFactory) {
     this.c = c;
-    this.formData = getFormMetadataForForm(c.selectedForm!);
-    this.processors = dataProcessorsFactory.getProcessors(c, this.formData);
+    this.processors = dataProcessorsFactory.getProcessors(c, this.c.selectedFormMetadata!);
+    if (this.c.selectedInputType?.id === 'manual') {
+      this.formData = {};
+    }
   }
   
   handleFileLoaded(file: File): void {
