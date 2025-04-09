@@ -47,4 +47,9 @@ export class FormComponent implements OnInit {
     this.form.reset(defaultValues);
     this.dataChanged.emit(defaultValues);
   }
+
+  isSupportedType(type: string): boolean {
+    const supportedTypes = ['TEXT', 'DATE', 'BOOLEAN', 'INTEGER_ZERO_OR_POSITIVE', 'AGE'];
+    return supportedTypes.includes(type);
+  } 
 } 

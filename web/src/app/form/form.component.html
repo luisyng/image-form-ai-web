@@ -13,62 +13,58 @@
     </ng-container>
 
     <ng-container *ngIf="element.options == null || element.options.length === 0">
-      <ng-container [ngSwitch]="element.type">
-        <!-- Text Input -->
-        <ng-container *ngSwitchCase="'TEXT'">
-          <label [for]="element.id">{{ element.name }}</label>
-          <input 
-            [id]="element.id"
-            type="text"
-            [formControlName]="element.id"
-            [placeholder]="element.placeholder || ''"
-          >
-        </ng-container>
+      <!-- Number Input (Age and Integer) -->
+      <ng-container *ngIf="element.type === 'INTEGER_ZERO_OR_POSITIVE' || element.type === 'AGE'">
+        <label [for]="element.id">{{ element.name }}</label>
+        <input 
+          [id]="element.id"
+          type="number"
+          min="0"
+          [formControlName]="element.id"
+          [placeholder]="element.placeholder || ''"
+        >
+      </ng-container>
 
-        <!-- Date Input -->
-        <ng-container *ngSwitchCase="'DATE'">
-          <label [for]="element.id">{{ element.name }}</label>
+      <ng-container *ngIf="element.type === 'TEXT'">
+        <label [for]="element.id">{{ element.name }}</label>
+        <input 
+          [id]="element.id"
+          type="text"
+          [formControlName]="element.id"
+          [placeholder]="element.placeholder || ''"
+        >
+      </ng-container>
+
+      <!-- Date Input -->
+      <ng-container *ngIf="element.type === 'DATE'">
+        <label [for]="element.id">{{ element.name }}</label>
+        <input 
+          [id]="element.id"
+          type="date"
+          [formControlName]="element.id"
+          [placeholder]="element.placeholder || ''"
+        >
+      </ng-container>
+
+      <!-- Boolean Input -->
+      <ng-container *ngIf="element.type === 'BOOLEAN'">
+        <label class="checkbox-label">
           <input 
-            [id]="element.id"
-            type="date"
+            type="checkbox"
             [formControlName]="element.id"
-            [placeholder]="element.placeholder || ''"
           >
-        </ng-container>
-  
-        <!-- Number Input -->
-        <ng-container *ngSwitchCase="'INTEGER_ZERO_OR_POSITIVE'">
+          {{ element.name }}
+        </label>
+      </ng-container>
+
+      <ng-container *ngIf="!isSupportedType(element.type)">
+        <div class="unsupported-field">
           <label [for]="element.id">{{ element.name }}</label>
-          <input 
-            [id]="element.id"
-            type="number"
-            min="0"
-            [formControlName]="element.id"
-            [placeholder]="element.placeholder || ''"
-          >
-        </ng-container>
-  
-        <!-- Boolean Input -->
-        <ng-container *ngSwitchCase="'BOOLEAN'">
-          <label class="checkbox-label">
-            <input 
-              type="checkbox"
-              [formControlName]="element.id"
-            >
-            {{ element.name }}
-          </label>
-        </ng-container>
-  
-        <!-- Error if not supported -->
-        <ng-container *ngSwitchDefault>
-          <div class="unsupported-field">
-            <label [for]="element.id">{{ element.name }}</label>
-            <div class="error-message">
-              <span class="error-icon">⚠️</span>
-              Field type not supported: <code>{{ element.type }}</code>
-            </div>
+          <div class="error-message">
+            <span class="error-icon">⚠️</span>
+            Field type not supported: <code>{{ element.type }}</code>
           </div>
-        </ng-container>
+        </div>
       </ng-container>
     </ng-container>
   </div>

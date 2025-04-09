@@ -56,4 +56,4 @@ export class DataEntryComponent {
     const title = this.c.isManualEntry() ? 'Fill Form' : 'Review Data';
     return title + ': ' + this.c.selectedForm?.name;
   }
-} 
+}
