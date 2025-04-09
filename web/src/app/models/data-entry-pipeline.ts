@@ -1,7 +1,7 @@
 import { DataEntryConfig } from './data-entry-config';
 import { StageStatus } from '../data-entry-stage/data-entry-stage.component';
 import { FormMetadata } from './form-metadata';
-import { getFormDataForForm } from './form-metadata-samples';
+import { getFormMetadataForForm } from './form-metadata-samples';
 import { DataProcessors, DataProcessorsFactory } from './data-processors';
 
 export class DataEntryPipeline {
@@ -19,7 +19,7 @@ export class DataEntryPipeline {
 
   constructor(c: DataEntryConfig, dataProcessorsFactory: DataProcessorsFactory) {
     this.c = c;
-    this.formData = getFormDataForForm(c.selectedForm!);
+    this.formData = getFormMetadataForForm(c.selectedForm!);
     this.processors = dataProcessorsFactory.getProcessors(c, this.formData);
   }
   

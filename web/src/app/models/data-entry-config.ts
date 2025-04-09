@@ -5,7 +5,8 @@ import { getProcessMethodsForType, ProcessMethod } from './process-method';
 import { formTypes } from './form-type';
 import { inputTypes } from './input-type';
 import { Injectable } from '@angular/core';
-
+import { FormMetadata } from './form-metadata';
+import { getFormMetadataForForm } from './form-metadata-samples';
 @Injectable({
   providedIn: 'root'
 })
@@ -32,6 +33,7 @@ export class DataEntryConfig {
   availableProcessMethodsForText = getProcessMethodsForType('text');
   
   selectedForm: FormType | null = null;
+  selectedFormMetadata: FormMetadata | null = null;
   selectedInputType: InputType | null = null;
   selectedInputMethod: InputMethod | null = null;
   selectedProcessMethod: ProcessMethod | null = null;
@@ -42,6 +44,7 @@ export class DataEntryConfig {
   
   handleFormSelection(form: FormType): void {
     this.selectedForm = form;
+    this.selectedFormMetadata = getFormMetadataForForm(form);
     console.log('Selected form:', form);
   }
   

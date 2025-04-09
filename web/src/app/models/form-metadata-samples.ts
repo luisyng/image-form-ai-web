@@ -99,6 +99,6 @@ export const malariaFormData: FormMetadata = {
     ]
 }
 
-export const getFormDataForForm = (form: FormType): FormMetadata => {
+export const getFormMetadataForForm = (form: FormType): FormMetadata => {
     return malariaFormData;
 }
