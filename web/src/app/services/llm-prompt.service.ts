@@ -11,7 +11,7 @@ export class LlmPromptService {
     
     // Add each field with its type
     const fields = metadata.elements.map(element => {
-      const type = this.getTypeForElement(element);
+      const type = this.getTypeForElement(element) + this.getOptionsForElement(element);
       return `    "${element.id}": ${type}`;
     });
     
@@ -21,20 +21,24 @@ export class LlmPromptService {
   
   private getTypeForElement(element: DataElement): string {
     switch (element.type) {
-      case 'text':
-      case 'textarea':
+      case 'TEXT':
         return 'string';
-      case 'number':
+      case 'INTEGER_ZERO_OR_POSITIVE':
+      case 'AGE':
         return 'number';
-      case 'boolean':
+      case 'BOOLEAN':
         return 'boolean';
-      case 'select':
-        // For select, we could optionally include the valid values
-        return `string /* One of: ${element.options?.map(o => o.value).join(', ')} */`;
       default:
         return 'any';
     }
   } 
+
+  private getOptionsForElement(element: DataElement): string {
+    if (element.options != null && element.options.length > 0) {
+      return  `One of: ${element.options?.map(o => o.value).join(', ')} */`;
+    }
+    return '';
+  }
 
   createFormDataPrompt(from: string, metadata: FormMetadata): string {
     const expectedStructure = this.createExpectedStructure(metadata);

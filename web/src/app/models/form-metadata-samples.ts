@@ -9,20 +9,20 @@ export const malariaFormData: FormMetadata = {
         {
             id: 'name',
             name: 'Patient Name',
-            type: 'text',
+            type: 'TEXT',
             required: true,
             alternateLabels: ['name', 'patient', 'patient name']
         },
         {
             id: 'age',
             name: 'Age',
-            type: 'number',
+            type: 'AGE',
             required: true
         },
         {
             id: 'gender',
             name: 'Gender',
-            type: 'select',
+            type: 'TEXT',
             required: false,
             options: [
                 { value: 'male', label: 'Male' },
@@ -33,63 +33,63 @@ export const malariaFormData: FormMetadata = {
         {
             id: 'fever',
             name: 'Fever',
-            type: 'boolean',
+            type: 'BOOLEAN',
             defaultValue: false,
             required: true
         },
         {
             id: 'chills',
             name: 'Chills',
-            type: 'boolean',
+            type: 'BOOLEAN',    
             defaultValue: false,
             required: true
         },
         {
             id: 'sweating',
             name: 'Sweating',
-            type: 'boolean',
+            type: 'BOOLEAN',
             defaultValue: false,
             required: true
         },
         {
             id: 'headache',
             name: 'Headache',
-            type: 'boolean',
+            type: 'BOOLEAN',
             defaultValue: false,
             required: true
         },
         {
             id: 'nausea',
             name: 'Nausea',
-            type: 'boolean',
+            type: 'BOOLEAN',
             defaultValue: false,
             required: true
         },
         {
             id: 'vomiting',
             name: 'Vomiting',
-            type: 'boolean',
+            type: 'BOOLEAN',
             defaultValue: false,
             required: true
         },
         {
             id: 'musclePain',
             name: 'Muscle Pain',
-            type: 'boolean',
+            type: 'BOOLEAN',
             defaultValue: false,
             required: true
         },
         {
             id: 'fatigue',
             name: 'Fatigue',
-            type: 'boolean',
+            type: 'BOOLEAN',
             defaultValue: false,
             required: true
         },
         {
             id: 'otherSymptoms',
             name: 'Other Symptoms',
-            type: 'text',
+            type: 'TEXT',
             required: false
         }
     ]
@@ -103,19 +103,19 @@ export const immunizationFormData: FormMetadata = {
         {
             id: 'weight6Months',
             name: 'Weight at 6 months',
-            type: 'number',
+            type: 'INTEGER_ZERO_OR_POSITIVE',
             required: false
         },
         {
             id: 'weight12Months',
             name: 'Weight at 12 months',
-            type: 'number',
+            type: 'INTEGER_ZERO_OR_POSITIVE',
             required: false
         },
         {
             id: 'weight18Months',
             name: 'Weight at 18 months',
-            type: 'number',
+            type: 'INTEGER_ZERO_OR_POSITIVE',
             required: false
         }
     ]

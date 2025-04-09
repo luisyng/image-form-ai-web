@@ -1,6 +1,8 @@
+export type ValueType = 'TEXT' | 'INTEGER_ZERO_OR_POSITIVE' | 'AGE' | 'DATE' | 'BOOLEAN';
+
 export interface DataElement {
     id: string;
-    type: 'text' | 'number' | 'boolean' | 'select' | 'textarea';
+    type: ValueType;
     name: string;
     placeholder?: string;
     required?: boolean;

@@ -57,15 +57,13 @@ export class FormDataParser {
       if (matchedLabel) {
         // Extract the value based on the element type
         switch (elementType) {
-          case 'text':
-          case 'number':
+          case 'TEXT':
+          case 'DATE':
+          case 'INTEGER_ZERO_OR_POSITIVE':
+          case 'AGE':
             return this.extractTextValue(lines[i], matchedLabel);
-          case 'boolean':
+          case 'BOOLEAN':
             return this.extractBooleanValue(lines[i], matchedLabel);
-          case 'select':
-            return this.extractSelectValue(lines[i], matchedLabel, element.options || []);
-          case 'textarea':
-            return this.extractTextAreaValue(lines, i, matchedLabel);
           default:
             return undefined;
         }
