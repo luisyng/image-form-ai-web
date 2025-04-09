@@ -1,3 +1,5 @@
+import { ValueType } from "../models/form-metadata";
+
 export interface Dhis2Program {
     id: string;
     displayName: string;
@@ -17,7 +19,7 @@ export interface Dhis2DataElement {
   id: string;
   name: string;
   displayFormName: string;
-  valueType: string;
+  valueType: ValueType;
   optionSetValue: boolean;
   optionSet?: Dhis2OptionSet;
 }

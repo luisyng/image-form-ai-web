@@ -76,8 +76,19 @@ export class DataEntryConfig {
   
   handleFormSelection(form: FormType): void {
     this.selectedForm = form;
-    this.selectedFormMetadata = getFormMetadataForForm(form);
     console.log('Selected form:', form);
+    if (this.selectedServer?.type === 'dhis2') {
+      this.selectedFormMetadata = null;
+      this.dhis2Adapter.getFormMetadata(form.id).subscribe({
+        next: (metadata) => {
+          this.selectedFormMetadata = metadata;
+          console.log('Selected form metadata:', metadata);
+        }
+      });
+    } else {
+      this.selectedFormMetadata = getFormMetadataForForm(form); 
+      console.log('Selected form metadata:', this.selectedFormMetadata);
+    }
   }
   
   handleInputTypeSelection(inputType: InputType): void {
