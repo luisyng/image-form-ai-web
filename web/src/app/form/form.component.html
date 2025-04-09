@@ -58,6 +58,17 @@
             {{ element.name }}
           </label>
         </ng-container>
+  
+        <!-- Error if not supported -->
+        <ng-container *ngSwitchDefault>
+          <div class="unsupported-field">
+            <label [for]="element.id">{{ element.name }}</label>
+            <div class="error-message">
+              <span class="error-icon">⚠️</span>
+              Field type not supported: <code>{{ element.type }}</code>
+            </div>
+          </div>
+        </ng-container>
       </ng-container>
     </ng-container>
   </div>

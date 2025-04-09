@@ -115,4 +115,36 @@ input[type="date"] {
     border-color: colors.$primary-blue;
     box-shadow: 0 0 0 2px rgba(colors.$primary-blue, 0.1);
   }
+}
+
+.unsupported-field {
+  padding: 0.75rem;
+  border: 1px dashed colors.$error-red;
+  border-radius: 4px;
+  background-color: rgba(colors.$error-red, 0.05);
+  
+  label {
+    color: colors.$error-red;
+    font-weight: 500;
+  }
+  
+  .error-message {
+    margin-top: 0.5rem;
+    font-size: typography.$font-size-sm;
+    color: colors.$error-red;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    
+    .error-icon {
+      font-size: 1.2em;
+    }
+    
+    code {
+      background: rgba(colors.$error-red, 0.1);
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+      font-family: monospace;
+    }
+  }
 } 
