@@ -87,7 +87,6 @@
       [status]="'success'"
     >
       <div class="review-stage-content">
-        <p *ngIf="c.isManualEntry()">Fill out the form with patient information.</p>
         <p *ngIf="!c.isManualEntry()">Review and edit the extracted information before submission.</p>
         <app-form
           [metadata]="c.selectedFormMetadata!"
