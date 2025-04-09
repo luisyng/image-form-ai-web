@@ -31,3 +31,21 @@ export interface Dhis2ProgramStageDataElement {
 export interface Dhis2ProgramStageResponse {
   programStageDataElements: Dhis2ProgramStageDataElement[];
 }
+
+export interface Dhis2DataValue {
+  dataElement: string;
+  value: string;
+}
+
+export interface Dhis2Event {
+  occurredAt: string;
+  notes: any[];
+  program: string;
+  programStage: string;
+  orgUnit: string;
+  dataValues: Dhis2DataValue[];
+}
+
+export interface Dhis2EventsPayload {
+  events: Dhis2Event[];
+}
