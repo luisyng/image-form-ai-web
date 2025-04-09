@@ -84,7 +84,9 @@ export class DataEntryConfig {
     this.selectedInputType = inputType;
     this.selectedInputMethod = null;
     this.availableInputMethods = getInputMethodsForType(inputType.id);
+    console.log('Available input methods:', this.availableInputMethods);
     this.availableProcessMethods = getProcessMethodsForType(inputType.id);
+    console.log('Available process methods:', this.availableProcessMethods);
     console.log('Selected input type:', inputType);
   }
   
@@ -140,8 +142,11 @@ export class DataEntryConfig {
     return this.selectedServer !== null &&
       this.selectedForm !== null &&
       this.selectedInputType !== null &&
-      (this.selectedInputType.id === 'manual' || this.selectedInputMethod !== null) &&
-      !(this.selectedInputType.id === 'photo' && this.selectedProcessMethod === null) &&
+      this.isProcessingComplete();
+  }
+
+  private isProcessingComplete(): boolean {
+    return (this.isManualEntry() || this.selectedProcessMethod !== null) &&
       !(this.isProcessingToText() && this.selectedProcessMethodforText === null);
   }
 } 

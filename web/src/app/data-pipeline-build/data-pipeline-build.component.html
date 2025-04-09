@@ -57,7 +57,7 @@
 
     <app-data-entry-stage 
       title="Choose Process Method" 
-      *ngIf="c.isPhotoEntry() && c.selectedInputMethod !== null"
+      *ngIf="c.selectedInputType !== null && c.selectedInputMethod !== null && !c.isManualEntry()"
       [status]="successIfNotNull(c.selectedProcessMethod)"
     >
       <div class="process-method-stage">
