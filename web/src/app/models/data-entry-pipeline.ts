@@ -15,7 +15,7 @@ export class DataEntryPipeline {
 
   formData: FormDataProjection | null = null;
   reviewedFormData: FormDataProjection | null = null;
-  
+
   backendSubmitStatus: StageStatus = 'normal';
 
   constructor(c: DataEntryConfig, dataProcessorsFactory: DataProcessorsFactory) {
@@ -44,6 +44,7 @@ export class DataEntryPipeline {
 
   handleParsedData(data: FormMetadata): void {
     this.formData = data;
+    this.reviewedFormData = data;
     this.hasInputBeenProcessed = true;
     console.log('Parsed form data:', data);
   }
@@ -58,7 +59,7 @@ export class DataEntryPipeline {
     }
   }
 
-  handleFormSubmission(data: any) {
+  handleFormSubmission(data: FormDataProjection) {
     this.reviewedFormData = data;
     console.log('Form submitted:', data);
   }
