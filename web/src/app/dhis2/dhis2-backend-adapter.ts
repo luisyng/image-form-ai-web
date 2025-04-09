@@ -3,13 +3,16 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Dhis2BackendService } from './dhis2-backend.service';
 import { FormType } from '../models/form-type';
-import { Dhis2Program, Dhis2DataElement, Dhis2ProgramStageDataElement } from './dhis2-models';
+import { Dhis2Program, Dhis2DataElement, Dhis2ProgramStageDataElement, Dhis2EventsPayload } from './dhis2-models';
 import { FormMetadata, DataElement, SelectOption } from '../models/form-metadata';
 
 @Injectable({
   providedIn: 'root'
 })
 export class Dhis2BackendAdapter {
+
+  private readonly DEFAULT_ORG_UNIT = 'DiszpKrYNg8'; // Could be made configurable
+
   constructor(private dhis2Service: Dhis2BackendService) {}
 
   getForms(): Observable<FormType[]> {
@@ -72,5 +75,26 @@ export class Dhis2BackendAdapter {
       default:
         return null;
     }
+  }
+
+  buildEventsPayload(
+    programId: string, 
+    programStageId: string, 
+    dataValues: { [key: string]: any }
+  ): Dhis2EventsPayload  {
+    
+    return {
+      events: [{
+        occurredAt: new Date().toISOString().split('T')[0], // Today's date in YYYY-MM-DD
+        notes: [],
+        program: programId,
+        programStage: programStageId,
+        orgUnit: this.DEFAULT_ORG_UNIT,
+        dataValues: Object.entries(dataValues).map(([key, value]) => ({
+          dataElement: key,
+          value: value?.toString() || ''
+        }))
+      }]
+    };
   }
 } 

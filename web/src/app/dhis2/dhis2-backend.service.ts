@@ -4,10 +4,8 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { 
   Dhis2Program, 
-  Dhis2ProgramStageResponse, 
   Dhis2ProgramStageDataElement,
   Dhis2EventsPayload,
-  Dhis2Event 
 } from './dhis2-models';
 
 @Injectable({
@@ -16,7 +14,6 @@ import {
 export class Dhis2BackendService {
   private readonly API_BASE_URL = '/api';
   private readonly AUTH_CREDENTIALS = btoa('admin:district');
-  private readonly DEFAULT_ORG_UNIT = 'DiszpKrYNg8'; // Could be made configurable
 
   constructor(private http: HttpClient) {}
 
@@ -63,25 +60,10 @@ export class Dhis2BackendService {
   }
 
   postDataValues(
-    programId: string, 
-    programStageId: string, 
-    dataValues: { [key: string]: any }
+    payload: Dhis2EventsPayload
   ): Observable<any> {
     const url = `${this.API_BASE_URL}/tracker?async=false`;
-    
-    const payload: Dhis2EventsPayload = {
-      events: [{
-        occurredAt: new Date().toISOString().split('T')[0], // Today's date in YYYY-MM-DD
-        notes: [],
-        program: programId,
-        programStage: programStageId,
-        orgUnit: this.DEFAULT_ORG_UNIT,
-        dataValues: Object.entries(dataValues).map(([key, value]) => ({
-          dataElement: key,
-          value: value?.toString() || ''
-        }))
-      }]
-    };
+
 
     return this.http.post(url, payload, {
       headers: this.getHeaders()
