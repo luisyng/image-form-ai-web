@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Dhis2BackendService, Dhis2Program } from './dhis2-backend.service';
+import { Dhis2BackendService } from './dhis2-backend.service';
 import { FormType } from '../models/form-type';
+import { Dhis2Program } from './dhis2-models';
 
 @Injectable({
   providedIn: 'root'

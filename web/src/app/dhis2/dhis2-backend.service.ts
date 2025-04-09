@@ -2,11 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-export interface Dhis2Program {
-  id: string;
-  displayName: string;
-}
+import { Dhis2Program } from './dhis2-models';
 
 @Injectable({
   providedIn: 'root'
