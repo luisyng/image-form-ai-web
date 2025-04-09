@@ -8,4 +8,4 @@ export interface FormData {
     values: DataValue[];
 }
 
-export type FormDataProjection = { readonly [key: string]: any }
+export type FormDataProjection = { [key: string]: any }

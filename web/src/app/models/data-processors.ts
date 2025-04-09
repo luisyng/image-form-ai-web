@@ -1,4 +1,4 @@
-import { MalariaParserProcessManagerService } from "../services/malaria-parser-process-manager.service";
+import { FormDataParserProcessManagerService } from "../services/form-data-parser-process-manager.service";
 
 import { Injectable } from "@angular/core";
 import { ProcessManager } from "./process-manager";
@@ -16,7 +16,7 @@ export class DataProcessorsFactory {
     constructor(
         private ocrProcessManager: OcrProcessManagerService,
         private llmProcessManagerFactory: LlmProcessManagerFactory,
-        private malariaParserProcessManager: MalariaParserProcessManagerService
+        private malariaParserProcessManager: FormDataParserProcessManagerService
     ) {}
 
     getProcessors(c: DataEntryConfig, formData: FormMetadata): DataProcessors {

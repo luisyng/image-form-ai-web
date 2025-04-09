@@ -1,29 +1,24 @@
-import { Injectable } from '@angular/core';
 import { FormMetadata, DataElement, SelectOption } from '../models/form-metadata';
+import { FormDataProjection } from '../models/form-data';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class FormDataParserService {
-
-  constructor() { }
+export class FormDataParser {
+  constructor(private formMetadata: FormMetadata) {}
 
   /**
-   * Parse text into a FormData structure based on the form definition
+   * Parse text into a FormDataProjection based on the form definition
    * 
    * @param text The text to parse
-   * @param formData The form definition to use for parsing
-   * @returns An object with the parsed data matching the form structure
+   * @returns A FormDataProjection with the parsed data matching the form structure
    */
-  parseTextToFormData(text: string, formData: FormMetadata): any {
+  parseTextToFormProjection(text: string): FormDataProjection {
     // Create an empty result object
-    const result: any = {};
+    const result: FormDataProjection = {};
     
     // Split the text into lines for better processing
     const lines = text.split('\n').map(line => line.trim()).filter(line => line.length > 0);
     
     // Process each form element
-    for (const element of formData.elements) {
+    for (const element of this.formMetadata.elements) {
       // Look for the element in the text
       const value = this.extractValueForElement(lines, element);
       

@@ -15,3 +15,8 @@ export interface FormMetadata {
     description?: string;
     elements: DataElement[];
 }
+
+export interface SelectOption {
+    value: string;
+    label: string;
+}
