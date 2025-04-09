@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { FormMetadata } from '../models/form-metadata';
 import { FormDataProjection } from '../models/form-data';
+import { FormDataFactory } from '../models/form-data-factory';
 
 @Component({
   selector: 'app-form',
@@ -41,9 +42,9 @@ export class FormComponent implements OnInit {
     });
   }
 
-  onSubmit() {
-    if (this.form.valid) {
-      this.dataChanged.emit(this.form.value);
-    }
+  resetForm() {
+    const defaultValues = FormDataFactory.createProjectionFromMetadata(this.metadata);
+    this.form.reset(defaultValues);
+    this.dataChanged.emit(defaultValues);
   }
 } 

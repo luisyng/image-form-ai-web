@@ -85,4 +85,19 @@
       }
     }
   }
+}
+
+.reset-button {
+  padding: 0.5rem 1rem;
+  background-color: colors.$neutral-medium-gray;
+  color: colors.$text-primary;
+  border: none;
+  border-radius: 4px;
+  font-size: typography.$font-size-sm;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  
+  &:hover {
+    background-color: color.adjust(colors.$neutral-medium-gray, $lightness: -10%);
+  }
 } 
