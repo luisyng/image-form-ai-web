@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { LlmServiceFactory, LlmService } from './llm.service';
 import { ProcessManager } from '../models/process-manager';
-import { MalariaData } from '../malaria/malaria-data';
 import { ProcessMethod } from '../models/process-method';
 import { FormMetadata } from '../models/form-metadata';
+import { FormDataProjection } from '../models/form-data';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ import { FormMetadata } from '../models/form-metadata';
 export class LlmProcessManagerFactory {
   constructor(private llmServiceFactory: LlmServiceFactory) {}
 
-  getImageToDataManager(method: ProcessMethod, metadata: FormMetadata): ProcessManager<File, MalariaData> {
+  getImageToDataManager(method: ProcessMethod, metadata: FormMetadata): ProcessManager<File, FormDataProjection> {
     return new ImageToDataProcessManager(this.llmServiceFactory.getLlmService(metadata), method);
   }
 
@@ -19,18 +19,18 @@ export class LlmProcessManagerFactory {
     return new AudioToTextProcessManager(this.llmServiceFactory.getLlmService(metadata), method);
   }
 
-  getTextToDataManager(method: ProcessMethod, metadata: FormMetadata): ProcessManager<string, MalariaData> {
+  getTextToDataManager(method: ProcessMethod, metadata: FormMetadata): ProcessManager<string, FormDataProjection> {
     return new TextToDataProcessManager(this.llmServiceFactory.getLlmService(metadata), method);
   }
 }
 
-class ImageToDataProcessManager extends ProcessManager<File, MalariaData> {
+class ImageToDataProcessManager extends ProcessManager<File, FormDataProjection> {
   constructor(private llmService: LlmService, method: ProcessMethod) {
     super(method);
   }
 
-  processData(file: File): Promise<MalariaData> {
-    return this.llmService.transformImageToMalariaData(file);
+  processData(file: File): Promise<FormDataProjection> {
+    return this.llmService.transformImageToFormData(file);
   }
 }
 
@@ -44,12 +44,12 @@ class AudioToTextProcessManager extends ProcessManager<File, string> {
   }
 }
 
-class TextToDataProcessManager extends ProcessManager<string, MalariaData> {
+class TextToDataProcessManager extends ProcessManager<string, FormDataProjection> {
   constructor(private llmService: LlmService, method: ProcessMethod) {
     super(method);
   }
 
-  processData(text: string): Promise<MalariaData> {
-    return this.llmService.extractMalariaDataFromText(text);
+  processData(text: string): Promise<FormDataProjection> {
+    return this.llmService.extractFormDataFromText(text);
   }
 } 

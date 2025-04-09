@@ -24,7 +24,7 @@ export class LlmPromptService {
   }
   
 
-  createMalariaDataPrompt(from: string, metadata: FormMetadata): string {
+  createFormDataPrompt(from: string, metadata: FormMetadata): string {
     return `
       You are an AI assistant specialized in analyzing medical images and text and extracting structured data about malaria cases.
 

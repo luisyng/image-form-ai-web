@@ -1,15 +1,15 @@
 import { Injectable } from "@angular/core";
-import { MalariaData } from "../malaria/malaria-data";
 import { HttpClient } from "@angular/common/http";
 import { firstValueFrom } from "rxjs";
 import { LlmPromptService } from "./llm-prompt.service";
 import { LlmRequestHelperService } from "./llm-request-helper.service";
 import { environment } from "../../environments/environment";
 import { FormMetadata } from "../models/form-metadata";
+import { FormDataProjection } from "../models/form-data";
 
 @Injectable({
     providedIn: 'root'
-  })
+})
 export class LlmServiceFactory {
   constructor(private http: HttpClient,
     private llmPromptService: LlmPromptService,
@@ -32,7 +32,7 @@ export class LlmService {
     private metadata: FormMetadata
   ) { }
   
-  async transformImageToMalariaData(imageFile: File): Promise<MalariaData> {
+  async transformImageToFormData(imageFile: File): Promise<FormDataProjection> {
     if (!this.apiKey) {
       throw new Error('OpenAI API key is not configured. Please check your environment settings.');
     }
@@ -42,22 +42,22 @@ export class LlmService {
       const base64Image = await this.llmRequestHelperService.fileToBase64(imageFile);
       
       // Create the prompt for the OpenAI API
-      const prompt = this.llmPromptService.createMalariaDataPrompt('image', this.metadata);
+      const prompt = this.llmPromptService.createFormDataPrompt('image', this.metadata);
       
       // Make the API call
       const response = await this.callOpenAI(
         this.llmRequestHelperService.createPayloadForImage(base64Image, prompt));
       console.log('OpenAI image analysis response:', response);
       
-      // Parse the response to extract the malaria data
-      return this.parseMalariaDataResponse(response);
+      // Parse the response to extract the form data
+      return this.parseFormDataResponse(response);
     } catch (error) {
       console.error('Error calling OpenAI API:', error);
-      throw error; // Propagate the error to handle it in the component
+      throw error;
     }
   }
 
-  async transformAudioToMalariaData(audioFile: File): Promise<MalariaData> {
+  async transformAudioToFormData(audioFile: File): Promise<FormDataProjection> {
     if (!this.apiKey) {
       throw new Error('OpenAI API key is not configured. Please check your environment settings.');
     }
@@ -67,10 +67,10 @@ export class LlmService {
       const transcription = await this.transcribeAudio(audioFile);
       console.log('Transcription result:', transcription);
       
-      // Then, we extract the malaria data from the transcription
-      return this.extractMalariaDataFromText(transcription);
+      // Then, we extract the form data from the transcription
+      return this.extractFormDataFromText(transcription);
     } catch (error) {
-      console.error('Error in transformAudioToMalariaData:', error);
+      console.error('Error in transformAudioToFormData:', error);
       throw error;
     }
   }
@@ -107,15 +107,15 @@ export class LlmService {
     }
   }
   
-  async extractMalariaDataFromText(text: string): Promise<MalariaData> {
-    const prompt = this.llmPromptService.createMalariaDataPrompt('text', this.metadata);
+  async extractFormDataFromText(text: string): Promise<FormDataProjection> {
+    const prompt = this.llmPromptService.createFormDataPrompt('text', this.metadata);
     const response = await this.callOpenAI(
       this.llmRequestHelperService.createPayloadForText(text, prompt));
     console.log('OpenAI text analysis response:', response);
-    return this.parseMalariaDataResponse(response);
+    return this.parseFormDataResponse(response);
   }
 
-  private parseMalariaDataResponse(response: any): MalariaData {
+  private parseFormDataResponse(response: any): FormDataProjection {
     try {
       // Extract the content from the OpenAI response
       console.log('Parsing response:', response.choices);
@@ -131,20 +131,17 @@ export class LlmService {
       const data = JSON.parse(jsonString.trim());
       console.log('Parsed data:', data);
       
-      // Convert the data to a MalariaData object, only including fields that are in the interface
-      return {
-        name: data.name || data.patientName || '',
-        age: data.age || null,
-        fever: !!data.fever,
-        chills: !!data.chills,
-        sweating: !!data.sweating,
-        headache: !!data.headache,
-        nausea: !!data.nausea,
-        vomiting: !!data.vomiting,
-        musclePain: !!data.musclePain,
-        fatigue: !!data.fatigue,
-        otherSymptoms: data.otherSymptoms || data.notes || ''
-      };
+      // Convert the data to a FormDataProjection
+      const result: FormDataProjection = {};
+      
+      // Only include fields that are defined in the form metadata
+      for (const element of this.metadata.elements) {
+        if (data[element.id] !== undefined) {
+          result[element.id] = data[element.id];
+        }
+      }
+      
+      return result;
     } catch (error) {
       console.error('Error parsing OpenAI response:', error);
       throw new Error('Failed to parse response from OpenAI');
