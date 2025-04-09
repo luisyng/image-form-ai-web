@@ -16,7 +16,7 @@
     <app-data-entry-stage 
       title="Select Form"
       [status]="successIfNotNull(c.selectedForm)"
-      *ngIf="c.selectedServer !== null"
+      *ngIf="c.selectedServer !== null && c.availableForms.length > 0"
     >
       <div class="form-selection-stage">
         <app-selector 

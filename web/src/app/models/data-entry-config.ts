@@ -29,7 +29,7 @@ export class DataEntryConfigFactory {
 export class DataEntryConfig {
 
   availableServers: Server[] = servers;
-  availableForms: FormType[] = formTypes;
+  availableForms: FormType[] = [];
   availableInputTypes: InputType[] = inputTypes;
   availableInputMethods!: InputMethod[];
   availableProcessMethods!: ProcessMethod[];
@@ -56,6 +56,7 @@ export class DataEntryConfig {
 
     if (server.type === 'dhis2') {
       // Load forms from DHIS2
+      this.availableForms = [];
       this.dhis2Adapter.getForms().subscribe({
         next: (forms) => {
           this.availableForms = forms;
