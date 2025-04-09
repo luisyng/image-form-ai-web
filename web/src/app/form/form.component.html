@@ -1,5 +1,5 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-container">
-  <div *ngFor="let element of formData?.elements" class="form-field">
+  <div *ngFor="let element of metadata.elements" class="form-field">
     <ng-container [ngSwitch]="element.type">
       <!-- Text Input -->
       <ng-container *ngSwitchCase="'text'">

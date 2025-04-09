@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { FormMetadata } from '../models/form-metadata';
+import { FormDataProjection } from '../models/form-data';
 
 @Component({
   selector: 'app-form',
@@ -11,8 +12,9 @@ import { FormMetadata } from '../models/form-metadata';
   styleUrls: ['./form.component.scss']
 })
 export class FormComponent implements OnInit {
-  @Input() formData!: FormMetadata;
-  @Output() dataUpdated = new EventEmitter<any>();
+  @Input() metadata!: FormMetadata;
+  @Input() data!: FormDataProjection;
+  @Output() dataChanged = new EventEmitter<FormDataProjection>();
 
   form!: FormGroup;
 
@@ -25,21 +27,23 @@ export class FormComponent implements OnInit {
   private initForm() {
     const group: any = {};
     
-    for (const element of this.formData.elements) {
-      group[element.id] = [element.defaultValue];
+    for (const element of this.metadata.elements) {
+      // Use data value if available, otherwise use element's default value
+      const value = this.data?.[element.id] ?? element.defaultValue;
+      group[element.id] = [value];
     }
     
     this.form = this.fb.group(group);
     
     // Subscribe to form changes to emit updates
     this.form.valueChanges.subscribe(value => {
-      this.dataUpdated.emit(value);
+      this.dataChanged.emit(value);
     });
   }
 
   onSubmit() {
     if (this.form.valid) {
-      this.dataUpdated.emit(this.form.value);
+      this.dataChanged.emit(this.form.value);
     }
   }
 } 
