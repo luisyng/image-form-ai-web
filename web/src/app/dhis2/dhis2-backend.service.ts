@@ -12,7 +12,7 @@ export interface Dhis2Program {
   providedIn: 'root'
 })
 export class Dhis2BackendService {
-  private readonly API_BASE_URL = 'https://ai-dhis2-dataentry.solidlines.io/api';
+  private readonly API_BASE_URL = '/api';
   private readonly AUTH_CREDENTIALS = btoa('admin:district');
 
   constructor(private http: HttpClient) {}

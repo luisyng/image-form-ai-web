@@ -1,0 +1,7 @@
+{
+  "/api": {
+    "target": "https://ai-dhis2-dataentry.solidlines.io",
+    "secure": false,
+    "changeOrigin": true
+  }
+} 
