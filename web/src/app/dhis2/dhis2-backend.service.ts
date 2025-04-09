@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { 
   Dhis2Program, 
-  Dhis2ProgramStageDataElement,
   Dhis2EventsPayload,
+  Dhis2ProgramStageResponse
 } from './dhis2-models';
 
 @Injectable({
@@ -40,23 +40,14 @@ export class Dhis2BackendService {
     );
   }
 
-  getProgramStages(programId: string): Observable<Dhis2ProgramStageDataElement[]> {
+  getProgramStages(programId: string): Observable<Dhis2ProgramStageResponse> {
     const filter = 'program.id:eq:' + programId;
-    const fields = 'programStageDataElements[dataElement[id,name,displayFormName,valueType,optionSetValue,optionSet[id,options[code,name]]]]';
+    const fields = 'id,programStageDataElements[dataElement[id,name,displayFormName,valueType,optionSetValue,optionSet[id,options[code,name]]]]';
     const url = `${this.API_BASE_URL}/programStages?filter=${filter}&fields=${fields}`;
     
-    return this.http.get<any>(url, {
+    return this.http.get<Dhis2ProgramStageResponse>(url, {
       headers: this.getHeaders()
-    }).pipe(
-      map(response => {
-        // Get the first program stage
-        const programStage = response.programStages?.[0];
-        if (!programStage) {
-          return [];
-        }
-        return programStage.programStageDataElements || [];
-      })
-    );
+    });
   }
 
   postDataValues(

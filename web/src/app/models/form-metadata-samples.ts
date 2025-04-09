@@ -3,6 +3,7 @@ import { FormType } from "./form-type";
 
 export const malariaFormData: FormMetadata = {
     id: 'malaria',
+    programId: 'malaria-program',
     name: 'Malaria',
     description: 'Malaria symptoms form',
     elements: [
@@ -97,6 +98,7 @@ export const malariaFormData: FormMetadata = {
 
 export const immunizationFormData: FormMetadata = {
     id: 'immunization',
+    programId: 'immunization-program',
     name: 'Immunization',
     description: 'Immunization form',
     elements: [

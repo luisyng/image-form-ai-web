@@ -29,7 +29,17 @@ export interface Dhis2ProgramStageDataElement {
 }
 
 export interface Dhis2ProgramStageResponse {
+  id: string;
+  programStages: Dhis2ProgramStage[];
+}
+
+export interface Dhis2ProgramStage {
+  id: string;
   programStageDataElements: Dhis2ProgramStageDataElement[];
+}
+
+export interface Dhis2ProgramStageDataElement {
+  dataElement: Dhis2DataElement;
 }
 
 export interface Dhis2DataValue {

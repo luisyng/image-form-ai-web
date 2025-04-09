@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Dhis2BackendService } from './dhis2-backend.service';
 import { FormType } from '../models/form-type';
-import { Dhis2Program, Dhis2DataElement, Dhis2ProgramStageDataElement, Dhis2EventsPayload } from './dhis2-models';
+import { Dhis2Program, Dhis2DataElement, Dhis2EventsPayload, Dhis2ProgramStageResponse } from './dhis2-models';
 import { FormMetadata, DataElement } from '../models/form-metadata';
 import { FormDataProjection } from '../models/form-data';
 
@@ -24,7 +24,7 @@ export class Dhis2BackendAdapter {
 
   getFormMetadata(programId: string): Observable<FormMetadata> {
     return this.dhis2Service.getProgramStages(programId).pipe(
-      map(programStageElements => this.mapToFormMetadata(programId, programStageElements))
+      map(programStageResponse => this.mapToFormMetadata(programId, programStageResponse))
     );
   }
 
@@ -36,11 +36,12 @@ export class Dhis2BackendAdapter {
     }));
   }
 
-  private mapToFormMetadata(programId: string, elements: Dhis2ProgramStageDataElement[]): FormMetadata {
+  private mapToFormMetadata(programId: string, response: Dhis2ProgramStageResponse): FormMetadata {
     return {
-      id: programId,
+      id: response.id,
+      programId: programId,
       name: 'DHIS2 Form', // Could be fetched from program details if needed
-      elements: elements.map(element => this.mapToDataElement(element.dataElement))
+      elements: response.programStages[0].programStageDataElements.map(psde => this.mapToDataElement(psde.dataElement))
     };
   }
 

@@ -104,8 +104,7 @@
       <div class="submit-stage-content">
         <p>Review your data and submit to the backend system.</p>
         <app-backend-data-sender 
-          [programId]="'asdasd'"
-          [programStageId]="'a2233'"
+          [formMetadata]="c.selectedFormMetadata!"
           [formData]="p.reviewedFormData!"
           (sendSuccess)="p.handleBackendSubmitSuccess($event)"
           (sendError)="p.handleBackendSubmitError($event)"

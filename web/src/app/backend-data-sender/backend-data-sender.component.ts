@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormDataProjection } from '../models/form-data';
 import { Dhis2BackendAdapter } from '../dhis2/dhis2-backend-adapter';
 import { Dhis2EventsPayload } from '../dhis2/dhis2-models';
-
+import { FormMetadata } from '../models/form-metadata';
 @Component({
   selector: 'app-backend-data-sender',
   standalone: true,
@@ -12,8 +12,7 @@ import { Dhis2EventsPayload } from '../dhis2/dhis2-models';
   styleUrls: ['./backend-data-sender.component.scss']
 })
 export class BackendDataSenderComponent {
-  @Input() programId!: string;
-  @Input() programStageId!: string;
+  @Input() formMetadata!: FormMetadata;
   @Input() formData!: FormDataProjection;
 
   @Output() sendSuccess = new EventEmitter<any>();
@@ -34,7 +33,11 @@ export class BackendDataSenderComponent {
     
   ngOnChanges() {
     if (this.formData) {
-      this.payload = this.dhis2BackendAdapter.buildEventsPayload(this.programId, this.programStageId, this.formData);
+      this.payload = this.dhis2BackendAdapter.buildEventsPayload(
+        this.formMetadata.programId, 
+        this.formMetadata.id, 
+        this.formData
+      );
       this.formattedJson = JSON.stringify(this.payload, null, 2);
     }
   }
