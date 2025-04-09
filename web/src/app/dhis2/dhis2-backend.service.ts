@@ -45,10 +45,17 @@ export class Dhis2BackendService {
     const fields = 'programStageDataElements[dataElement[id,name,displayFormName,valueType,optionSetValue,optionSet[id,options[code,name]]]]';
     const url = `${this.API_BASE_URL}/programStages?filter=${filter}&fields=${fields}`;
     
-    return this.http.get<Dhis2ProgramStageResponse>(url, {
+    return this.http.get<any>(url, {
       headers: this.getHeaders()
     }).pipe(
-      map(response => response.programStageDataElements)
+      map(response => {
+        // Get the first program stage
+        const programStage = response.programStages?.[0];
+        if (!programStage) {
+          return [];
+        }
+        return programStage.programStageDataElements || [];
+      })
     );
   }
 }
