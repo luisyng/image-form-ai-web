@@ -8,5 +8,10 @@ export const formTypes: FormType[] = [
         id: 'malaria',
         name: 'Malaria Symptoms',
         icon: '🦠'
+    },
+    {
+        id: 'immunization',
+        name: 'Immunization',
+        icon: '💉'
     }
 ];

@@ -95,6 +95,37 @@ export const malariaFormData: FormMetadata = {
     ]
 }
 
+export const immunizationFormData: FormMetadata = {
+    id: 'immunization',
+    name: 'Immunization',
+    description: 'Immunization form',
+    elements: [
+        {
+            id: 'weight6Months',
+            name: 'Weight at 6 months',
+            type: 'number',
+            required: false
+        },
+        {
+            id: 'weight12Months',
+            name: 'Weight at 12 months',
+            type: 'number',
+            required: false
+        },
+        {
+            id: 'weight18Months',
+            name: 'Weight at 18 months',
+            type: 'number',
+            required: false
+        }
+    ]
+}
+
 export const getFormMetadataForForm = (form: FormType): FormMetadata => {
+    if (form.id === 'malaria') {
+        return malariaFormData;
+    } else if (form.id === 'immunization') {
+        return immunizationFormData;
+    }
     return malariaFormData;
 }
