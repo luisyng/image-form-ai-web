@@ -1,14 +1,29 @@
 <div class="data-entry-container">
   <div class="stages-container">
     <app-data-entry-stage 
+      title="Select Server"
+      [status]="successIfNotNull(c.selectedServer)"
+    >
+      <div class="server-selection-stage">
+        <app-selector 
+          [options]="c.availableServers"
+          [selectedOption]="c.selectedServer"
+          (optionSelected)="c.handleServerSelection($event)">
+        </app-selector>
+      </div>
+    </app-data-entry-stage>
+
+    <app-data-entry-stage 
       title="Select Form"
       [status]="successIfNotNull(c.selectedForm)"
+      *ngIf="c.selectedServer !== null"
     >
       <div class="form-selection-stage">
         <app-selector 
-        [options]="c.availableForms"
-        [selectedOption]="c.selectedForm"
-        (optionSelected)="c.handleFormSelection($event)"></app-selector>
+          [options]="c.availableForms"
+          [selectedOption]="c.selectedForm"
+          (optionSelected)="c.handleFormSelection($event)">
+        </app-selector>
       </div>
     </app-data-entry-stage>
 
@@ -19,9 +34,10 @@
     >
       <div class="input-type-stage">
         <app-selector 
-        [options]="c.availableInputTypes"
-        [selectedOption]="c.selectedInputType"
-        (optionSelected)="c.handleInputTypeSelection($event)"></app-selector>
+          [options]="c.availableInputTypes"
+          [selectedOption]="c.selectedInputType"
+          (optionSelected)="c.handleInputTypeSelection($event)">
+        </app-selector>
       </div>
     </app-data-entry-stage>
 
@@ -32,22 +48,24 @@
     >
       <div class="input-method-stage">
         <app-selector 
-        [options]="c.availableInputMethods"
-        [selectedOption]="c.selectedInputMethod"
-        (optionSelected)="c.handleInputMethodSelection($event)"></app-selector>
+          [options]="c.availableInputMethods"
+          [selectedOption]="c.selectedInputMethod"
+          (optionSelected)="c.handleInputMethodSelection($event)">
+        </app-selector>
       </div>
     </app-data-entry-stage>
-    
+
     <app-data-entry-stage 
-      title="Choose Processing Method" 
-      *ngIf="c.selectedInputMethod !== null && (c.isPhotoEntry() || c.isAudioEntry())"
+      title="Choose Process Method" 
+      *ngIf="c.isPhotoEntry() && c.selectedInputMethod !== null"
       [status]="successIfNotNull(c.selectedProcessMethod)"
     >
       <div class="process-method-stage">
         <app-selector 
-        [options]="c.availableProcessMethods"
-        [selectedOption]="c.selectedProcessMethod"
-        (optionSelected)="c.handleProcessMethodSelection($event)"></app-selector>
+          [options]="c.availableProcessMethods"
+          [selectedOption]="c.selectedProcessMethod"
+          (optionSelected)="c.handleProcessMethodSelection($event)">
+        </app-selector>
       </div>
     </app-data-entry-stage>
 
@@ -58,9 +76,10 @@
     >
       <div class="process-method-stage">
         <app-selector 
-        [options]="c.availableProcessMethodsForText"
-        [selectedOption]="c.selectedProcessMethodforText"
-        (optionSelected)="c.handleProcessMethodSelectionforText($event)"></app-selector>
+          [options]="c.availableProcessMethodsForText"
+          [selectedOption]="c.selectedProcessMethodforText"
+          (optionSelected)="c.handleProcessMethodSelectionforText($event)">
+        </app-selector>
       </div>
     </app-data-entry-stage>
   </div>

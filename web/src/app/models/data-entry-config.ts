@@ -7,6 +7,9 @@ import { inputTypes } from './input-type';
 import { Injectable } from '@angular/core';
 import { FormMetadata } from './form-metadata';
 import { getFormMetadataForForm } from './form-metadata-samples';
+import { servers } from './server';
+import { Server } from './server';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -26,6 +29,7 @@ export class DataEntryConfigFactory {
 
 export class DataEntryConfig {
 
+  availableServers: Server[] = servers;
   availableForms: FormType[] = formTypes;
   availableInputTypes: InputType[] = inputTypes;
   availableInputMethods!: InputMethod[];
@@ -38,6 +42,7 @@ export class DataEntryConfig {
   selectedInputMethod: InputMethod | null = null;
   selectedProcessMethod: ProcessMethod | null = null;
   selectedProcessMethodforText: ProcessMethod | null = null;
+  selectedServer: Server | null = null;
  
   constructor(
   ) {}
@@ -70,6 +75,18 @@ export class DataEntryConfig {
   handleProcessMethodSelectionforText(method: ProcessMethod): void {
     this.selectedProcessMethodforText = method;    
     console.log('Selected process method for text:', method);
+  }
+  
+  handleServerSelection(server: Server): void {
+    this.selectedServer = server;
+    this.selectedForm = null;
+    this.selectedFormMetadata = null;
+    this.selectedInputType = null;
+    this.selectedInputMethod = null;
+    this.selectedProcessMethod = null;
+    this.selectedProcessMethodforText = null;
+    this.availableForms = formTypes;
+    console.log('Selected server:', server);
   }
   
   isManualEntry(): boolean {
@@ -105,7 +122,8 @@ export class DataEntryConfig {
   }
 
   isComplete(): boolean {
-    return this.selectedForm !== null &&
+    return this.selectedServer !== null &&
+      this.selectedForm !== null &&
       this.selectedInputType !== null &&
       (this.selectedInputType.id === 'manual' || this.selectedInputMethod !== null) &&
       !(this.selectedInputType.id === 'photo' && this.selectedProcessMethod === null) &&
