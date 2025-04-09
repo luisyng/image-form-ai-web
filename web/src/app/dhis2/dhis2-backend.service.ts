@@ -41,8 +41,9 @@ export class Dhis2BackendService {
   }
 
   getProgramStages(programId: string): Observable<Dhis2ProgramStageDataElement[]> {
+    const filter = 'program.id:eq:' + programId;
     const fields = 'programStageDataElements[dataElement[id,name,displayFormName,valueType,optionSetValue,optionSet[id,options[code,name]]]]';
-    const url = `${this.API_BASE_URL}/programStages/${programId}?fields=${fields}`;
+    const url = `${this.API_BASE_URL}/programStages?filter=${filter}&fields=${fields}`;
     
     return this.http.get<Dhis2ProgramStageResponse>(url, {
       headers: this.getHeaders()
