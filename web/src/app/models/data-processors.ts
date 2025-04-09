@@ -19,20 +19,20 @@ export class DataProcessorsFactory {
         private malariaParserProcessManager: FormDataParserProcessManagerService
     ) {}
 
-    getProcessors(c: DataEntryConfig, formMetadata: FormMetadata): DataProcessors {
+    getProcessors(c: DataEntryConfig): DataProcessors {
         return new DataProcessors(
-            this.getProcessManager(c.selectedProcessMethod!),
-            this.getProcessManagerForText(c.selectedProcessMethodforText, formMetadata)
+            this.getProcessManager(c.selectedProcessMethod!, c.selectedFormMetadata!),
+            this.getProcessManagerForText(c.selectedProcessMethodforText, c.selectedFormMetadata!)
         );
     }
 
-    private getProcessManager(method: ProcessMethod | null): ProcessManager<any, any> | null {
+    private getProcessManager(method: ProcessMethod | null, formMetadata: FormMetadata): ProcessManager<any, any> | null {
         if (method?.id === 'ocr') {
           return this.ocrProcessManager;
         } else if (method?.id === 'ai-image-to-json') {
-          return this.llmProcessManagerFactory.getImageToDataManager(method);
+          return this.llmProcessManagerFactory.getImageToDataManager(method, formMetadata);
         } else if (method?.id === 'ai-audio-transcription') {
-          return this.llmProcessManagerFactory.getAudioToTextManager(method);
+          return this.llmProcessManagerFactory.getAudioToTextManager(method, formMetadata);
         } else {
           return null;
         }
@@ -42,7 +42,7 @@ export class DataProcessorsFactory {
         if (method?.id === 'parsing') {
           return this.malariaParserProcessManager.getProcessManager(method, formMetadata);
         } else if (method?.id === 'ai-text-to-json') {
-          return this.llmProcessManagerFactory.getTextToDataManager(method);
+          return this.llmProcessManagerFactory.getTextToDataManager(method, formMetadata);
         } else {
           return null;
         }

@@ -5,10 +5,22 @@ import { firstValueFrom } from "rxjs";
 import { LlmPromptService } from "./llm-prompt.service";
 import { LlmRequestHelperService } from "./llm-request-helper.service";
 import { environment } from "../../environments/environment";
+import { FormMetadata } from "../models/form-metadata";
 
 @Injectable({
     providedIn: 'root'
   })
+export class LlmServiceFactory {
+  constructor(private http: HttpClient,
+    private llmPromptService: LlmPromptService,
+    private llmRequestHelperService: LlmRequestHelperService
+  ) { }
+
+  getLlmService(metadata: FormMetadata): LlmService {
+    return new LlmService(this.http, this.llmPromptService, this.llmRequestHelperService, metadata);
+  }
+}
+
 export class LlmService {
   private readonly OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
   private readonly OPENAI_TRANSCRIPTION_URL = 'https://api.openai.com/v1/audio/transcriptions';
@@ -16,7 +28,8 @@ export class LlmService {
 
   constructor(private http: HttpClient,
     private llmPromptService: LlmPromptService,
-    private llmRequestHelperService: LlmRequestHelperService
+    private llmRequestHelperService: LlmRequestHelperService,
+    private metadata: FormMetadata
   ) { }
   
   async transformImageToMalariaData(imageFile: File): Promise<MalariaData> {
@@ -29,7 +42,7 @@ export class LlmService {
       const base64Image = await this.llmRequestHelperService.fileToBase64(imageFile);
       
       // Create the prompt for the OpenAI API
-      const prompt = this.llmPromptService.createMalariaDataPrompt('image');
+      const prompt = this.llmPromptService.createMalariaDataPrompt('image', this.metadata);
       
       // Make the API call
       const response = await this.callOpenAI(
@@ -95,7 +108,7 @@ export class LlmService {
   }
   
   async extractMalariaDataFromText(text: string): Promise<MalariaData> {
-    const prompt = this.llmPromptService.createMalariaDataPrompt('text');
+    const prompt = this.llmPromptService.createMalariaDataPrompt('text', this.metadata);
     const response = await this.callOpenAI(
       this.llmRequestHelperService.createPayloadForText(text, prompt));
     console.log('OpenAI text analysis response:', response);

@@ -1,25 +1,26 @@
 import { Injectable } from '@angular/core';
-import { LlmService } from './llm.service';
+import { LlmServiceFactory, LlmService } from './llm.service';
 import { ProcessManager } from '../models/process-manager';
 import { MalariaData } from '../malaria/malaria-data';
 import { ProcessMethod } from '../models/process-method';
+import { FormMetadata } from '../models/form-metadata';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LlmProcessManagerFactory {
-  constructor(private llmService: LlmService) {}
+  constructor(private llmServiceFactory: LlmServiceFactory) {}
 
-  getImageToDataManager(method: ProcessMethod): ProcessManager<File, MalariaData> {
-    return new ImageToDataProcessManager(this.llmService, method);
+  getImageToDataManager(method: ProcessMethod, metadata: FormMetadata): ProcessManager<File, MalariaData> {
+    return new ImageToDataProcessManager(this.llmServiceFactory.getLlmService(metadata), method);
   }
 
-  getAudioToTextManager(method: ProcessMethod): ProcessManager<File, string> {
-    return new AudioToTextProcessManager(this.llmService, method);
+  getAudioToTextManager(method: ProcessMethod, metadata: FormMetadata): ProcessManager<File, string> {
+    return new AudioToTextProcessManager(this.llmServiceFactory.getLlmService(metadata), method);
   }
 
-  getTextToDataManager(method: ProcessMethod): ProcessManager<string, MalariaData> {
-    return new TextToDataProcessManager(this.llmService, method);
+  getTextToDataManager(method: ProcessMethod, metadata: FormMetadata): ProcessManager<string, MalariaData> {
+    return new TextToDataProcessManager(this.llmServiceFactory.getLlmService(metadata), method);
   }
 }
 

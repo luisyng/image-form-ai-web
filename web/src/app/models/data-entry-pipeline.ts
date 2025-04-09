@@ -19,7 +19,7 @@ export class DataEntryPipeline {
 
   constructor(c: DataEntryConfig, dataProcessorsFactory: DataProcessorsFactory) {
     this.c = c;
-    this.processors = dataProcessorsFactory.getProcessors(c, this.c.selectedFormMetadata!);
+    this.processors = dataProcessorsFactory.getProcessors(c);
     if (this.c.selectedInputType?.id === 'manual') {
       this.formData = {};
     }
