@@ -83,7 +83,7 @@
     
     <app-data-entry-stage 
       *ngIf="p.showForm()"
-      [title]="c.isManualEntry() ? 'Fill Form' : 'Review Data'"
+      [title]="getFormStageTitle()"
       [status]="'success'"
     >
       <div class="review-stage-content">

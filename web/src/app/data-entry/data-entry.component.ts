@@ -51,4 +51,9 @@ export class DataEntryComponent {
     this.scrollToTop();
     this.newPipelineRequested.emit();
   }
+
+  getFormStageTitle(): string {
+    const title = this.c.isManualEntry() ? 'Fill Form' : 'Review Data';
+    return title + ': ' + this.c.selectedForm?.name;
+  }
 } 
