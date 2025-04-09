@@ -3,6 +3,7 @@ import { StageStatus } from '../data-entry-stage/data-entry-stage.component';
 import { FormMetadata } from './form-metadata';
 import { DataProcessors, DataProcessorsFactory } from './data-processors';
 import { FormDataProjection } from './form-data';
+import { FormDataFactory } from './form-data-factory';
 
 export class DataEntryPipeline {
   c!: DataEntryConfig;
@@ -21,7 +22,8 @@ export class DataEntryPipeline {
     this.c = c;
     this.processors = dataProcessorsFactory.getProcessors(c);
     if (this.c.selectedInputType?.id === 'manual') {
-      this.formData = {};
+      this.formData = FormDataFactory.createProjectionFromMetadata(this.c.selectedFormMetadata!);
+      this.reviewedFormData = this.formData;
     }
   }
   
