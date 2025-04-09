@@ -9,6 +9,7 @@ import { FormMetadata } from './form-metadata';
 import { getFormMetadataForForm } from './form-metadata-samples';
 import { servers } from './server';
 import { Server } from './server';
+import { Dhis2BackendAdapter } from '../dhis2/dhis2-backend-adapter';
 
 @Injectable({
   providedIn: 'root'
@@ -16,13 +17,11 @@ import { Server } from './server';
 export class DataEntryConfigFactory {
 
   constructor(
-
+    private dhis2Adapter: Dhis2BackendAdapter
   ) {}
 
   createConfig(): DataEntryConfig {
-    return new DataEntryConfig(
-
-    );
+    return new DataEntryConfig(this.dhis2Adapter);
   }
 
 }
@@ -44,8 +43,7 @@ export class DataEntryConfig {
   selectedProcessMethodforText: ProcessMethod | null = null;
   selectedServer: Server | null = null;
  
-  constructor(
-  ) {}
+  constructor(private dhis2Adapter: Dhis2BackendAdapter) {}
   
   handleServerSelection(server: Server): void {
     this.selectedServer = server;
@@ -55,7 +53,23 @@ export class DataEntryConfig {
     this.selectedInputMethod = null;
     this.selectedProcessMethod = null;
     this.selectedProcessMethodforText = null;
-    this.availableForms = formTypes;
+
+    if (server.type === 'dhis2') {
+      // Load forms from DHIS2
+      this.dhis2Adapter.getForms().subscribe({
+        next: (forms) => {
+          this.availableForms = forms;
+        },
+        error: (error) => {
+          console.error('Error loading DHIS2 forms:', error);
+          this.availableForms = [];
+        }
+      });
+    } else {
+      // Use default forms for other server types
+      this.availableForms = formTypes;
+    }
+    
     console.log('Selected server:', server);
   }
   
