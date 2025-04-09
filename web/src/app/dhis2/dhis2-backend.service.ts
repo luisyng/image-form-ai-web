@@ -2,7 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Dhis2Program } from './dhis2-models';
+import { 
+  Dhis2Program, 
+  Dhis2ProgramStageResponse, 
+  Dhis2ProgramStageDataElement 
+} from './dhis2-models';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +37,17 @@ export class Dhis2BackendService {
           displayName: program.displayName
         })) || [];
       })
+    );
+  }
+
+  getProgramStages(programId: string): Observable<Dhis2ProgramStageDataElement[]> {
+    const fields = 'programStageDataElements[dataElement[id,name,displayFormName,valueType,optionSetValue,optionSet[id,options[code,name]]]]';
+    const url = `${this.API_BASE_URL}/programStages/${programId}?fields=${fields}`;
+    
+    return this.http.get<Dhis2ProgramStageResponse>(url, {
+      headers: this.getHeaders()
+    }).pipe(
+      map(response => response.programStageDataElements)
     );
   }
 }
