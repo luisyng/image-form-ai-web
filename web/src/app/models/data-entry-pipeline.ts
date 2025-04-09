@@ -11,7 +11,6 @@ export class DataEntryPipeline {
   extractedText: string | null = null;
   reviewedText: string | null = null;
 
-  hasInputBeenProcessed: boolean = false;
 
   formData: FormDataProjection | null = null;
   reviewedFormData: FormDataProjection | null = null;
@@ -45,7 +44,6 @@ export class DataEntryPipeline {
   handleParsedData(data: FormMetadata): void {
     this.formData = data;
     this.reviewedFormData = data;
-    this.hasInputBeenProcessed = true;
     console.log('Parsed form data:', data);
   }
 
@@ -77,6 +75,6 @@ export class DataEntryPipeline {
   }
 
   showForm(): boolean {
-    return this.c.selectedInputType?.id === 'manual' || this.hasInputBeenProcessed;
+    return this.c.selectedInputType?.id === 'manual' || this.reviewedFormData !== null;
   }
 } 
