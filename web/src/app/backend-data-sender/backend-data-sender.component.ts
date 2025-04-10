@@ -4,6 +4,8 @@ import { FormDataProjection } from '../models/form-data';
 import { Dhis2BackendAdapter } from '../dhis2/dhis2-backend-adapter';
 import { Dhis2EventsPayload } from '../dhis2/dhis2-models';
 import { FormMetadata } from '../models/form-metadata';
+import { BackendSender } from './backend-sender.interface';
+
 @Component({
   selector: 'app-backend-data-sender',
   standalone: true,
@@ -14,7 +16,7 @@ import { FormMetadata } from '../models/form-metadata';
 export class BackendDataSenderComponent {
   @Input() formMetadata!: FormMetadata;
   @Input() formData!: FormDataProjection;
-
+  @Input() backendSender!: BackendSender;
   @Output() sendSuccess = new EventEmitter<any>();
   @Output() sendError = new EventEmitter<string>();
   

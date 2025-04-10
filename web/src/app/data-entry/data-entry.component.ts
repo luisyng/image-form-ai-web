@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormComponent } from '../form/form.component';
 import { DataEntryStageComponent, StageStatus } from '../data-entry-stage/data-entry-stage.component';
@@ -10,6 +10,8 @@ import { DataEntryPipeline } from '../models/data-entry-pipeline';
 import { DataEntryConfig } from '../models/data-entry-config';
 import { TextInputComponent } from '../text-input/text-input.component';
 import { DataProcessorComponent } from '../data-processor/data-processor.component';
+import { BackendSender } from '../backend-data-sender/backend-sender.interface';
+import { BackendSenderFactory } from '../backend-data-sender/backend-sender-factory.service';
 
 @Component({
   selector: 'app-data-entry',
@@ -28,11 +30,20 @@ import { DataProcessorComponent } from '../data-processor/data-processor.compone
   templateUrl: './data-entry.component.html',
   styleUrls: ['./data-entry.component.scss']
 })
-export class DataEntryComponent {
+export class DataEntryComponent implements OnInit {
   @Input() c!: DataEntryConfig;
   @Input() p!: DataEntryPipeline;
   @Output() newPipelineRequested = new EventEmitter<void>();
   @Output() newEntryRequested = new EventEmitter<void>();
+
+  backendSender!: BackendSender;
+
+  constructor(private backendSenderFactory: BackendSenderFactory) {
+  }
+
+  ngOnInit(): void {
+    this.backendSender = this.backendSenderFactory.getSender(this.c.selectedServer!);
+  }
 
   successIfNotNull(value: any): StageStatus {
     return value !== null && value != '' ? 'success' : 'normal';
