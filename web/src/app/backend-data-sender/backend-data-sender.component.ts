@@ -45,7 +45,7 @@ export class BackendDataSenderComponent {
   }
   
   sendData() {
-    if (!this.formData) {
+    if (!this.formData || !this.payload) {
       this.errorMessage = 'No data to send';
       this.isError = true;
       return;
@@ -57,37 +57,19 @@ export class BackendDataSenderComponent {
     this.errorMessage = '';
     this.responseData = null;
     
-    // Replace with your actual API endpoint
-    const apiUrl = 'https://api.example.com/submit-data';
-    
-    // For demo purposes, we'll simulate a successful API call
-    setTimeout(() => {
-      this.isSending = false;
-      this.sendComplete = true;
-      this.responseData = {
-        success: true,
-        id: 'record_' + Math.floor(Math.random() * 1000000),
-        timestamp: new Date().toISOString()
-      };
-      this.sendSuccess.emit(this.responseData);
-      
-      // Uncomment this to use actual HTTP request
-      /*
-      this.http.post(apiUrl, this.payload).subscribe({
-        next: (response) => {
-          this.isSending = false;
-          this.sendComplete = true;
-          this.responseData = response;
-          this.sendSuccess.emit(response);
-        },
-        error: (error) => {
-          this.isSending = false;
-          this.sendError = true;
-          this.errorMessage = error.message || 'An error occurred while sending data';
-          this.sendError.emit(this.errorMessage);
-        }
-      });
-      */
-    }, 1500);
+    this.backendSender.sendData(this.payload).subscribe({
+      next: (response) => {
+        this.isSending = false;
+        this.sendComplete = true;
+        this.responseData = response;
+        this.sendSuccess.emit(response);
+      },
+      error: (error) => {
+        this.isSending = false;
+        this.isError = true;
+        this.errorMessage = error.message || 'An error occurred while sending data';
+        this.sendError.emit(this.errorMessage);
+      }
+    });
   }
 } 

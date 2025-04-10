@@ -104,6 +104,8 @@
       <div class="submit-stage-content">
         <p>Review your data and submit to the backend system.</p>
         <app-backend-data-sender 
+          [formMetadata]="c.selectedFormMetadata!"
+          [formData]="p.reviewedFormData!"
           [backendSender]="backendSender"
           (sendSuccess)="p.handleBackendSubmitSuccess($event)"
           (sendError)="p.handleBackendSubmitError($event)"
