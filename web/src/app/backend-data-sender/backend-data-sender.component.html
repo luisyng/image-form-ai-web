@@ -20,10 +20,6 @@
   <div class="send-result success" *ngIf="sendComplete">
     <div class="success-icon">✓</div>
     <h4>Data sent successfully!</h4>
-    <div class="response-data" *ngIf="responseData">
-      <h5>Server Response:</h5>
-      <pre>{{ responseData | json }}</pre>
-    </div>
   </div>
   
   <div class="send-result error" *ngIf="isError">

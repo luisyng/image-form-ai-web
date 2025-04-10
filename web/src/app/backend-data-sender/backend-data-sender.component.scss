@@ -131,27 +131,4 @@
     margin-bottom: 1rem;
     font-weight: typography.$font-weight-medium;
   }
-  
-  .response-data {
-    width: 100%;
-    margin: 1rem 0;
-    
-    h5 {
-      font-size: typography.$font-size-md;
-      margin-bottom: 0.5rem;
-      color: colors.$text-secondary;
-    }
-    
-    pre {
-      background-color: colors.$neutral-white;
-      border: 1px solid colors.$neutral-medium-gray;
-      border-radius: 4px;
-      padding: 0.75rem;
-      font-family: monospace;
-      font-size: 14px;
-      line-height: 1.5;
-      color: colors.$text-primary;
-      white-space: pre-wrap;
-    }
-  }
 } 

@@ -24,7 +24,6 @@ export class BackendDataSenderComponent {
   sendComplete = false;
   isError = false;
   errorMessage = '';
-  responseData: any = null;
 
   payload: Dhis2EventsPayload | null = null;
   
@@ -55,13 +54,11 @@ export class BackendDataSenderComponent {
     this.sendComplete = false;
     this.isError = false;
     this.errorMessage = '';
-    this.responseData = null;
     
     this.backendSender.sendData(this.payload).subscribe({
       next: (response) => {
         this.isSending = false;
         this.sendComplete = true;
-        this.responseData = response;
         this.sendSuccess.emit(response);
       },
       error: (error) => {
