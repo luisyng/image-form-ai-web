@@ -1,12 +1,8 @@
-import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { BackendSender, BackendSenderResponse } from './backend-sender.interface';
 import { Dhis2EventsPayload } from '../dhis2/dhis2-models';
 
-@Injectable({
-  providedIn: 'root'
-})
 export class MockBackendSender implements BackendSender {
   sendData(payload: Dhis2EventsPayload): Observable<BackendSenderResponse> {
     // Simulate API delay

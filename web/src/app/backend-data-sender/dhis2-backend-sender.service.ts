@@ -1,13 +1,9 @@
-import { Injectable } from '@angular/core';
 import { Observable, from } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { BackendSender, BackendSenderResponse } from './backend-sender.interface';
 import { Dhis2BackendAdapter } from '../dhis2/dhis2-backend-adapter';
 import { Dhis2EventsPayload } from '../dhis2/dhis2-models';
 
-@Injectable({
-  providedIn: 'root'
-})
 export class Dhis2BackendSender implements BackendSender {
   constructor(private dhis2Adapter: Dhis2BackendAdapter) {}
 
