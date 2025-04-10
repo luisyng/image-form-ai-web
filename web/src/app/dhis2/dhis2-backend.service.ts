@@ -53,8 +53,8 @@ export class Dhis2BackendService {
   postDataValues(
     payload: Dhis2EventsPayload
   ): Observable<any> {
+    console.log('Post payload', payload);
     const url = `${this.API_BASE_URL}/tracker?async=false`;
-
 
     return this.http.post(url, payload, {
       headers: this.getHeaders()
