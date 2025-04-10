@@ -28,6 +28,10 @@ export class Dhis2BackendAdapter {
     );
   }
 
+  postDataValues(payload: Dhis2EventsPayload): Observable<any> {
+    return this.dhis2Service.postDataValues(payload);
+  }
+
   private mapProgramsToFormTypes(programs: Dhis2Program[]): FormType[] {
     return programs.map(program => ({
       id: program.id,
