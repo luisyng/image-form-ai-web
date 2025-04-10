@@ -11,8 +11,10 @@ export class LlmPromptService {
     
     // Add each field with its type
     const fields = metadata.elements.map(element => {
-      const type = this.getTypeForElement(element) + this.getOptionsForElement(element);
-      return `    "${element.id}": ${type}`;
+      const type = this.getTypeForElement(element);
+      const options = this.getOptionsForElement(element);
+      const name = element.name;
+      return `    "${element.id}": ${type} /* ${name} ${options} */`;
     });
     
     // Join all fields and close the object
@@ -31,11 +33,12 @@ export class LlmPromptService {
       default:
         return 'any';
     }
-  } 
+  }
+  
 
   private getOptionsForElement(element: DataElement): string {
     if (element.options != null && element.options.length > 0) {
-      return  `One of: ${element.options?.map(o => o.value).join(', ')} */`;
+      return  `; One of: ${element.options?.map(o => o.value).join(', ')}`;
     }
     return '';
   }
